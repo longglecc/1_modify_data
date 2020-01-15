@@ -62,7 +62,7 @@ def init_df_cluster(df):
 def init_df_on_premise(df,param="on"):
 
     label_columns = df.columns
-    if label_columns[-1] is not "label":
+    if label_columns[-1] != "label":
 
         df.drop(df.columns[-1], axis=1, inplace=True)
         df.drop(df.columns[0],axis=1,inplace=True)
@@ -91,7 +91,7 @@ def init_df_on_premise(df,param="on"):
 def init_df_type_code(df):
 
     label_columns = df.columns
-    if label_columns[-1] is not "label":
+    if label_columns[-1] != "label":
         df.drop(df.columns[-1], axis=1, inplace=True)
         df.drop(df.columns[0], axis=1, inplace=True)
 
