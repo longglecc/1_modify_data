@@ -1,0 +1,1830 @@
+Liquor
+   feature1  feature2  feature3  ...  feature20  feature21  label
+0         0         2         0  ...          0          2      0
+1         0         0         0  ...          0          0      0
+2         0         2         0  ...          0          0      0
+3         0         0         0  ...          0          0      0
+4         0         0         2  ...          2          2      2
+
+[5 rows x 22 columns]
+(42959, 22)
+   feature16  feature17  feature18  feature19  feature20  feature21  label
+0          0          2          0          0          0          2      0
+1          1          0          0          0          0          0      0
+2          0          0          0          0          0          0      0
+3          1          0          0          0          0          0      0
+4          2          1          3          0          2          2      1
+(42959, 7)
+(30071, 6) (30071,)
+(12888, 6) (12888,)
+linear model initing...
+linear model fitting...
+ACC Score (Train): 0.747198
+ACC Score (Test): 0.748836
+[[ 0.19605456  0.23808584  0.29552474  0.25484711  0.19257564 -0.0703257 ]]
+[[9178  250]
+ [2987  473]]
+   feature15  feature16  feature17  ...  feature20  feature21  label
+0          0          0          2  ...          0          2      0
+1          1          1          0  ...          0          0      0
+2          0          0          0  ...          0          0      0
+3          1          1          0  ...          0          0      0
+4          2          2          1  ...          2          2      1
+
+[5 rows x 8 columns]
+(42959, 8)
+(30071, 7) (30071,)
+(12888, 7) (12888,)
+linear model initing...
+linear model fitting...
+ACC Score (Train): 0.749094
+ACC Score (Test): 0.752250
+[[ 0.16  0.2   0.23  0.28  0.24  0.17 -0.09]]
+[[9169  259]
+ [2934  526]]
+   feature14  feature15  feature16  ...  feature20  feature21  label
+0          0          0          0  ...          0          2      0
+1          3          1          1  ...          0          0      0
+2          0          0          0  ...          0          0      0
+3          3          1          1  ...          0          0      0
+4          2          2          2  ...          2          2      1
+
+[5 rows x 9 columns]
+(42959, 9)
+(30071, 8) (30071,)
+(12888, 8) (12888,)
+linear model initing...
+linear model fitting...
+ACC Score (Train): 0.750723
+ACC Score (Test): 0.754345
+[[ 0.16  0.17  0.19  0.22  0.27  0.22  0.16 -0.1 ]]
+[[9159  269]
+ [2897  563]]
+   feature13  feature14  feature15  ...  feature20  feature21  label
+0          2          0          0  ...          0          2      0
+1          0          3          1  ...          0          0      0
+2          0          0          0  ...          0          0      0
+3          0          3          1  ...          0          0      0
+4          2          2          2  ...          2          2      1
+
+[5 rows x 10 columns]
+(42959, 10)
+(30071, 9) (30071,)
+(12888, 9) (12888,)
+linear model initing...
+linear model fitting...
+ACC Score (Train): 0.752353
+ACC Score (Test): 0.755509
+[[ 0.14  0.17  0.17  0.18  0.21  0.26  0.21  0.15 -0.11]]
+[[9148  280]
+ [2871  589]]
+   feature12  feature13  feature14  ...  feature20  feature21  label
+0          0          2          0  ...          0          2      0
+1          0          0          3  ...          0          0      0
+2          0          0          0  ...          0          0      0
+3          0          0          3  ...          0          0      0
+4          2          2          2  ...          2          2      1
+
+[5 rows x 11 columns]
+(42959, 11)
+(30071, 10) (30071,)
+(12888, 10) (12888,)
+linear model initing...
+linear model fitting...
+ACC Score (Train): 0.752053
+ACC Score (Test): 0.755199
+[[ 0.1   0.14  0.16  0.16  0.18  0.2   0.25  0.2   0.14 -0.12]]
+[[9141  287]
+ [2868  592]]
+   feature11  feature12  feature13  ...  feature20  feature21  label
+0          0          0          2  ...          0          2      0
+1          0          0          0  ...          0          0      0
+2          0          0          0  ...          0          0      0
+3          0          0          0  ...          0          0      0
+4          2          2          2  ...          2          2      1
+
+[5 rows x 12 columns]
+(42959, 12)
+(30071, 11) (30071,)
+(12888, 11) (12888,)
+linear model initing...
+linear model fitting...
+ACC Score (Train): 0.752885
+ACC Score (Test): 0.757682
+[[ 0.11  0.11  0.14  0.16  0.16  0.17  0.19  0.25  0.2   0.14 -0.13]]
+[[9131  297]
+ [2826  634]]
+   feature10  feature11  feature12  ...  feature20  feature21  label
+0          0          0          0  ...          0          2      0
+1          0          0          0  ...          0          0      0
+2          2          0          0  ...          0          0      0
+3          0          0          0  ...          0          0      0
+4          0          2          2  ...          2          2      1
+
+[5 rows x 13 columns]
+(42959, 13)
+(30071, 12) (30071,)
+(12888, 12) (12888,)
+linear model initing...
+linear model fitting...
+ACC Score (Train): 0.753450
+ACC Score (Test): 0.756440
+[[ 0.09  0.12  0.11  0.13  0.15  0.15  0.16  0.19  0.24  0.19  0.13 -0.13]]
+[[9118  310]
+ [2829  631]]
+   feature9  feature10  feature11  ...  feature20  feature21  label
+0         2          0          0  ...          0          2      0
+1         0          0          0  ...          0          0      0
+2         0          2          0  ...          0          0      0
+3         0          0          0  ...          0          0      0
+4         2          0          2  ...          2          2      1
+
+[5 rows x 14 columns]
+(42959, 14)
+(30071, 13) (30071,)
+(12888, 13) (12888,)
+linear model initing...
+linear model fitting...
+ACC Score (Train): 0.753384
+ACC Score (Test): 0.756983
+[[ 0.06  0.09  0.12  0.1   0.13  0.15  0.15  0.16  0.18  0.24  0.19  0.13
+  -0.14]]
+[[9120  308]
+ [2824  636]]
+   feature8  feature9  feature10  ...  feature20  feature21  label
+0         0         2          0  ...          0          2      0
+1         0         0          0  ...          0          0      0
+2         0         0          2  ...          0          0      0
+3         0         0          0  ...          0          0      0
+4         0         2          0  ...          2          2      1
+
+[5 rows x 15 columns]
+(42959, 15)
+(30071, 14) (30071,)
+(12888, 14) (12888,)
+linear model initing...
+linear model fitting...
+ACC Score (Train): 0.753350
+ACC Score (Test): 0.755897
+[[ 0.05  0.07  0.09  0.11  0.1   0.12  0.14  0.14  0.16  0.18  0.23  0.18
+   0.12 -0.14]]
+[[9110  318]
+ [2828  632]]
+   feature7  feature8  feature9  ...  feature20  feature21  label
+0         0         0         2  ...          0          2      0
+1         1         0         0  ...          0          0      0
+2         0         0         0  ...          0          0      0
+3         0         0         0  ...          0          0      0
+4         2         0         2  ...          2          2      1
+
+[5 rows x 16 columns]
+(42959, 16)
+(30071, 15) (30071,)
+(12888, 15) (12888,)
+linear model initing...
+linear model fitting...
+ACC Score (Train): 0.753882
+ACC Score (Test): 0.757449
+[[ 0.05  0.05  0.07  0.09  0.11  0.1   0.12  0.14  0.14  0.15  0.18  0.23
+   0.18  0.12 -0.14]]
+[[9116  312]
+ [2814  646]]
+   feature6  feature7  feature8  ...  feature20  feature21  label
+0         2         0         0  ...          0          2      0
+1         3         1         0  ...          0          0      0
+2         0         0         0  ...          0          0      0
+3         1         0         0  ...          0          0      0
+4         3         2         0  ...          2          2      1
+
+[5 rows x 17 columns]
+(42959, 17)
+(30071, 16) (30071,)
+(12888, 16) (12888,)
+linear model initing...
+linear model fitting...
+ACC Score (Train): 0.753716
+ACC Score (Test): 0.757138
+[[ 0.04  0.05  0.05  0.06  0.08  0.11  0.09  0.12  0.14  0.14  0.15  0.17
+   0.23  0.18  0.12 -0.15]]
+[[9112  316]
+ [2814  646]]
+   feature5  feature6  feature7  ...  feature20  feature21  label
+0         0         2         0  ...          0          2      0
+1         1         3         1  ...          0          0      0
+2         0         0         0  ...          0          0      0
+3         0         1         0  ...          0          0      0
+4         0         3         2  ...          2          2      1
+
+[5 rows x 18 columns]
+(42959, 18)
+(30071, 17) (30071,)
+(12888, 17) (12888,)
+linear model initing...
+linear model fitting...
+ACC Score (Train): 0.754115
+ACC Score (Test): 0.756828
+[[ 0.03  0.05  0.05  0.05  0.06  0.08  0.1   0.09  0.11  0.14  0.14  0.15
+   0.17  0.23  0.18  0.12 -0.15]]
+[[9108  320]
+ [2814  646]]
+   feature4  feature5  feature6  ...  feature20  feature21  label
+0         0         0         2  ...          0          2      0
+1         0         1         3  ...          0          0      0
+2         0         0         0  ...          0          0      0
+3         0         0         1  ...          0          0      0
+4         1         0         3  ...          2          2      1
+
+[5 rows x 19 columns]
+(42959, 19)
+(30071, 18) (30071,)
+(12888, 18) (12888,)
+linear model initing...
+linear model fitting...
+ACC Score (Train): 0.754315
+ACC Score (Test): 0.756983
+[[ 0.    0.03  0.05  0.05  0.05  0.06  0.08  0.1   0.09  0.11  0.14  0.14
+   0.15  0.17  0.23  0.18  0.12 -0.15]]
+[[9108  320]
+ [2812  648]]
+   feature3  feature4  feature5  ...  feature20  feature21  label
+0         0         0         0  ...          0          2      0
+1         0         0         1  ...          0          0      0
+2         0         0         0  ...          0          0      0
+3         0         0         0  ...          0          0      0
+4         2         1         0  ...          2          2      1
+
+[5 rows x 20 columns]
+(42959, 20)
+(30071, 19) (30071,)
+(12888, 19) (12888,)
+linear model initing...
+linear model fitting...
+ACC Score (Train): 0.754115
+ACC Score (Test): 0.756906
+[[-0.    0.    0.03  0.05  0.05  0.05  0.06  0.08  0.1   0.09  0.11  0.14
+   0.14  0.15  0.17  0.23  0.18  0.12 -0.15]]
+[[9109  319]
+ [2814  646]]
+   feature2  feature3  feature4  ...  feature20  feature21  label
+0         2         0         0  ...          0          2      0
+1         0         0         0  ...          0          0      0
+2         2         0         0  ...          0          0      0
+3         0         0         0  ...          0          0      0
+4         0         2         1  ...          2          2      1
+
+[5 rows x 21 columns]
+(42959, 21)
+(30071, 20) (30071,)
+(12888, 20) (12888,)
+linear model initing...
+linear model fitting...
+ACC Score (Train): 0.754082
+ACC Score (Test): 0.756673
+[[ 0.01 -0.    0.    0.03  0.05  0.05  0.05  0.06  0.08  0.1   0.09  0.11
+   0.14  0.14  0.15  0.17  0.23  0.18  0.12 -0.15]]
+[[9109  319]
+ [2817  643]]
+   feature1  feature2  feature3  ...  feature20  feature21  label
+0         0         2         0  ...          0          2      0
+1         0         0         0  ...          0          0      0
+2         0         2         0  ...          0          0      0
+3         0         0         0  ...          0          0      0
+4         0         0         2  ...          2          2      1
+
+[5 rows x 22 columns]
+(42959, 22)
+(30071, 21) (30071,)
+(12888, 21) (12888,)
+linear model initing...
+linear model fitting...
+ACC Score (Train): 0.754115
+ACC Score (Test): 0.757061
+[[ 0.02  0.01 -0.   -0.    0.03  0.04  0.05  0.05  0.06  0.08  0.1   0.09
+   0.11  0.14  0.14  0.15  0.17  0.23  0.18  0.12 -0.15]]
+[[9112  316]
+ [2815  645]]
+NA Beer
+   feature1  feature2  feature3  ...  feature20  feature21  label
+0         2         0         1  ...          3          2      0
+1         2         0         0  ...          0          2      0
+2         0         2         2  ...          1          2      2
+3         0         0         0  ...          0          0      0
+4         0         0         0  ...          0          2      0
+
+[5 rows x 22 columns]
+(1754, 22)
+   feature16  feature17  feature18  feature19  feature20  feature21  label
+0          2          2          2          1          3          2      0
+1          0          0          0          0          0          2      0
+2          0          1          3          2          1          2      1
+3          0          0          0          0          0          0      0
+4          0          0          0          0          0          2      0
+(1754, 7)
+(1227, 6) (1227,)
+(527, 6) (527,)
+linear model initing...
+linear model fitting...
+ACC Score (Train): 0.684597
+ACC Score (Test): 0.686907
+[[0.04 0.25 0.27 0.12 0.18 0.03]]
+[[324  28]
+ [137  38]]
+   feature15  feature16  feature17  ...  feature20  feature21  label
+0          2          2          2  ...          3          2      0
+1          0          0          0  ...          0          2      0
+2          1          0          1  ...          1          2      1
+3          0          0          0  ...          0          0      0
+4          0          0          0  ...          0          2      0
+
+[5 rows x 8 columns]
+(1754, 8)
+(1227, 7) (1227,)
+(527, 7) (527,)
+linear model initing...
+linear model fitting...
+ACC Score (Train): 0.689487
+ACC Score (Test): 0.703985
+[[0.13 0.02 0.23 0.25 0.1  0.15 0.02]]
+[[328  24]
+ [132  43]]
+   feature14  feature15  feature16  ...  feature20  feature21  label
+0          2          2          2  ...          3          2      0
+1          0          0          0  ...          0          2      0
+2          2          1          0  ...          1          2      1
+3          0          0          0  ...          0          0      0
+4          0          0          0  ...          0          2      0
+
+[5 rows x 9 columns]
+(1754, 9)
+(1227, 8) (1227,)
+(527, 8) (527,)
+linear model initing...
+linear model fitting...
+ACC Score (Train): 0.685412
+ACC Score (Test): 0.702087
+[[0.09 0.13 0.02 0.23 0.24 0.08 0.14 0.01]]
+[[328  24]
+ [133  42]]
+   feature13  feature14  feature15  ...  feature20  feature21  label
+0          0          2          2  ...          3          2      0
+1          2          0          0  ...          0          2      0
+2          3          2          1  ...          1          2      1
+3          0          0          0  ...          0          0      0
+4          0          0          0  ...          0          2      0
+
+[5 rows x 10 columns]
+(1754, 10)
+(1227, 9) (1227,)
+(527, 9) (527,)
+linear model initing...
+linear model fitting...
+ACC Score (Train): 0.686227
+ACC Score (Test): 0.694497
+[[0.19 0.08 0.14 0.01 0.21 0.23 0.07 0.12 0.02]]
+[[323  29]
+ [132  43]]
+   feature12  feature13  feature14  ...  feature20  feature21  label
+0          2          0          2  ...          3          2      0
+1          2          2          0  ...          0          2      0
+2          1          3          2  ...          1          2      1
+3          0          0          0  ...          0          0      0
+4          0          0          0  ...          0          2      0
+
+[5 rows x 11 columns]
+(1754, 11)
+(1227, 10) (1227,)
+(527, 10) (527,)
+linear model initing...
+linear model fitting...
+ACC Score (Train): 0.678892
+ACC Score (Test): 0.694497
+[[0.24 0.2  0.06 0.15 0.01 0.18 0.23 0.05 0.11 0.02]]
+[[319  33]
+ [128  47]]
+   feature11  feature12  feature13  ...  feature20  feature21  label
+0          2          2          0  ...          3          2      0
+1          0          2          2  ...          0          2      0
+2          2          1          3  ...          1          2      1
+3          2          0          0  ...          0          0      0
+4          2          0          0  ...          0          2      0
+
+[5 rows x 12 columns]
+(1754, 12)
+(1227, 11) (1227,)
+(527, 11) (527,)
+linear model initing...
+linear model fitting...
+ACC Score (Train): 0.675632
+ACC Score (Test): 0.686907
+[[0.11 0.24 0.18 0.05 0.14 0.01 0.17 0.23 0.05 0.1  0.02]]
+[[315  37]
+ [128  47]]
+   feature10  feature11  feature12  ...  feature20  feature21  label
+0          2          2          2  ...          3          2      0
+1          0          0          2  ...          0          2      0
+2          2          2          1  ...          1          2      1
+3          0          2          0  ...          0          0      0
+4          3          2          0  ...          0          2      0
+
+[5 rows x 13 columns]
+(1754, 13)
+(1227, 12) (1227,)
+(527, 12) (527,)
+linear model initing...
+linear model fitting...
+ACC Score (Train): 0.675632
+ACC Score (Test): 0.681214
+[[0.1  0.1  0.24 0.17 0.05 0.13 0.   0.16 0.22 0.05 0.09 0.01]]
+[[314  38]
+ [130  45]]
+   feature9  feature10  feature11  ...  feature20  feature21  label
+0         3          2          2  ...          3          2      0
+1         0          0          0  ...          0          2      0
+2         2          2          2  ...          1          2      1
+3         2          0          2  ...          0          0      0
+4         2          3          2  ...          0          2      0
+
+[5 rows x 14 columns]
+(1754, 14)
+(1227, 13) (1227,)
+(527, 13) (527,)
+linear model initing...
+linear model fitting...
+ACC Score (Train): 0.675632
+ACC Score (Test): 0.688805
+[[-0.04  0.11  0.11  0.24  0.17  0.05  0.14  0.    0.16  0.22  0.05  0.1
+   0.01]]
+[[316  36]
+ [128  47]]
+   feature8  feature9  feature10  ...  feature20  feature21  label
+0         0         3          2  ...          3          2      0
+1         0         0          0  ...          0          2      0
+2         2         2          2  ...          1          2      1
+3         0         2          0  ...          0          0      0
+4         1         2          3  ...          0          2      0
+
+[5 rows x 15 columns]
+(1754, 15)
+(1227, 14) (1227,)
+(527, 14) (527,)
+linear model initing...
+linear model fitting...
+ACC Score (Train): 0.675632
+ACC Score (Test): 0.685009
+[[ 0.09 -0.05  0.1   0.1   0.23  0.17  0.05  0.14  0.    0.15  0.22  0.05
+   0.09  0.01]]
+[[313  39]
+ [127  48]]
+   feature7  feature8  feature9  ...  feature20  feature21  label
+0         1         0         3  ...          3          2      0
+1         0         0         0  ...          0          2      0
+2         2         2         2  ...          1          2      1
+3         0         0         2  ...          0          0      0
+4         0         1         2  ...          0          2      0
+
+[5 rows x 16 columns]
+(1754, 16)
+(1227, 15) (1227,)
+(527, 15) (527,)
+linear model initing...
+linear model fitting...
+ACC Score (Train): 0.679707
+ACC Score (Test): 0.696395
+[[-0.08  0.09 -0.04  0.1   0.11  0.24  0.16  0.05  0.14  0.01  0.16  0.23
+   0.05  0.1   0.02]]
+[[319  33]
+ [127  48]]
+   feature6  feature7  feature8  ...  feature20  feature21  label
+0         2         1         0  ...          3          2      0
+1         0         0         0  ...          0          2      0
+2         2         2         2  ...          1          2      1
+3         0         0         0  ...          0          0      0
+4         0         0         1  ...          0          2      0
+
+[5 rows x 17 columns]
+(1754, 17)
+(1227, 16) (1227,)
+(527, 16) (527,)
+linear model initing...
+linear model fitting...
+ACC Score (Train): 0.685412
+ACC Score (Test): 0.690702
+[[ 0.19 -0.08  0.08 -0.06  0.08  0.1   0.23  0.15  0.05  0.14 -0.01  0.14
+   0.22  0.04  0.1   0.01]]
+[[316  36]
+ [127  48]]
+   feature5  feature6  feature7  ...  feature20  feature21  label
+0         3         2         1  ...          3          2      0
+1         2         0         0  ...          0          2      0
+2         3         2         2  ...          1          2      1
+3         0         0         0  ...          0          0      0
+4         0         0         0  ...          0          2      0
+
+[5 rows x 18 columns]
+(1754, 18)
+(1227, 17) (1227,)
+(527, 17) (527,)
+linear model initing...
+linear model fitting...
+ACC Score (Train): 0.684597
+ACC Score (Test): 0.692600
+[[ 0.02  0.19 -0.08  0.08 -0.06  0.08  0.1   0.22  0.15  0.05  0.14 -0.01
+   0.14  0.22  0.04  0.1   0.01]]
+[[316  36]
+ [126  49]]
+   feature4  feature5  feature6  ...  feature20  feature21  label
+0         0         3         2  ...          3          2      0
+1         0         2         0  ...          0          2      0
+2         1         3         2  ...          1          2      1
+3         0         0         0  ...          0          0      0
+4         0         0         0  ...          0          2      0
+
+[5 rows x 19 columns]
+(1754, 19)
+(1227, 18) (1227,)
+(527, 18) (527,)
+linear model initing...
+linear model fitting...
+ACC Score (Train): 0.682152
+ACC Score (Test): 0.696395
+[[ 0.11  0.03  0.18 -0.09  0.07 -0.07  0.07  0.1   0.22  0.15  0.06  0.14
+  -0.01  0.14  0.21  0.04  0.09  0.01]]
+[[317  35]
+ [125  50]]
+   feature3  feature4  feature5  ...  feature20  feature21  label
+0         1         0         3  ...          3          2      0
+1         0         0         2  ...          0          2      0
+2         2         1         3  ...          1          2      1
+3         0         0         0  ...          0          0      0
+4         0         0         0  ...          0          2      0
+
+[5 rows x 20 columns]
+(1754, 20)
+(1227, 19) (1227,)
+(527, 19) (527,)
+linear model initing...
+linear model fitting...
+ACC Score (Train): 0.683782
+ACC Score (Test): 0.698292
+[[ 0.12  0.11  0.01  0.17 -0.1   0.06 -0.08  0.06  0.09  0.22  0.14  0.07
+   0.13 -0.02  0.13  0.21  0.04  0.09  0.01]]
+[[318  34]
+ [125  50]]
+   feature2  feature3  feature4  ...  feature20  feature21  label
+0         0         1         0  ...          3          2      0
+1         0         0         0  ...          0          2      0
+2         2         2         1  ...          1          2      1
+3         0         0         0  ...          0          0      0
+4         0         0         0  ...          0          2      0
+
+[5 rows x 21 columns]
+(1754, 21)
+(1227, 20) (1227,)
+(527, 20) (527,)
+linear model initing...
+linear model fitting...
+ACC Score (Train): 0.682152
+ACC Score (Test): 0.698292
+[[-0.03  0.12  0.11  0.01  0.18 -0.1   0.06 -0.07  0.06  0.1   0.22  0.14
+   0.07  0.13 -0.02  0.13  0.21  0.04  0.09  0.01]]
+[[317  35]
+ [124  51]]
+   feature1  feature2  feature3  ...  feature20  feature21  label
+0         2         0         1  ...          3          2      0
+1         2         0         0  ...          0          2      0
+2         0         2         2  ...          1          2      1
+3         0         0         0  ...          0          0      0
+4         0         0         0  ...          0          2      0
+
+[5 rows x 22 columns]
+(1754, 22)
+(1227, 21) (1227,)
+(527, 21) (527,)
+linear model initing...
+linear model fitting...
+ACC Score (Train): 0.686227
+ACC Score (Test): 0.715370
+[[ 0.09 -0.02  0.12  0.11  0.01  0.17 -0.11  0.06 -0.08  0.06  0.09  0.21
+   0.14  0.07  0.13 -0.02  0.12  0.21  0.04  0.09  0.01]]
+[[321  31]
+ [119  56]]
+Other
+   feature1  feature2  feature3  ...  feature20  feature21  label
+0         1         1         3  ...          3          1      3
+1         3         1         3  ...          3          1      1
+2         3         1         3  ...          3          1      3
+3         0         3         1  ...          1          0      3
+4         0         3         1  ...          0          0      0
+
+[5 rows x 22 columns]
+(38388, 22)
+   feature16  feature17  feature18  feature19  feature20  feature21  label
+0          3          3          1          3          3          1      1
+1          3          3          1          1          3          1      1
+2          3          1          3          3          3          1      1
+3          3          0          1          0          1          0      1
+4          0          1          0          0          0          0      0
+(38388, 7)
+(26871, 6) (26871,)
+(11517, 6) (11517,)
+linear model initing...
+linear model fitting...
+ACC Score (Train): 0.766589
+ACC Score (Test): 0.763133
+[[0.39 0.3  0.48 0.36 0.4  0.04]]
+[[3765 1357]
+ [1371 5024]]
+   feature15  feature16  feature17  ...  feature20  feature21  label
+0          1          3          3  ...          3          1      1
+1          1          3          3  ...          3          1      1
+2          3          3          1  ...          3          1      1
+3          0          3          0  ...          1          0      1
+4          3          0          1  ...          0          0      0
+
+[5 rows x 8 columns]
+(38388, 8)
+(26871, 7) (26871,)
+(11517, 7) (11517,)
+linear model initing...
+linear model fitting...
+ACC Score (Train): 0.770459
+ACC Score (Test): 0.766606
+[[0.2  0.41 0.27 0.45 0.32 0.38 0.  ]]
+[[3778 1344]
+ [1344 5051]]
+   feature14  feature15  feature16  ...  feature20  feature21  label
+0          1          1          3  ...          3          1      1
+1          1          1          3  ...          3          1      1
+2          1          3          3  ...          3          1      1
+3          1          0          3  ...          1          0      1
+4          1          3          0  ...          0          0      0
+
+[5 rows x 9 columns]
+(38388, 9)
+(26871, 8) (26871,)
+(11517, 8) (11517,)
+linear model initing...
+linear model fitting...
+ACC Score (Train): 0.771426
+ACC Score (Test): 0.769732
+[[ 0.25  0.23  0.39  0.25  0.42  0.29  0.35 -0.01]]
+[[3800 1322]
+ [1330 5065]]
+   feature13  feature14  feature15  ...  feature20  feature21  label
+0          1          1          1  ...          3          1      1
+1          1          1          1  ...          3          1      1
+2          3          1          3  ...          3          1      1
+3          0          1          0  ...          1          0      1
+4          0          1          3  ...          0          0      0
+
+[5 rows x 10 columns]
+(38388, 10)
+(26871, 9) (26871,)
+(11517, 9) (11517,)
+linear model initing...
+linear model fitting...
+ACC Score (Train): 0.771538
+ACC Score (Test): 0.769037
+[[ 0.18  0.27  0.22  0.37  0.22  0.4   0.27  0.33 -0.04]]
+[[3806 1316]
+ [1344 5051]]
+   feature12  feature13  feature14  ...  feature20  feature21  label
+0          3          1          1  ...          3          1      1
+1          3          1          1  ...          3          1      1
+2          1          3          1  ...          3          1      1
+3          3          0          1  ...          1          0      1
+4          0          0          1  ...          0          0      0
+
+[5 rows x 11 columns]
+(38388, 11)
+(26871, 10) (26871,)
+(11517, 10) (11517,)
+linear model initing...
+linear model fitting...
+ACC Score (Train): 0.775929
+ACC Score (Test): 0.772076
+[[ 0.24  0.21  0.25  0.21  0.34  0.19  0.36  0.25  0.3  -0.06]]
+[[3832 1290]
+ [1335 5060]]
+   feature11  feature12  feature13  ...  feature20  feature21  label
+0          3          3          1  ...          3          1      1
+1          3          3          1  ...          3          1      1
+2          3          1          3  ...          3          1      1
+3          0          3          0  ...          1          0      1
+4          0          0          0  ...          0          0      0
+
+[5 rows x 12 columns]
+(38388, 12)
+(26871, 11) (26871,)
+(11517, 11) (11517,)
+linear model initing...
+linear model fitting...
+ACC Score (Train): 0.775892
+ACC Score (Test): 0.771468
+[[ 0.09  0.25  0.2   0.25  0.19  0.33  0.18  0.35  0.24  0.29 -0.07]]
+[[3828 1294]
+ [1338 5057]]
+   feature10  feature11  feature12  ...  feature20  feature21  label
+0          1          3          3  ...          3          1      1
+1          1          3          3  ...          3          1      1
+2          3          3          1  ...          3          1      1
+3          1          0          3  ...          1          0      1
+4          3          0          0  ...          0          0      0
+
+[5 rows x 13 columns]
+(38388, 13)
+(26871, 12) (26871,)
+(11517, 12) (11517,)
+linear model initing...
+linear model fitting...
+ACC Score (Train): 0.778311
+ACC Score (Test): 0.771902
+[[ 0.17  0.12  0.24  0.19  0.22  0.18  0.31  0.17  0.33  0.22  0.27 -0.08]]
+[[3838 1284]
+ [1343 5052]]
+   feature9  feature10  feature11  ...  feature20  feature21  label
+0         3          1          3  ...          3          1      1
+1         3          1          3  ...          3          1      1
+2         3          3          3  ...          3          1      1
+3         0          1          0  ...          1          0      1
+4         1          3          0  ...          0          0      0
+
+[5 rows x 14 columns]
+(38388, 14)
+(26871, 13) (26871,)
+(11517, 13) (11517,)
+linear model initing...
+linear model fitting...
+ACC Score (Train): 0.778423
+ACC Score (Test): 0.774855
+[[ 0.1   0.18  0.11  0.23  0.17  0.22  0.16  0.3   0.15  0.32  0.21  0.26
+  -0.09]]
+[[3861 1261]
+ [1332 5063]]
+   feature8  feature9  feature10  ...  feature20  feature21  label
+0         3         3          1  ...          3          1      1
+1         3         3          1  ...          3          1      1
+2         1         3          3  ...          3          1      1
+3         3         0          1  ...          1          0      1
+4         0         1          3  ...          0          0      0
+
+[5 rows x 15 columns]
+(38388, 15)
+(26871, 14) (26871,)
+(11517, 14) (11517,)
+linear model initing...
+linear model fitting...
+ACC Score (Train): 0.780135
+ACC Score (Test): 0.774941
+[[ 0.2   0.13  0.17  0.1   0.2   0.16  0.2   0.15  0.28  0.14  0.3   0.2
+   0.25 -0.1 ]]
+[[3861 1261]
+ [1331 5064]]
+   feature7  feature8  feature9  ...  feature20  feature21  label
+0         1         3         3  ...          3          1      1
+1         1         3         3  ...          3          1      1
+2         1         1         3  ...          3          1      1
+3         0         3         0  ...          1          0      1
+4         3         0         1  ...          0          0      0
+
+[5 rows x 16 columns]
+(38388, 16)
+(26871, 15) (26871,)
+(11517, 15) (11517,)
+linear model initing...
+linear model fitting...
+ACC Score (Train): 0.780358
+ACC Score (Test): 0.775376
+[[ 0.03  0.21  0.13  0.17  0.09  0.2   0.16  0.19  0.15  0.28  0.14  0.3
+   0.2   0.25 -0.1 ]]
+[[3862 1260]
+ [1327 5068]]
+   feature6  feature7  feature8  ...  feature20  feature21  label
+0         3         1         3  ...          3          1      1
+1         3         1         3  ...          3          1      1
+2         3         1         1  ...          3          1      1
+3         1         0         3  ...          1          0      1
+4         0         3         0  ...          0          0      0
+
+[5 rows x 17 columns]
+(38388, 17)
+(26871, 16) (26871,)
+(11517, 16) (11517,)
+linear model initing...
+linear model fitting...
+ACC Score (Train): 0.782628
+ACC Score (Test): 0.777025
+[[ 0.16  0.06  0.19  0.12  0.15  0.08  0.18  0.15  0.18  0.14  0.26  0.13
+   0.29  0.19  0.24 -0.11]]
+[[3873 1249]
+ [1319 5076]]
+   feature5  feature6  feature7  ...  feature20  feature21  label
+0         3         3         1  ...          3          1      1
+1         3         3         1  ...          3          1      1
+2         3         3         1  ...          3          1      1
+3         0         1         0  ...          1          0      1
+4         0         0         3  ...          0          0      0
+
+[5 rows x 18 columns]
+(38388, 18)
+(26871, 17) (26871,)
+(11517, 17) (11517,)
+linear model initing...
+linear model fitting...
+ACC Score (Train): 0.782442
+ACC Score (Test): 0.776591
+[[ 0.02  0.17  0.06  0.19  0.11  0.14  0.08  0.18  0.14  0.18  0.14  0.26
+   0.13  0.29  0.19  0.24 -0.11]]
+[[3871 1251]
+ [1322 5073]]
+   feature4  feature5  feature6  ...  feature20  feature21  label
+0         1         3         3  ...          3          1      1
+1         1         3         3  ...          3          1      1
+2         3         3         3  ...          3          1      1
+3         3         0         1  ...          1          0      1
+4         3         0         0  ...          0          0      0
+
+[5 rows x 19 columns]
+(38388, 19)
+(26871, 18) (26871,)
+(11517, 18) (11517,)
+linear model initing...
+linear model fitting...
+ACC Score (Train): 0.783707
+ACC Score (Test): 0.781019
+[[ 0.15  0.04  0.16  0.05  0.18  0.1   0.13  0.07  0.16  0.14  0.17  0.13
+   0.25  0.12  0.28  0.18  0.23 -0.11]]
+[[3906 1216]
+ [1306 5089]]
+   feature3  feature4  feature5  ...  feature20  feature21  label
+0         3         1         3  ...          3          1      1
+1         3         1         3  ...          3          1      1
+2         3         3         3  ...          3          1      1
+3         1         3         0  ...          1          0      1
+4         1         3         0  ...          0          0      0
+
+[5 rows x 20 columns]
+(38388, 20)
+(26871, 19) (26871,)
+(11517, 19) (11517,)
+linear model initing...
+linear model fitting...
+ACC Score (Train): 0.782814
+ACC Score (Test): 0.780238
+[[ 0.02  0.15  0.04  0.16  0.05  0.18  0.1   0.13  0.07  0.16  0.13  0.17
+   0.13  0.25  0.12  0.28  0.18  0.23 -0.11]]
+[[3906 1216]
+ [1315 5080]]
+   feature2  feature3  feature4  ...  feature20  feature21  label
+0         1         3         1  ...          3          1      1
+1         1         3         1  ...          3          1      1
+2         1         3         3  ...          3          1      1
+3         3         1         3  ...          1          0      1
+4         3         1         3  ...          0          0      0
+
+[5 rows x 21 columns]
+(38388, 21)
+(26871, 20) (26871,)
+(11517, 20) (11517,)
+linear model initing...
+linear model fitting...
+ACC Score (Train): 0.783707
+ACC Score (Test): 0.780325
+[[ 0.08  0.04  0.15  0.04  0.15  0.04  0.17  0.1   0.12  0.06  0.16  0.13
+   0.17  0.12  0.24  0.12  0.27  0.18  0.22 -0.11]]
+[[3906 1216]
+ [1314 5081]]
+   feature1  feature2  feature3  ...  feature20  feature21  label
+0         1         1         3  ...          3          1      1
+1         3         1         3  ...          3          1      1
+2         3         1         3  ...          3          1      1
+3         0         3         1  ...          1          0      1
+4         0         3         1  ...          0          0      0
+
+[5 rows x 22 columns]
+(38388, 22)
+(26871, 21) (26871,)
+(11517, 21) (11517,)
+linear model initing...
+linear model fitting...
+ACC Score (Train): 0.782665
+ACC Score (Test): 0.780672
+[[ 0.04  0.08  0.04  0.15  0.03  0.14  0.04  0.17  0.09  0.12  0.06  0.16
+   0.13  0.17  0.12  0.24  0.12  0.27  0.18  0.22 -0.11]]
+[[3908 1214]
+ [1312 5083]]
+Repeal Beer
+   feature1  feature2  feature3  ...  feature20  feature21  label
+0         3         0         2  ...          2          0      0
+1         3         2         1  ...          1          1      0
+2         0         1         3  ...          2          0      0
+3         0         0         2  ...          0          0      1
+4         0         2         3  ...          0          1      0
+
+[5 rows x 22 columns]
+(216985, 22)
+   feature16  feature17  feature18  feature19  feature20  feature21  label
+0          3          0          0          2          2          0      0
+1          0          2          0          0          1          1      0
+2          1          0          0          0          2          0      0
+3          0          0          3          2          0          0      1
+4          2          3          2          0          0          1      0
+(216985, 7)
+(151889, 6) (151889,)
+(65096, 6) (65096,)
+linear model initing...
+linear model fitting...
+ACC Score (Train): 0.669015
+ACC Score (Test): 0.668966
+[[ 0.21  0.19  0.26  0.19  0.23 -0.  ]]
+[[35593  4958]
+ [16591  7954]]
+   feature15  feature16  feature17  ...  feature20  feature21  label
+0          0          3          0  ...          2          0      0
+1          3          0          2  ...          1          1      0
+2          2          1          0  ...          2          0      0
+3          0          0          0  ...          0          0      1
+4          0          2          3  ...          0          1      0
+
+[5 rows x 8 columns]
+(216985, 8)
+(151889, 7) (151889,)
+(65096, 7) (65096,)
+linear model initing...
+linear model fitting...
+ACC Score (Train): 0.672702
+ACC Score (Test): 0.672392
+[[ 0.12  0.21  0.17  0.25  0.17  0.22 -0.02]]
+[[35794  4757]
+ [16569  7976]]
+   feature14  feature15  feature16  ...  feature20  feature21  label
+0          1          0          3  ...          2          0      0
+1          1          3          0  ...          1          1      0
+2          0          2          1  ...          2          0      0
+3          0          0          0  ...          0          0      1
+4          0          0          2  ...          0          1      0
+
+[5 rows x 9 columns]
+(216985, 9)
+(151889, 8) (151889,)
+(65096, 8) (65096,)
+linear model initing...
+linear model fitting...
+ACC Score (Train): 0.673294
+ACC Score (Test): 0.674957
+[[ 0.17  0.13  0.2   0.16  0.24  0.16  0.21 -0.03]]
+[[35728  4823]
+ [16336  8209]]
+   feature13  feature14  feature15  ...  feature20  feature21  label
+0          0          1          0  ...          2          0      0
+1          2          1          3  ...          1          1      0
+2          0          0          2  ...          2          0      0
+3          0          0          0  ...          0          0      1
+4          1          0          0  ...          0          1      0
+
+[5 rows x 10 columns]
+(216985, 10)
+(151889, 9) (151889,)
+(65096, 9) (65096,)
+linear model initing...
+linear model fitting...
+ACC Score (Train): 0.675164
+ACC Score (Test): 0.675894
+[[ 0.1   0.18  0.13  0.19  0.15  0.23  0.15  0.2  -0.04]]
+[[35749  4802]
+ [16296  8249]]
+   feature12  feature13  feature14  ...  feature20  feature21  label
+0          0          0          1  ...          2          0      0
+1          2          2          1  ...          1          1      0
+2          0          0          0  ...          2          0      0
+3          0          0          0  ...          0          0      1
+4          0          1          0  ...          0          1      0
+
+[5 rows x 11 columns]
+(216985, 11)
+(151889, 10) (151889,)
+(65096, 10) (65096,)
+linear model initing...
+linear model fitting...
+ACC Score (Train): 0.675842
+ACC Score (Test): 0.677246
+[[ 0.1   0.1   0.17  0.12  0.18  0.15  0.22  0.15  0.19 -0.04]]
+[[35737  4814]
+ [16196  8349]]
+   feature11  feature12  feature13  ...  feature20  feature21  label
+0          2          0          0  ...          2          0      0
+1          2          2          2  ...          1          1      0
+2          2          0          0  ...          2          0      0
+3          0          0          0  ...          0          0      1
+4          2          0          1  ...          0          1      0
+
+[5 rows x 12 columns]
+(216985, 12)
+(151889, 11) (151889,)
+(65096, 11) (65096,)
+linear model initing...
+linear model fitting...
+ACC Score (Train): 0.676231
+ACC Score (Test): 0.677507
+[[ 0.05  0.1   0.1   0.17  0.12  0.18  0.14  0.22  0.14  0.19 -0.04]]
+[[35744  4807]
+ [16186  8359]]
+   feature10  feature11  feature12  ...  feature20  feature21  label
+0          0          2          0  ...          2          0      0
+1          2          2          2  ...          1          1      0
+2          0          2          0  ...          2          0      0
+3          1          0          0  ...          0          0      1
+4          0          2          0  ...          0          1      0
+
+[5 rows x 13 columns]
+(216985, 13)
+(151889, 12) (151889,)
+(65096, 12) (65096,)
+linear model initing...
+linear model fitting...
+ACC Score (Train): 0.677594
+ACC Score (Test): 0.677983
+[[ 0.1   0.06  0.1   0.09  0.16  0.11  0.17  0.14  0.21  0.14  0.18 -0.05]]
+[[35698  4853]
+ [16109  8436]]
+   feature9  feature10  feature11  ...  feature20  feature21  label
+0         2          0          2  ...          2          0      0
+1         2          2          2  ...          1          1      0
+2         2          0          2  ...          2          0      0
+3         3          1          0  ...          0          0      1
+4         2          0          2  ...          0          1      0
+
+[5 rows x 14 columns]
+(216985, 14)
+(151889, 13) (151889,)
+(65096, 13) (65096,)
+linear model initing...
+linear model fitting...
+ACC Score (Train): 0.678212
+ACC Score (Test): 0.677876
+[[ 0.04  0.1   0.05  0.09  0.09  0.16  0.11  0.17  0.13  0.21  0.14  0.18
+  -0.05]]
+[[35687  4864]
+ [16105  8440]]
+   feature8  feature9  feature10  ...  feature20  feature21  label
+0         0         2          0  ...          2          0      0
+1         3         2          2  ...          1          1      0
+2         0         2          0  ...          2          0      0
+3         3         3          1  ...          0          0      1
+4         0         2          0  ...          0          1      0
+
+[5 rows x 15 columns]
+(216985, 15)
+(151889, 14) (151889,)
+(65096, 14) (65096,)
+linear model initing...
+linear model fitting...
+ACC Score (Train): 0.679108
+ACC Score (Test): 0.679197
+[[ 0.08  0.05  0.1   0.05  0.09  0.08  0.15  0.1   0.16  0.13  0.2   0.13
+   0.18 -0.05]]
+[[35694  4857]
+ [16026  8519]]
+   feature7  feature8  feature9  ...  feature20  feature21  label
+0         2         0         2  ...          2          0      0
+1         1         3         2  ...          1          1      0
+2         3         0         2  ...          2          0      0
+3         0         3         3  ...          0          0      1
+4         2         0         2  ...          0          1      0
+
+[5 rows x 16 columns]
+(216985, 16)
+(151889, 15) (151889,)
+(65096, 15) (65096,)
+linear model initing...
+linear model fitting...
+ACC Score (Train): 0.679075
+ACC Score (Test): 0.679627
+[[ 0.03  0.09  0.05  0.1   0.04  0.08  0.08  0.15  0.1   0.16  0.13  0.2
+   0.13  0.17 -0.06]]
+[[35719  4832]
+ [16023  8522]]
+   feature6  feature7  feature8  ...  feature20  feature21  label
+0         0         2         0  ...          2          0      0
+1         0         1         3  ...          1          1      0
+2         1         3         0  ...          2          0      0
+3         0         0         3  ...          0          0      1
+4         2         2         0  ...          0          1      0
+
+[5 rows x 17 columns]
+(216985, 17)
+(151889, 16) (151889,)
+(65096, 16) (65096,)
+linear model initing...
+linear model fitting...
+ACC Score (Train): 0.679516
+ACC Score (Test): 0.680195
+[[ 0.08  0.03  0.08  0.04  0.09  0.04  0.08  0.08  0.15  0.1   0.16  0.12
+   0.2   0.13  0.17 -0.06]]
+[[35728  4823]
+ [15995  8550]]
+   feature5  feature6  feature7  ...  feature20  feature21  label
+0         0         0         2  ...          2          0      0
+1         2         0         1  ...          1          1      0
+2         0         1         3  ...          2          0      0
+3         3         0         0  ...          0          0      1
+4         0         2         2  ...          0          1      0
+
+[5 rows x 18 columns]
+(216985, 18)
+(151889, 17) (151889,)
+(65096, 17) (65096,)
+linear model initing...
+linear model fitting...
+ACC Score (Train): 0.679997
+ACC Score (Test): 0.680626
+[[ 0.04  0.08  0.03  0.08  0.04  0.09  0.04  0.08  0.08  0.15  0.09  0.16
+   0.12  0.19  0.13  0.17 -0.06]]
+[[35732  4819]
+ [15971  8574]]
+   feature4  feature5  feature6  ...  feature20  feature21  label
+0         0         0         0  ...          2          0      0
+1         3         2         0  ...          1          1      0
+2         2         0         1  ...          2          0      0
+3         0         3         0  ...          0          0      1
+4         2         0         2  ...          0          1      0
+
+[5 rows x 19 columns]
+(216985, 19)
+(151889, 18) (151889,)
+(65096, 18) (65096,)
+linear model initing...
+linear model fitting...
+ACC Score (Train): 0.679595
+ACC Score (Test): 0.680917
+[[ 0.07  0.04  0.07  0.03  0.07  0.04  0.08  0.03  0.07  0.07  0.14  0.09
+   0.15  0.12  0.19  0.12  0.17 -0.06]]
+[[35736  4815]
+ [15956  8589]]
+   feature3  feature4  feature5  ...  feature20  feature21  label
+0         2         0         0  ...          2          0      0
+1         1         3         2  ...          1          1      0
+2         3         2         0  ...          2          0      0
+3         2         0         3  ...          0          0      1
+4         3         2         0  ...          0          1      0
+
+[5 rows x 20 columns]
+(216985, 20)
+(151889, 19) (151889,)
+(65096, 19) (65096,)
+linear model initing...
+linear model fitting...
+ACC Score (Train): 0.680115
+ACC Score (Test): 0.681394
+[[ 0.03  0.07  0.04  0.07  0.02  0.07  0.03  0.08  0.03  0.07  0.07  0.14
+   0.09  0.15  0.12  0.19  0.12  0.17 -0.06]]
+[[35752  4799]
+ [15941  8604]]
+   feature2  feature3  feature4  ...  feature20  feature21  label
+0         0         2         0  ...          2          0      0
+1         2         1         3  ...          1          1      0
+2         1         3         2  ...          2          0      0
+3         0         2         0  ...          0          0      1
+4         2         3         2  ...          0          1      0
+
+[5 rows x 21 columns]
+(216985, 21)
+(151889, 20) (151889,)
+(65096, 20) (65096,)
+linear model initing...
+linear model fitting...
+ACC Score (Train): 0.680662
+ACC Score (Test): 0.682023
+[[ 0.05  0.03  0.07  0.03  0.06  0.02  0.07  0.03  0.08  0.03  0.07  0.07
+   0.14  0.09  0.15  0.12  0.19  0.12  0.17 -0.06]]
+[[35775  4776]
+ [15923  8622]]
+   feature1  feature2  feature3  ...  feature20  feature21  label
+0         3         0         2  ...          2          0      0
+1         3         2         1  ...          1          1      0
+2         0         1         3  ...          2          0      0
+3         0         0         2  ...          0          0      1
+4         0         2         3  ...          0          1      0
+
+[5 rows x 22 columns]
+(216985, 22)
+(151889, 21) (151889,)
+(65096, 21) (65096,)
+linear model initing...
+linear model fitting...
+ACC Score (Train): 0.680852
+ACC Score (Test): 0.682315
+[[ 0.06  0.06  0.03  0.07  0.03  0.06  0.02  0.07  0.03  0.08  0.03  0.07
+   0.07  0.14  0.09  0.15  0.12  0.19  0.12  0.16 -0.07]]
+[[35786  4765]
+ [15915  8630]]
+Soda/Water
+   feature1  feature2  feature3  ...  feature20  feature21  label
+0         2         2         2  ...          2          2      0
+1         0         3         0  ...          0          2      1
+2         1         3         1  ...          1          1      3
+3         1         3         1  ...          1          3      3
+4         1         3         1  ...          1          3      1
+
+[5 rows x 22 columns]
+(21550, 22)
+   feature16  feature17  feature18  feature19  feature20  feature21  label
+0          2          2          0          0          2          2      0
+1          3          2          2          0          0          2      1
+2          1          3          1          3          1          1      1
+3          1          3          1          3          1          3      1
+4          1          3          1          2          1          3      1
+(21550, 7)
+(15085, 6) (15085,)
+(6465, 6) (6465,)
+linear model initing...
+linear model fitting...
+ACC Score (Train): 0.709314
+ACC Score (Test): 0.721578
+[[ 0.24  0.18  0.32  0.21  0.16 -0.14]]
+[[4367  199]
+ [1601  298]]
+   feature15  feature16  feature17  ...  feature20  feature21  label
+0          2          2          2  ...          2          2      0
+1          1          3          2  ...          0          2      1
+2          3          1          3  ...          1          1      1
+3          3          1          3  ...          1          3      1
+4          3          1          3  ...          1          3      1
+
+[5 rows x 8 columns]
+(21550, 8)
+(15085, 7) (15085,)
+(6465, 7) (6465,)
+linear model initing...
+linear model fitting...
+ACC Score (Train): 0.714219
+ACC Score (Test): 0.723279
+[[ 0.14  0.25  0.18  0.32  0.19  0.14 -0.16]]
+[[4366  200]
+ [1589  310]]
+   feature14  feature15  feature16  ...  feature20  feature21  label
+0          0          2          2  ...          2          2      0
+1          3          1          3  ...          0          2      1
+2          3          3          1  ...          1          1      1
+3          0          3          1  ...          1          3      1
+4          3          3          1  ...          1          3      1
+
+[5 rows x 9 columns]
+(21550, 9)
+(15085, 8) (15085,)
+(6465, 8) (6465,)
+linear model initing...
+linear model fitting...
+ACC Score (Train): 0.716274
+ACC Score (Test): 0.722815
+[[ 0.23  0.16  0.24  0.17  0.29  0.17  0.12 -0.17]]
+[[4349  217]
+ [1575  324]]
+   feature13  feature14  feature15  ...  feature20  feature21  label
+0          2          0          2  ...          2          2      0
+1          1          3          1  ...          0          2      1
+2          1          3          3  ...          1          1      1
+3          0          0          3  ...          1          3      1
+4          1          3          3  ...          1          3      1
+
+[5 rows x 10 columns]
+(21550, 10)
+(15085, 9) (15085,)
+(6465, 9) (6465,)
+linear model initing...
+linear model fitting...
+ACC Score (Train): 0.716407
+ACC Score (Test): 0.722196
+[[ 0.06  0.24  0.16  0.23  0.16  0.29  0.17  0.12 -0.18]]
+[[4341  225]
+ [1571  328]]
+   feature12  feature13  feature14  ...  feature20  feature21  label
+0          2          2          0  ...          2          2      0
+1          3          1          3  ...          0          2      1
+2          1          1          3  ...          1          1      1
+3          1          0          0  ...          1          3      1
+4          3          1          3  ...          1          3      1
+
+[5 rows x 11 columns]
+(21550, 11)
+(15085, 10) (15085,)
+(6465, 10) (6465,)
+linear model initing...
+linear model fitting...
+ACC Score (Train): 0.716274
+ACC Score (Test): 0.726991
+[[ 0.18  0.07  0.23  0.15  0.21  0.15  0.27  0.16  0.1  -0.19]]
+[[4348  218]
+ [1547  352]]
+   feature11  feature12  feature13  ...  feature20  feature21  label
+0          0          2          2  ...          2          2      0
+1          1          3          1  ...          0          2      1
+2          3          1          1  ...          1          1      1
+3          3          1          0  ...          1          3      1
+4          1          3          1  ...          1          3      1
+
+[5 rows x 12 columns]
+(21550, 12)
+(15085, 11) (15085,)
+(6465, 11) (6465,)
+linear model initing...
+linear model fitting...
+ACC Score (Train): 0.717269
+ACC Score (Test): 0.727456
+[[ 0.04  0.18  0.07  0.23  0.15  0.21  0.14  0.27  0.15  0.1  -0.19]]
+[[4345  221]
+ [1541  358]]
+   feature10  feature11  feature12  ...  feature20  feature21  label
+0          3          0          2  ...          2          2      0
+1          2          1          3  ...          0          2      1
+2          2          3          1  ...          1          1      1
+3          3          3          1  ...          1          3      1
+4          1          1          3  ...          1          3      1
+
+[5 rows x 13 columns]
+(21550, 13)
+(15085, 12) (15085,)
+(6465, 12) (6465,)
+linear model initing...
+linear model fitting...
+ACC Score (Train): 0.716341
+ACC Score (Test): 0.725445
+[[ 0.07  0.05  0.17  0.06  0.22  0.14  0.2   0.14  0.26  0.15  0.09 -0.19]]
+[[4334  232]
+ [1543  356]]
+   feature9  feature10  feature11  ...  feature20  feature21  label
+0         0          3          0  ...          2          2      0
+1         0          2          1  ...          0          2      1
+2         1          2          3  ...          1          1      1
+3         0          3          3  ...          1          3      1
+4         2          1          1  ...          1          3      1
+
+[5 rows x 14 columns]
+(21550, 14)
+(15085, 13) (15085,)
+(6465, 13) (6465,)
+linear model initing...
+linear model fitting...
+ACC Score (Train): 0.717136
+ACC Score (Test): 0.726682
+[[ 0.07  0.07  0.04  0.17  0.05  0.21  0.14  0.2   0.13  0.26  0.15  0.09
+  -0.2 ]]
+[[4333  233]
+ [1534  365]]
+   feature8  feature9  feature10  ...  feature20  feature21  label
+0         1         0          3  ...          2          2      0
+1         3         0          2  ...          0          2      1
+2         1         1          2  ...          1          1      1
+3         0         0          3  ...          1          3      1
+4         2         2          1  ...          1          3      1
+
+[5 rows x 15 columns]
+(21550, 15)
+(15085, 14) (15085,)
+(6465, 14) (6465,)
+linear model initing...
+linear model fitting...
+ACC Score (Train): 0.719854
+ACC Score (Test): 0.727765
+[[ 0.11  0.08  0.07  0.04  0.16  0.05  0.2   0.13  0.19  0.13  0.26  0.14
+   0.09 -0.2 ]]
+[[4333  233]
+ [1527  372]]
+   feature7  feature8  feature9  ...  feature20  feature21  label
+0         0         1         0  ...          2          2      0
+1         1         3         0  ...          0          2      1
+2         3         1         1  ...          1          1      1
+3         0         0         0  ...          1          3      1
+4         2         2         2  ...          1          3      1
+
+[5 rows x 16 columns]
+(21550, 16)
+(15085, 15) (15085,)
+(6465, 15) (6465,)
+linear model initing...
+linear model fitting...
+ACC Score (Train): 0.720053
+ACC Score (Test): 0.727765
+[[ 0.01  0.11  0.08  0.07  0.04  0.16  0.05  0.2   0.13  0.19  0.13  0.26
+   0.14  0.09 -0.2 ]]
+[[4334  232]
+ [1528  371]]
+   feature6  feature7  feature8  ...  feature20  feature21  label
+0         2         0         1  ...          2          2      0
+1         3         1         3  ...          0          2      1
+2         3         3         1  ...          1          1      1
+3         1         0         0  ...          1          3      1
+4         2         2         2  ...          1          3      1
+
+[5 rows x 17 columns]
+(21550, 17)
+(15085, 16) (15085,)
+(6465, 16) (6465,)
+linear model initing...
+linear model fitting...
+ACC Score (Train): 0.720451
+ACC Score (Test): 0.728848
+[[ 0.02  0.01  0.11  0.08  0.07  0.04  0.16  0.05  0.2   0.13  0.19  0.13
+   0.25  0.14  0.08 -0.2 ]]
+[[4332  234]
+ [1519  380]]
+   feature5  feature6  feature7  ...  feature20  feature21  label
+0         2         2         0  ...          2          2      0
+1         1         3         1  ...          0          2      1
+2         3         3         3  ...          1          1      1
+3         3         1         0  ...          1          3      1
+4         3         2         2  ...          1          3      1
+
+[5 rows x 18 columns]
+(21550, 18)
+(15085, 17) (15085,)
+(6465, 17) (6465,)
+linear model initing...
+linear model fitting...
+ACC Score (Train): 0.720384
+ACC Score (Test): 0.728848
+[[-0.01  0.02  0.02  0.11  0.08  0.07  0.04  0.16  0.05  0.2   0.13  0.19
+   0.13  0.25  0.14  0.08 -0.2 ]]
+[[4334  232]
+ [1521  378]]
+   feature4  feature5  feature6  ...  feature20  feature21  label
+0         0         2         2  ...          2          2      0
+1         0         1         3  ...          0          2      1
+2         3         3         3  ...          1          1      1
+3         0         3         1  ...          1          3      1
+4         0         3         2  ...          1          3      1
+
+[5 rows x 19 columns]
+(21550, 19)
+(15085, 18) (15085,)
+(6465, 18) (6465,)
+linear model initing...
+linear model fitting...
+ACC Score (Train): 0.718992
+ACC Score (Test): 0.728693
+[[ 0.06 -0.01  0.02  0.01  0.11  0.07  0.06  0.03  0.15  0.04  0.2   0.13
+   0.19  0.13  0.25  0.14  0.08 -0.2 ]]
+[[4329  237]
+ [1517  382]]
+   feature3  feature4  feature5  ...  feature20  feature21  label
+0         2         0         2  ...          2          2      0
+1         0         0         1  ...          0          2      1
+2         1         3         3  ...          1          1      1
+3         1         0         3  ...          1          3      1
+4         1         0         3  ...          1          3      1
+
+[5 rows x 20 columns]
+(21550, 20)
+(15085, 19) (15085,)
+(6465, 19) (6465,)
+linear model initing...
+linear model fitting...
+ACC Score (Train): 0.718727
+ACC Score (Test): 0.728384
+[[-0.01  0.06 -0.01  0.02  0.01  0.11  0.07  0.06  0.03  0.15  0.04  0.2
+   0.13  0.19  0.13  0.25  0.14  0.08 -0.2 ]]
+[[4328  238]
+ [1518  381]]
+   feature2  feature3  feature4  ...  feature20  feature21  label
+0         2         2         0  ...          2          2      0
+1         3         0         0  ...          0          2      1
+2         3         1         3  ...          1          1      1
+3         3         1         0  ...          1          3      1
+4         3         1         0  ...          1          3      1
+
+[5 rows x 21 columns]
+(21550, 21)
+(15085, 20) (15085,)
+(6465, 20) (6465,)
+linear model initing...
+linear model fitting...
+ACC Score (Train): 0.718992
+ACC Score (Test): 0.728538
+[[ 0.06 -0.    0.06 -0.01  0.01  0.01  0.1   0.07  0.06  0.03  0.15  0.04
+   0.19  0.13  0.19  0.13  0.25  0.14  0.08 -0.2 ]]
+[[4329  237]
+ [1518  381]]
+   feature1  feature2  feature3  ...  feature20  feature21  label
+0         2         2         2  ...          2          2      0
+1         0         3         0  ...          0          2      1
+2         1         3         1  ...          1          1      1
+3         1         3         1  ...          1          3      1
+4         1         3         1  ...          1          3      1
+
+[5 rows x 22 columns]
+(21550, 22)
+(15085, 21) (15085,)
+(6465, 21) (6465,)
+linear model initing...
+linear model fitting...
+ACC Score (Train): 0.719854
+ACC Score (Test): 0.729312
+[[ 0.03  0.06 -0.    0.06 -0.01  0.01  0.01  0.1   0.07  0.06  0.03  0.15
+   0.04  0.19  0.13  0.19  0.13  0.25  0.14  0.08 -0.2 ]]
+[[4336  230]
+ [1520  379]]
+Wine
+   feature1  feature2  feature3  ...  feature20  feature21  label
+0         2         1         1  ...          0          2      3
+1         0         0         0  ...          0          0      0
+2         0         0         0  ...          0          0      0
+3         0         0         0  ...          0          0      0
+4         3         2         1  ...          0          1      0
+
+[5 rows x 22 columns]
+(220953, 22)
+   feature16  feature17  feature18  feature19  feature20  feature21  label
+0          0          3          1          2          0          2      1
+1          0          0          0          0          0          0      0
+2          0          1          0          0          0          0      0
+3          0          0          0          0          0          0      0
+4          0          0          0          3          0          1      0
+(220953, 7)
+(154667, 6) (154667,)
+(66286, 6) (66286,)
+linear model initing...
+linear model fitting...
+ACC Score (Train): 0.698837
+ACC Score (Test): 0.697855
+[[ 0.21  0.21  0.26  0.23  0.22 -0.04]]
+[[41363  2820]
+ [17208  4895]]
+   feature15  feature16  feature17  ...  feature20  feature21  label
+0          1          0          3  ...          0          2      1
+1          1          0          0  ...          0          0      0
+2          0          0          1  ...          0          0      0
+3          0          0          0  ...          0          0      0
+4          0          0          0  ...          0          1      0
+
+[5 rows x 8 columns]
+(220953, 8)
+(154667, 7) (154667,)
+(66286, 7) (66286,)
+linear model initing...
+linear model fitting...
+ACC Score (Train): 0.700654
+ACC Score (Test): 0.700374
+[[ 0.13  0.21  0.19  0.24  0.22  0.21 -0.05]]
+[[41119  3064]
+ [16797  5306]]
+   feature14  feature15  feature16  ...  feature20  feature21  label
+0          0          1          0  ...          0          2      1
+1          2          1          0  ...          0          0      0
+2          0          0          0  ...          0          0      0
+3          0          0          0  ...          0          0      0
+4          0          0          0  ...          0          1      0
+
+[5 rows x 9 columns]
+(220953, 9)
+(154667, 8) (154667,)
+(66286, 8) (66286,)
+linear model initing...
+linear model fitting...
+ACC Score (Train): 0.701611
+ACC Score (Test): 0.702079
+[[ 0.15  0.14  0.2   0.18  0.23  0.21  0.2  -0.06]]
+[[41127  3056]
+ [16692  5411]]
+   feature13  feature14  feature15  ...  feature20  feature21  label
+0          0          0          1  ...          0          2      1
+1          0          2          1  ...          0          0      0
+2          0          0          0  ...          0          0      0
+3          0          0          0  ...          0          0      0
+4          0          0          0  ...          0          1      0
+
+[5 rows x 10 columns]
+(220953, 10)
+(154667, 9) (154667,)
+(66286, 9) (66286,)
+linear model initing...
+linear model fitting...
+ACC Score (Train): 0.703324
+ACC Score (Test): 0.702773
+[[ 0.1   0.16  0.14  0.2   0.17  0.22  0.2   0.19 -0.07]]
+[[41033  3150]
+ [16552  5551]]
+   feature12  feature13  feature14  ...  feature20  feature21  label
+0          3          0          0  ...          0          2      1
+1          0          0          2  ...          0          0      0
+2          0          0          0  ...          0          0      0
+3          0          0          0  ...          0          0      0
+4          2          0          0  ...          0          1      0
+
+[5 rows x 11 columns]
+(220953, 11)
+(154667, 10) (154667,)
+(66286, 10) (66286,)
+linear model initing...
+linear model fitting...
+ACC Score (Train): 0.704468
+ACC Score (Test): 0.703980
+[[ 0.1   0.11  0.15  0.13  0.19  0.17  0.21  0.2   0.19 -0.07]]
+[[40986  3197]
+ [16425  5678]]
+   feature11  feature12  feature13  ...  feature20  feature21  label
+0          3          3          0  ...          0          2      1
+1          0          0          0  ...          0          0      0
+2          3          0          0  ...          0          0      0
+3          0          0          0  ...          0          0      0
+4          0          2          0  ...          0          1      0
+
+[5 rows x 12 columns]
+(220953, 12)
+(154667, 11) (154667,)
+(66286, 11) (66286,)
+linear model initing...
+linear model fitting...
+ACC Score (Train): 0.704371
+ACC Score (Test): 0.703889
+[[ 0.06  0.11  0.1   0.15  0.13  0.18  0.16  0.21  0.19  0.18 -0.08]]
+[[40993  3190]
+ [16438  5665]]
+   feature10  feature11  feature12  ...  feature20  feature21  label
+0          0          3          3  ...          0          2      1
+1          0          0          0  ...          0          0      0
+2          0          3          0  ...          0          0      0
+3          0          0          0  ...          0          0      0
+4          0          0          2  ...          0          1      0
+
+[5 rows x 13 columns]
+(220953, 13)
+(154667, 12) (154667,)
+(66286, 12) (66286,)
+linear model initing...
+linear model fitting...
+ACC Score (Train): 0.704927
+ACC Score (Test): 0.704945
+[[ 0.07  0.07  0.1   0.1   0.14  0.12  0.18  0.16  0.2   0.19  0.18 -0.08]]
+[[40985  3198]
+ [16360  5743]]
+   feature9  feature10  feature11  ...  feature20  feature21  label
+0         1          0          3  ...          0          2      1
+1         0          0          0  ...          0          0      0
+2         0          0          3  ...          0          0      0
+3         0          0          0  ...          0          0      0
+4         0          0          0  ...          0          1      0
+
+[5 rows x 14 columns]
+(220953, 14)
+(154667, 13) (154667,)
+(66286, 13) (66286,)
+linear model initing...
+linear model fitting...
+ACC Score (Train): 0.705186
+ACC Score (Test): 0.705187
+[[ 0.03  0.08  0.06  0.1   0.09  0.14  0.12  0.18  0.16  0.2   0.19  0.18
+  -0.08]]
+[[41008  3175]
+ [16367  5736]]
+   feature8  feature9  feature10  ...  feature20  feature21  label
+0         2         1          0  ...          0          2      1
+1         0         0          0  ...          0          0      0
+2         0         0          0  ...          0          0      0
+3         0         0          0  ...          0          0      0
+4         0         0          0  ...          0          1      0
+
+[5 rows x 15 columns]
+(220953, 15)
+(154667, 14) (154667,)
+(66286, 14) (66286,)
+linear model initing...
+linear model fitting...
+ACC Score (Train): 0.705994
+ACC Score (Test): 0.705684
+[[ 0.07  0.04  0.07  0.06  0.09  0.09  0.13  0.12  0.17  0.15  0.2   0.18
+   0.17 -0.08]]
+[[41009  3174]
+ [16335  5768]]
+   feature7  feature8  feature9  ...  feature20  feature21  label
+0         0         2         1  ...          0          2      1
+1         0         0         0  ...          0          0      0
+2         0         0         0  ...          0          0      0
+3         0         0         0  ...          0          0      0
+4         0         0         0  ...          0          1      0
+
+[5 rows x 16 columns]
+(220953, 16)
+(154667, 15) (154667,)
+(66286, 15) (66286,)
+linear model initing...
+linear model fitting...
+ACC Score (Train): 0.705833
+ACC Score (Test): 0.706137
+[[ 0.04  0.07  0.03  0.07  0.06  0.09  0.09  0.13  0.12  0.17  0.15  0.2
+   0.18  0.17 -0.09]]
+[[40996  3187]
+ [16292  5811]]
+   feature6  feature7  feature8  ...  feature20  feature21  label
+0         0         0         2  ...          0          2      1
+1         0         0         0  ...          0          0      0
+2         0         0         0  ...          0          0      0
+3         0         0         0  ...          0          0      0
+4         0         0         0  ...          0          1      0
+
+[5 rows x 17 columns]
+(220953, 17)
+(154667, 16) (154667,)
+(66286, 16) (66286,)
+linear model initing...
+linear model fitting...
+ACC Score (Train): 0.706518
+ACC Score (Test): 0.705609
+[[ 0.06  0.04  0.07  0.03  0.06  0.05  0.09  0.09  0.13  0.11  0.17  0.15
+   0.2   0.18  0.17 -0.09]]
+[[40947  3236]
+ [16278  5825]]
+   feature5  feature6  feature7  ...  feature20  feature21  label
+0         0         0         0  ...          0          2      1
+1         0         0         0  ...          0          0      0
+2         0         0         0  ...          0          0      0
+3         0         0         0  ...          0          0      0
+4         0         0         0  ...          0          1      0
+
+[5 rows x 18 columns]
+(220953, 18)
+(154667, 17) (154667,)
+(66286, 17) (66286,)
+linear model initing...
+linear model fitting...
+ACC Score (Train): 0.706595
+ACC Score (Test): 0.705971
+[[ 0.02  0.06  0.04  0.06  0.03  0.06  0.05  0.09  0.08  0.13  0.11  0.17
+   0.15  0.2   0.18  0.17 -0.09]]
+[[40957  3226]
+ [16264  5839]]
+   feature4  feature5  feature6  ...  feature20  feature21  label
+0         1         0         0  ...          0          2      1
+1         2         0         0  ...          0          0      0
+2         0         0         0  ...          0          0      0
+3         0         0         0  ...          0          0      0
+4         0         0         0  ...          0          1      0
+
+[5 rows x 19 columns]
+(220953, 19)
+(154667, 18) (154667,)
+(66286, 18) (66286,)
+linear model initing...
+linear model fitting...
+ACC Score (Train): 0.706667
+ACC Score (Test): 0.705549
+[[ 0.06  0.02  0.06  0.03  0.06  0.02  0.06  0.05  0.08  0.08  0.13  0.11
+   0.17  0.15  0.19  0.18  0.17 -0.09]]
+[[40922  3261]
+ [16257  5846]]
+   feature3  feature4  feature5  ...  feature20  feature21  label
+0         1         1         0  ...          0          2      1
+1         0         2         0  ...          0          0      0
+2         0         0         0  ...          0          0      0
+3         0         0         0  ...          0          0      0
+4         1         0         0  ...          0          1      0
+
+[5 rows x 20 columns]
+(220953, 20)
+(154667, 19) (154667,)
+(66286, 19) (66286,)
+linear model initing...
+linear model fitting...
+ACC Score (Train): 0.706835
+ACC Score (Test): 0.705850
+[[ 0.01  0.06  0.02  0.06  0.03  0.06  0.02  0.06  0.05  0.08  0.08  0.13
+   0.11  0.17  0.15  0.19  0.18  0.17 -0.09]]
+[[40933  3250]
+ [16248  5855]]
+   feature2  feature3  feature4  ...  feature20  feature21  label
+0         1         1         1  ...          0          2      1
+1         0         0         2  ...          0          0      0
+2         0         0         0  ...          0          0      0
+3         0         0         0  ...          0          0      0
+4         2         1         0  ...          0          1      0
+
+[5 rows x 21 columns]
+(220953, 21)
+(154667, 20) (154667,)
+(66286, 20) (66286,)
+linear model initing...
+linear model fitting...
+ACC Score (Train): 0.707009
+ACC Score (Test): 0.706137
+[[ 0.03  0.01  0.06  0.02  0.06  0.03  0.06  0.02  0.06  0.05  0.08  0.08
+   0.13  0.11  0.16  0.15  0.19  0.18  0.17 -0.09]]
+[[40939  3244]
+ [16235  5868]]
+   feature1  feature2  feature3  ...  feature20  feature21  label
+0         2         1         1  ...          0          2      1
+1         0         0         0  ...          0          0      0
+2         0         0         0  ...          0          0      0
+3         0         0         0  ...          0          0      0
+4         3         2         1  ...          0          1      0
+
+[5 rows x 22 columns]
+(220953, 22)
+(154667, 21) (154667,)
+(66286, 21) (66286,)
+linear model initing...
+linear model fitting...
+ACC Score (Train): 0.706809
+ACC Score (Test): 0.706031
+[[ 0.04  0.04  0.01  0.05  0.02  0.06  0.03  0.06  0.02  0.05  0.04  0.08
+   0.08  0.12  0.11  0.16  0.15  0.19  0.17  0.17 -0.09]]
+[[40937  3246]
+ [16240  5863]]
