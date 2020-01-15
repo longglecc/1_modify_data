@@ -1,5 +1,6 @@
 from sys import stdout
 from sys import stdin
+import os
 
 class Moddel_log(object):
 
@@ -7,6 +8,8 @@ class Moddel_log(object):
         self.terminal = stream
         self.filename = filename
         # self.log = open(self.filename, 'a')
+        # self.mkdir()
+
     def write(self, message):
         self.terminal.write(message)
         self.log = open(self.filename, 'a')
@@ -20,4 +23,12 @@ class Moddel_log(object):
         #TODO(gaolongc):xxxxxx
         pass
 
+    def mkdir(self):
 
+        if not os.path.exists(self.filename):
+            os.makedirs(self.filename)
+            print("---  new log file has created...  ---")
+            print("---  OK  ---")
+
+        else:
+            print("---  log file has been.  ---")
