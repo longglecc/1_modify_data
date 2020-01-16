@@ -2,7 +2,7 @@
 import pandas as pd
 import numpy as np
 
-__all__ = ['read_data_csv', 'init_df_feature_muti','init_df_cluster','init_df_on_premise','init_df_type_code']
+__all__ = ['read_data_csv', 'init_df_feature_muti','init_df_type_code','get_label_count']
 
 def read_data_csv(file_path):
 
@@ -114,6 +114,16 @@ def init_df_type_code(df):
 
     return type_code_dict,type_code_index
 
+def get_label_count(df):
+
+    if df.empty:
+        print("Warinning: dataset is empty!")
+        return 0
+    label = df.columns[-1]
+    print(label)
+
+    label_count = df[df.columns[0]].groupby(df[label]).count()
+    print(label_count)
 
 def init_df_feature_muti(n,df):
     """
