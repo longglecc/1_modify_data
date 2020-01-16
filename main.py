@@ -12,6 +12,93 @@ import numpy as np
 import pandas as dp
 
 
+def make_lag_no_balance_inc(df_lag_no):
+    lag_no_len = df_lag_no.shape[0]
+
+    label_columns = df_lag_no.columns.to_list()
+    if label_columns[-1] != "label":
+        df_lag_no.drop(label_columns[-1], axis=1, inplace=True)
+    if label_columns[0] == "Unnamed: 0":
+        df_lag_no.drop(label_columns[0], axis=1, inplace=True)
+
+    label_columns = df_lag_no.columns.to_list()
+    # if label_columns[0] != "feature1":
+    #     df_lag_no = df_lag_no.iloc[:, -22:]
+
+    print(df_lag_no.head(5))
+    print(df_lag_no.shape)
+
+    # df_del_zero =  df_lag_no.loc[(df_lag_no==0).all(axis=1),:]  #删除
+    # print(df_del_zero.head(5))
+    # print(df_del_zero.shape)
+
+    # 去掉重复的有7万条数据，并且训练数据的得分并不高0.67
+    df_del_same = df_lag_no.drop_duplicates(subset=label_columns[-22:-1], keep='first', inplace=False)
+    print(label_columns[-22:-1])
+    print(df_del_same.head(5))
+    print(df_del_same.shape)
+
+    df_del_zero = df_del_same.loc[~(df_del_same[label_columns[-22:-1]] == 0).all(axis=1), :]
+    # df_del_zero = df_del_same.loc[df_del_same[label_columns[-22:-1]]]
+    print(df_del_zero.head(5))
+    print(df_del_zero.shape)
+
+    # make_model(df_del_same)
+    # 扩展纬度
+    df_data = df_del_zero.iloc[:, -22:]
+    df_data_buff = df_data.copy()
+    print(df_data.head(5))
+    print(df_data.shape)
+
+    df_tex = df_del_zero.iloc[:, :-22]
+    df_tex_buff = df_tex.copy()
+    print(df_tex.head(5))
+    print(df_tex.shape)
+
+    for i in range(1, 10, 1):
+        df_shift = df_data.shift(periods=i, axis=1)
+        df_data_buff = dp.concat([df_data_buff, df_shift])
+        df_tex_buff = dp.concat([df_tex_buff, df_tex])
+
+    df_data_buff.dropna(axis=1, how='any', inplace=True)
+    print(df_data_buff.head(5))
+    print(df_data_buff.shape)
+    df_data_buff = df_data_buff.astype("int64")
+    print(df_data_buff.head(5))
+    print(df_data_buff.shape)
+    print(df_tex_buff.shape)
+
+    data_balance = dp.concat([df_tex_buff, df_data_buff], axis=1)
+    print(data_balance.head(5))
+    print(data_balance.shape)
+    label_columns = data_balance.columns.to_list()
+    print(label_columns[-13:])
+
+    data_balance_same = data_balance.drop_duplicates(subset=label_columns[-13:-1], keep='first', inplace=False)
+    print(data_balance_same.shape)
+
+    data_balance_zero = data_balance_same.loc[~(data_balance_same[label_columns[-13:-1]] == 0).all(axis=1), :]
+    print(data_balance_zero.shape)
+
+    # data_balance_zero.to_csv("./inter_data/data_balance_del_zero.csv")
+    label_count = get_label_count(data_balance_zero.copy())
+    print(label_count)
+
+    df_inited = init_df_feature_muti(13, data_balance_zero.copy())
+
+    if df_inited.empty:
+        print("Warinning: dataset is empty!")
+    else:
+
+        print(df_inited.head(5))
+        print(df_inited.shape)
+
+        model_linear = Model_linear(df_inited, 0.3)
+        y_test, y_pred = model_linear.exec("LogisticRegression", 'no')
+
+        model_plot = Model_plot()
+        model_plot.plot_show(y_test, y_pred)
+
 
 def make_lag_no_balance_dec(df_lag_no,lag_len):
 
@@ -106,109 +193,7 @@ if __name__ == "__main__":
     #df = read_data(file_path)
 
     df_lag_no = read_data_csv(lag_no_file_path)
-    #df_lag = read_data_csv(lag_file_path)
 
-    #lag_len = df_lag.shape[0]
-    lag_no_len =df_lag_no.shape[0]
-
-    label_columns = df_lag_no.columns.to_list()
-    if label_columns[-1] != "label":
-        df_lag_no.drop(label_columns[-1], axis=1, inplace=True)
-    if label_columns[0] == "Unnamed: 0":
-        df_lag_no.drop(label_columns[0], axis=1, inplace=True)
-
-    label_columns = df_lag_no.columns.to_list()
-    # if label_columns[0] != "feature1":
-    #     df_lag_no = df_lag_no.iloc[:, -22:]
-
-    print(df_lag_no.head(5))
-    print(df_lag_no.shape)
-
-    #df_del_zero =  df_lag_no.loc[(df_lag_no==0).all(axis=1),:]  #删除
-    #print(df_del_zero.head(5))
-    #print(df_del_zero.shape)
-
-    #去掉重复的有7万条数据，并且训练数据的得分并不高0.67
-    df_del_same = df_lag_no.drop_duplicates(subset=label_columns[-22:-1], keep='first', inplace=False)
-    print(label_columns[-22:-1])
-    print(df_del_same.head(5))
-    print(df_del_same.shape)
-
-    df_del_zero = df_del_same.loc[~(df_del_same[label_columns[-22:-1]] == 0).all(axis=1), :]
-    #df_del_zero = df_del_same.loc[df_del_same[label_columns[-22:-1]]]
-    print(df_del_zero.head(5))
-    print(df_del_zero.shape)
-
-
-    #make_model(df_del_same)
-    #扩展纬度
-    df_data = df_del_zero.iloc[:, -22:]
-    df_data_buff = df_data.copy()
-    print(df_data.head(5))
-    print(df_data.shape)
-
-    df_tex  =df_del_zero.iloc[:,:-22]
-    df_tex_buff = df_tex.copy()
-    print(df_tex.head(5))
-    print(df_tex.shape)
-
-    for i in range(1,10, 1):
-        df_shift = df_data.shift(periods=i, axis=1)
-        df_data_buff = dp.concat([df_data_buff, df_shift])
-        df_tex_buff = dp.concat([df_tex_buff,df_tex])
-
-    df_data_buff.dropna(axis=1, how='any', inplace=True)
-    print(df_data_buff.head(5))
-    print(df_data_buff.shape)
-    df_data_buff = df_data_buff.astype("int64")
-    print(df_data_buff.head(5))
-    print(df_data_buff.shape)
-    print(df_tex_buff.shape)
-
-    data_balance = dp.concat([df_tex_buff,df_data_buff],axis=1)
-    print(data_balance.head(5))
-    print(data_balance.shape)
-    label_columns = data_balance.columns.to_list()
-    print(label_columns[-13:])
-
-    data_balance_same = data_balance.drop_duplicates(subset=label_columns[-13:-1],keep='first',inplace=False)
-    print(data_balance_same.shape)
-
-    data_balance_zero = data_balance_same.loc[~(data_balance_same[label_columns[-13:-1]] == 0).all(axis=1), :]
-    print(data_balance_zero.shape)
-
-    #data_balance_zero.to_csv("./inter_data/data_balance_del_zero.csv")
-    label_count = get_label_count(data_balance_zero.copy())
-    print(label_count)
-
-    df_inited = init_df_feature_muti(13, data_balance_zero.copy())
-
-    if df_inited.empty:
-        print("Warinning: dataset is empty!")
-    else:
-
-        print(df_inited.head(5))
-        print(df_inited.shape)
-
-        model_linear = Model_linear(df_inited, 0.3)
-        y_test, y_pred = model_linear.exec("LogisticRegression", 'no')
-
-        model_plot = Model_plot()
-        model_plot.plot_show(y_test, y_pred)
-
-    # model_knn = Model_knn(df_inited,0.33)
-    # y_test,y_pred = model_tree.exec("KNeighborsClassifier","no")
-
-    # model_tree = Model_tree(df_inited,0.33)
-    # y_test,y_pred = model_tree.exec("DecisionTreeClassifier","no")
-
-    # model_tree = Model_tree(df_inited, 0.33)
-    # y_test, y_pred = model_tree.exec("RandomForestClassifier", "no")
-
-    # model_svm = Model_svm(df_inited,0.33)
-    # y_test, y_pred = model_svm.exec("sklearn_SVC","no")
-    # print(y_pred)
-    # df_balance.dropna(axis=1, how='any', inplace=True)
 
 
 
