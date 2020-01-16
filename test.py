@@ -14,6 +14,9 @@ df = pd.DataFrame({
     "data5": np.random.randint(0, 3, size=5)
 })
 
+
+df.loc['5'] = 0
+
 print(df)
 df_data = df.iloc[:,-5:].copy()
 df_balance = df_data
@@ -22,7 +25,6 @@ for i in range(1,4,1):
     df1 = df_data.shift(periods=i,axis=1)
     df_balance = pd.concat([df_balance, df1])
 
-print(df_balance)
 
 df_balance.dropna(axis=1,how='any',inplace=True)
 print(df_balance)
