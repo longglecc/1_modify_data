@@ -2,7 +2,7 @@
 import pandas as pd
 import numpy as np
 
-__all__ = ['read_data_csv', 'init_df_feature_muti','init_df_type_code','get_label_count']
+__all__ = ['read_data_csv', 'init_df_feature_muti','init_df_type_code','get_label_count','trans_label_to_b']
 
 def read_data_csv(file_path):
 
@@ -166,7 +166,7 @@ def check_sample_balance(label_count):
     label_max = max(label_count.values)
     label_min = min(label_count.values)
 
-    if int(label_max/label_min)>5:
+    if label_max/label_min > 5.:
         return True
     else:
         return False
@@ -211,6 +211,23 @@ def make_sample_balance(df):
     #print(df_balance.shape)
 
     return df_balance
+
+def trans_label_to_b(df):
+    label_columns = df.columns.to_list()[-1]
+    if label_columns == "label":
+        print(label_columns)
+        df_label = df.loc[:, [label_columns]]
+        print(df_label.head(5))
+        df_label.loc[df_label[df_label.columns.to_list()[0]] > 0] = 1
+        print(df_label.head(5))
+        df[label_columns] = df_label.values
+        print(df.head(5))
+        print(df.shape)
+
+    else:
+        print("last columns is not label!")
+
+    return df
 
 def make_sample_balance_(df):
 
