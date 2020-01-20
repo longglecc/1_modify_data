@@ -6,10 +6,107 @@ from model.gc_linear import Model_linear
 from plot import  Model_plot
 from log import  Moddel_log
 from model.gc_cluster import Model_cluster
-from data_proces.gc_process import read_data_csv,init_df_feature_muti,init_df_type_code,get_label_count
+from data_proces.gc_process import read_data_csv,init_df_feature_muti,init_df_type_code,get_label_count,trans_label_to_b
 import sys
 import numpy as np
 import pandas as dp
+
+
+
+
+def make_on_premise_balance(df_lag_no):
+
+    label_columns = df_lag_no.columns.to_list()
+    if label_columns[-1] != "label":
+        df_lag_no.drop(label_columns[-1], axis=1, inplace=True)
+    if label_columns[0] == "Unnamed: 0":
+        df_lag_no.drop(label_columns[0], axis=1, inplace=True)
+
+    label_columns = df_lag_no.columns.to_list()
+    print(label_columns)
+
+    '''
+    去重复和去零
+    '''
+    df_del_same = df_lag_no.drop_duplicates(subset=label_columns[-22:-1], keep='first', inplace=False)
+    # print(label_columns[-22:-1])
+    print(df_del_same.head(5))
+    print(df_del_same.shape)
+
+    df_del_zero = df_del_same.loc[~(df_del_same[label_columns[-22:-1]] == 0).all(axis=1), :]
+    print(df_del_zero.head(5))
+    print(df_del_zero.shape)
+
+    on_premise_count = df_del_zero[label_columns[-1]].groupby(df_del_zero[label_columns[0]]).count()
+    on_premise_index = on_premise_count.index.to_list()
+
+    for x in on_premise_index:
+        print("---------start---------")
+        print(x)
+        df_premise = df_del_zero.loc[
+            df_del_zero[label_columns[0]] == x]  # df_label.loc[df_label[df_label.columns.to_list()[0]] > 0]
+        print(df_premise.head(5))
+        print(df_premise.shape)
+
+        # 将标签转换为0，1
+        df_trans_label = trans_label_to_b(df_premise.copy())
+
+        '''
+        统计标签数量
+        '''
+        label_ = df_trans_label.columns.to_list()[-1]
+        # print(label_)
+        label_count = df_trans_label.groupby([label_]).count().iloc[:, 0]
+        print(label_count)
+        # label_max = max(label_count.values)
+        # label_min = min(label_count.values)
+        # print(label_max, label_min)
+
+        label_count_0 = label_count[label_count.keys() == 0].values[0]
+        label_count_1 = label_count[label_count.keys() == 1].values[0]
+
+        if label_count_0 / label_count_1 < .8:
+            print("sample is balance")
+            continue
+        '''
+        获取标签数据集
+        '''
+        # df_label_max = df_trans_label[df_trans_label[label_] == label_count.idxmax()]
+        # print(df_label_max.head(5))
+        # df_label_min = df_trans_label[df_trans_label[label_] == label_count.idxmin()]
+        # print(df_label_min.head(5))
+        # df_label_max.reset_index(drop=True, inplace=True)
+
+        df_label_1 = df_trans_label[df_trans_label[label_] == 1]
+        df_label_0 = df_trans_label[df_trans_label[label_] == 0]
+        drop_indices = np.random.choice(df_label_0.index, label_count_0 - int(label_count_1 * .8), replace=False)
+        df_drop = df_label_0.drop(drop_indices)
+        print(df_drop.head(5))
+        print(df_drop.shape)
+        '''
+        获取随机平衡数据集
+        '''
+        df_balance = dp.concat([df_label_1, df_drop])
+        df_balance.reset_index(drop=True, inplace=True)
+
+        # df_balance.to_csv("./inter_data/Nother_on_rand_balance.csv")
+
+        df_balance = df_balance.iloc[:, -22:]
+        get_label_count(df_balance)
+
+        # df_inited = init_df_feature_muti(22, df_premise.copy())
+        # if df_inited.empty:
+        #     print("Warinning: dataset is empty!")
+        # else:
+
+        print(df_balance.head(5))
+        print(df_balance.shape)
+
+        model_linear = Model_linear(df_balance, 0.3)
+        y_test, y_pred = model_linear.exec("LogisticRegression", 'no')
+
+        model_plot = Model_plot()
+        model_plot.plot_show(y_test, y_pred)
 
 
 def make_lag_no_balance_inc(df_lag_no):
@@ -179,10 +276,8 @@ def make_model(df):
 
 
 if __name__ == "__main__":
-
-
-    sys.stdout = Moddel_log("log/run.log", sys.stdout)
-
+    #重定向日志
+    sys.stdout = Moddel_log("./log/run.log", sys.stdout)
     #file_path = "/Users/longgle/Documents/0_work/0_projects/ai/ai_order/2_data/Uintdist_2020-1-3.csv"
     #完整数据的路径
     #file_path = "/Users/longgle/Documents/0_work/0_projects/ai/ai_order/2_data/UnitedDist_AIOrderDuplic.csv"
@@ -194,40 +289,7 @@ if __name__ == "__main__":
 
     df_lag_no = read_data_csv(lag_no_file_path)
 
-    label_columns = df_lag_no.columns.to_list()
-    if label_columns[-1] != "label":
-        df_lag_no.drop(label_columns[-1], axis=1, inplace=True)
-    if label_columns[0] == "Unnamed: 0":
-        df_lag_no.drop(label_columns[0], axis=1, inplace=True)
 
-    label_columns = df_lag_no.columns.to_list()
-    print(label_columns)
-    on_premise_count= df_lag_no[label_columns[-1]].groupby(df_lag_no[label_columns[0]]).count()
-    on_premise_index = on_premise_count.index.to_list()
-
-    for x in on_premise_index:
-        print("---   satrt   ---")
-        print(x)
-        df_premise = df_lag_no.loc[df_lag_no[label_columns[0]] == x] # df_label.loc[df_label[df_label.columns.to_list()[0]] > 0]
-        print(df_premise.head(5))
-        print(df_premise.shape)
-        df_premise = df_premise.iloc[:, -22:]
-        get_label_count(df_premise)
-
-        df_inited = init_df_feature_muti(22, df_premise.copy())
-
-        if df_inited.empty:
-            print("Warinning: dataset is empty!")
-        else:
-
-            print(df_inited.head(5))
-            print(df_inited.shape)
-
-            model_linear = Model_linear(df_inited, 0.3)
-            y_test, y_pred = model_linear.exec("LogisticRegression", 'no')
-
-            model_plot = Model_plot()
-            model_plot.plot_show(y_test, y_pred)
 
 
 
