@@ -194,6 +194,44 @@ if __name__ == "__main__":
 
     df_lag_no = read_data_csv(lag_no_file_path)
 
+    label_columns = df_lag_no.columns.to_list()
+    if label_columns[-1] != "label":
+        df_lag_no.drop(label_columns[-1], axis=1, inplace=True)
+    if label_columns[0] == "Unnamed: 0":
+        df_lag_no.drop(label_columns[0], axis=1, inplace=True)
+
+    label_columns = df_lag_no.columns.to_list()
+    print(label_columns)
+    on_premise_count= df_lag_no[label_columns[-1]].groupby(df_lag_no[label_columns[0]]).count()
+    on_premise_index = on_premise_count.index.to_list()
+
+    for x in on_premise_index:
+        print("---   satrt   ---")
+        print(x)
+        df_premise = df_lag_no.loc[df_lag_no[label_columns[0]] == x] # df_label.loc[df_label[df_label.columns.to_list()[0]] > 0]
+        print(df_premise.head(5))
+        print(df_premise.shape)
+        df_premise = df_premise.iloc[:, -22:]
+        get_label_count(df_premise)
+
+        df_inited = init_df_feature_muti(22, df_premise.copy())
+
+        if df_inited.empty:
+            print("Warinning: dataset is empty!")
+        else:
+
+            print(df_inited.head(5))
+            print(df_inited.shape)
+
+            model_linear = Model_linear(df_inited, 0.3)
+            y_test, y_pred = model_linear.exec("LogisticRegression", 'no')
+
+            model_plot = Model_plot()
+            model_plot.plot_show(y_test, y_pred)
+
+
+
+
 
 
 

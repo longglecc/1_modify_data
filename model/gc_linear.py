@@ -6,8 +6,8 @@ from sklearn import metrics
 
 class Model_linear(Model_lib):
 
-    def __init__(self,dataset,p):
-        super(Model_linear,self).__init__(dataset,p)
+    def __init__(self, dataset, p):
+        super(Model_linear, self).__init__(dataset, p)
 
 
     def select_linear_model(self, case):
@@ -16,10 +16,10 @@ class Model_linear(Model_lib):
         :return:
         """
         fun_name = "linear_" + str(case)
-        method = getattr(self, fun_name,self.linear_other)
+        method = getattr(self, fun_name, self.linear_other)
         return method
 
-    def linear_LogisticRegression(self,param='no'):
+    def linear_LogisticRegression(self, param='no'):
         """
         :param param:
         :return:
@@ -33,7 +33,7 @@ class Model_linear(Model_lib):
         y_pred1 = lr0.predict(self.test_x)
         self._set_test_pred(y_pred1)
         #print(lr0.score(self.test_x, self.test_y))
-        print("ACC Score (Train): %f" % lr0.score(self.train_x,self.train_y))
+        print("ACC Score (Train): %f" % lr0.score(self.train_x, self.train_y))
         print("ACC Score (Test): %f" % metrics.accuracy_score(self.test_y, y_pred1))
         print(lr0.coef_)
 
@@ -42,15 +42,15 @@ class Model_linear(Model_lib):
             # TODO(gaolongcc):
 
 
-    def linear_xgboost(self,param='no'):
+    def linear_xgboost(self, param='no'):
         print(param)
         # TODO(gaolongcc):
 
-    def linear_other(self,param='no'):
+    def linear_other(self, param='no'):
         print(param)
         # TODO(gaolongcc):
 
-    def exec(self,fun_name="default_fun",param="no"):
+    def exec(self,fun_name="default_fun", param="no"):
 
         self._train_test_split()
         self.select_linear_model(fun_name)(param)

@@ -8,7 +8,7 @@ import numpy as np
 
 class Model_cluster(object):
 
-    def __init__(self,data):
+    def __init__(self, data):
         self.data = data
 
     def select_cluster_model(self, case):
@@ -17,16 +17,16 @@ class Model_cluster(object):
         :return:
         """
         fun_name = "cluster_" + str(case)
-        method = getattr(self, fun_name,self.cluster_other)
+        method = getattr(self, fun_name, self.cluster_other)
         return method
 
-    def cluster_Kmeans(self,n=2,param='no'):
+    def cluster_Kmeans(self, n=2, param='no'):
         """
         :param param:
         :return:
         """
-        km0 = KMeans(n_clusters=n,init='k-means++',n_init=10,max_iter=300,tol=0.0001,precompute_distances='auto',
-                               verbose=0,random_state=None,copy_x=True,n_jobs=1,algorithm='auto'
+        km0 = KMeans(n_clusters=n, init='k-means++', n_init=10, max_iter=300, tol=0.0001, precompute_distances='auto',
+                               verbose=0, random_state=None, copy_x=True, n_jobs=1, algorithm='auto'
                                )
 
         km0.fit(self.data)
@@ -62,7 +62,7 @@ class Model_cluster(object):
         # return Scores
 
 
-    def cluster_MiniBatchKMeans(self,n=2,param='no'):
+    def cluster_MiniBatchKMeans(self, n=2, param='no'):
 
         km0 = MiniBatchKMeans(init='k-means++', n_clusters=n, batch_size=43,
                       n_init=10, max_no_improvement=10, verbose=0)
@@ -77,7 +77,7 @@ class Model_cluster(object):
         print(km0.inertia_)
 
 
-    def cluster_other(self,param='no'):
+    def cluster_other(self, param='no'):
         print(param)
 
 

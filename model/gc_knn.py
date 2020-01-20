@@ -6,8 +6,8 @@ from model.model_lib import Model_lib
 
 
 class Model_knn(Model_lib):
-    def __init__(self,dataset,p):
-        super(Model_knn,self).__init__(dataset,p)
+    def __init__(self, dataset, p):
+        super(Model_knn, self).__init__(dataset, p)
 
     def select_knn_model(self, case):
         """
@@ -15,7 +15,7 @@ class Model_knn(Model_lib):
         :return:
         """
         fun_name = "knn_" + str(case)
-        method = getattr(self, fun_name,self.knn_other)
+        method = getattr(self, fun_name, self.knn_other)
         return method
 
     def knn_KNeighborsClassifier(self, param='no'):
@@ -65,13 +65,13 @@ class Model_knn(Model_lib):
             print("ACC Score (Test): %f" % metrics.accuracy_score(self.test_y, y_pred1))
 
 
-    def knn_XGB(self,param='no'):
+    def knn_XGB(self, param='no'):
         print(param)
 
-    def knn_other(self,param='no'):
+    def knn_other(self, param='no'):
         print(param)
 
-    def exec(self,fun_name="default_fun",param="no"):
+    def exec(self,fun_name="default_fun", param="no"):
         self._train_test_split()
         self.select_knn_model(fun_name)(param)
         return self._get_test_pred()

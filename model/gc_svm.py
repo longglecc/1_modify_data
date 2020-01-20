@@ -6,8 +6,8 @@ from model.model_lib import Model_lib
 
 class Model_svm(Model_lib):
 
-    def __init__(self,dataset,p):
-        super(Model_svm,self).__init__(dataset,p)
+    def __init__(self, dataset, p):
+        super(Model_svm,self).__init__(dataset, p)
 
     def select_svm_model(self, case):
         """
@@ -16,10 +16,10 @@ class Model_svm(Model_lib):
         """
         fun_name = "svm_" + str(case)
         print(fun_name)
-        method = getattr(self, fun_name,self.svm_other)
+        method = getattr(self, fun_name, self.svm_other)
         return method
 
-    def svm_sklearn_SVC(self,param='no'):
+    def svm_sklearn_SVC(self, param='no'):
         """
         :param param:
         :return:
@@ -87,13 +87,13 @@ class Model_svm(Model_lib):
 
 
 
-    def svm_xgboost_SVC(self,param='no'):
+    def svm_xgboost_SVC(self, param='no'):
         print(param)
 
-    def svm_other(self,param='no'):
+    def svm_other(self, param='no'):
         print(param)
 
-    def exec(self,fun_name="default_fun",param="no"):
+    def exec(self, fun_name="default_fun", param="no"):
 
         self._train_test_split()
         self.select_svm_model(fun_name)(param)

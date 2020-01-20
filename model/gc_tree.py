@@ -7,7 +7,7 @@ from model.model_lib import Model_lib
 
 
 class Model_tree(Model_lib):
-    def __init__(self,dataset,p):
+    def __init__(self, dataset, p):
         super(Model_tree,self).__init__(dataset,p)
 
     def select_tree_model(self, case):
@@ -24,7 +24,7 @@ class Model_tree(Model_lib):
         :param param:
         :return:
         """
-        clf0 = DecisionTreeClassifier(max_depth=8,random_state=0)
+        clf0 = DecisionTreeClassifier(max_depth=8, random_state=0)
         clf0.fit(self.train_x, self.train_y)
         y_pred0 = clf0.predict(self.test_x)
         self._set_test_pred(y_pred0)
@@ -166,13 +166,13 @@ class Model_tree(Model_lib):
             print("ACC Score (Test): %f" % metrics.accuracy_score(self.test_y, y_pred1))
 
 
-    def tree_XGB(self,param='no'):
+    def tree_XGB(self, param='no'):
         print(param)
 
-    def tree_other(self,param='no'):
+    def tree_other(self, param='no'):
         print(param)
 
-    def exec(self,fun_name="default_fun",param="no"):
+    def exec(self, fun_name="default_fun", param="no"):
 
         self._train_test_split()
         self.select_tree_model(fun_name)(param)

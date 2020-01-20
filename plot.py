@@ -23,7 +23,7 @@ class Model_plot(object):
     label和预测label分别保存到y_true和y_pred这两个变量中即可。
     '''
 
-    def plot_confusion_matrix(self,cm, title='Confusion Matrix', cmap=plt.get_cmap('gray_r')):#Blues #gray_r
+    def plot_confusion_matrix(self, cm, title='Confusion Matrix', cmap=plt.get_cmap('gray_r')):#Blues #gray_r
         plt.imshow(cm, interpolation='nearest', cmap=cmap)
         plt.title(title)
         plt.colorbar()
@@ -51,7 +51,7 @@ class Model_plot(object):
         for x_val, y_val in zip(x.flatten(), y.flatten()):
             c=cm[y_val][x_val]
             c_float = cm_normalized[y_val][x_val]
-            plt.text(x_val, y_val, "sum: %d, acc: %0.02f" % (c,c_float), color='red', fontsize=10, va='center', ha='center')
+            plt.text(x_val, y_val, "sum: %d, acc: %0.02f" % (c, c_float), color='red', fontsize=10, va='center', ha='center')
 
         # offset the tick
         plt.gca().set_xticks(tick_marks, minor=True)
@@ -86,7 +86,7 @@ class Model_plot(object):
 
     '''
 
-    def plot_cluster(self,sse,n=2):
+    def plot_cluster(self, sse, n=2):
         X = range(1, n)
         # plt.xlabel('k')
         # plt.ylabel('SSE')

@@ -5,7 +5,7 @@ import numpy as np
 
 class Model_lib(object):
 
-    def __init__(self,dataset,p):
+    def __init__(self, dataset, p):
         self.data = dataset
         self.p = p
         self.train_x = []
@@ -49,13 +49,11 @@ class Model_lib(object):
         # print(self.train_x.shape, self.train_y.shape)
         # print(self.test_x.shape, self.test_y.shape)
 
-    def _set_test_pred(self,y_pred):
-            self.pred = y_pred
+    def _set_test_pred(self, y_pred):
+        self.pred = y_pred
 
     def _get_test_pred(self):
         return self.test_y,self.pred
 
-    def exec(self,fun_name="default_fun",param="no"):
+    def exec(self, fun_name="default_fun", param="no"):
         print(fun_name+'('+param+')')
-
-
