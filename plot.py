@@ -3,6 +3,7 @@
 from sklearn.metrics import confusion_matrix
 import matplotlib.pyplot as plt
 import numpy as np
+import itertools
 
 
 class Model_plot(object):
@@ -22,7 +23,7 @@ class Model_plot(object):
     label和预测label分别保存到y_true和y_pred这两个变量中即可。
     '''
 
-    def plot_confusion_matrix(self,cm, title='Confusion Matrix', cmap=plt.get_cmap('gray_r')):
+    def plot_confusion_matrix(self,cm, title='Confusion Matrix', cmap=plt.get_cmap('gray_r')):#Blues #gray_r
         plt.imshow(cm, interpolation='nearest', cmap=cmap)
         plt.title(title)
         plt.colorbar()
@@ -36,16 +37,22 @@ class Model_plot(object):
         tick_marks = np.array(range(len(self.labels))) + 0.5
         cm = confusion_matrix(y_true, y_pred)
         np.set_printoptions(precision=2)
-        #cm_normalized = cm.astype('int') #/ cm.sum(axis=1)[:, np.newaxis]
+        cm_normalized = cm.copy().astype('float') / cm.sum(axis=1)[:, np.newaxis]
+        thresh = cm.max() / 2.
+        # cm = np.flipud(cm)
+        # cm_normalized = np.flipud(cm_normalized)
         print(cm)
+        print(cm_normalized)
         plt.figure(figsize=(12, 8), dpi=120)
 
         ind_array = np.arange(len(self.labels))
         x, y = np.meshgrid(ind_array, ind_array)
 
         for x_val, y_val in zip(x.flatten(), y.flatten()):
-            c=cm[x_val][y_val]
-            plt.text(x_val, y_val, "%d" % (c,), color='red', fontsize=10, va='center', ha='center')
+            c=cm[y_val][x_val]
+            c_float = cm_normalized[y_val][x_val]
+            plt.text(x_val, y_val, "sum: %d, acc: %0.02f" % (c,c_float), color='red', fontsize=10, va='center', ha='center')
+
         # offset the tick
         plt.gca().set_xticks(tick_marks, minor=True)
         plt.gca().set_yticks(tick_marks, minor=True)
@@ -92,5 +99,35 @@ class Model_plot(object):
         plt.savefig('./fig/test_s_kmeans.jpg', format='png')
         plt.show()
 
-
+    # def plot_confusion_matrix_1(cm, classes, normalize=False, title='Confusion matrix', cmap=plt.get_cmap('Blues')):
+    #     """
+    #     This function prints and plots the confusion matrix.
+    #     Normalization can be applied by setting `normalize=True`.
+    #     Input
+    #     - cm : 计算出的混淆矩阵的值
+    #     - classes : 混淆矩阵中每一行每一列对应的列
+    #     - normalize : True:显示百分比, False:显示个数
+    #     """
+    #     if normalize:
+    #         cm_normalized = cm.copy().astype('float') / cm.sum(axis=1)[:, np.newaxis]
+    #         print("Normalized confusion matrix")
+    #     else:
+    #         print('Confusion matrix, without normalization')
+    #
+    #     print(cm)
+    #     plt.imshow(cm, interpolation='nearest', cmap=cmap)
+    #     plt.title(title)
+    #     plt.colorbar()
+    #     tick_marks = np.arange(len(classes))
+    #     plt.xticks(tick_marks, classes)#rotation=45
+    #     plt.yticks(tick_marks, classes)
+    #     fmt = '.2f' if normalize else 'd'
+    #     thresh = cm.max() / 2.
+    #     for i, j in itertools.product(range(cm.shape[0]), range(cm.shape[1])):
+    #         plt.text(j, i, format(cm[i, j], fmt),
+    #                  horizontalalignment="center",
+    #                  color="white" if cm[i, j] > thresh else "black")
+    #     plt.tight_layout()
+    #     plt.ylabel('True label')
+    #     plt.xlabel('Predicted label')
 
