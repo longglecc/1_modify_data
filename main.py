@@ -373,7 +373,7 @@ if __name__ == "__main__":
     lag_file_path = "./inter_data/Other_data.csv"
     #df = read_data(file_path)
 
-    df_lag_no = read_data_csv(lag_file_path)
+    df_lag_no = read_data_csv(lag_no_file_path)
 
     label_columns = df_lag_no.columns.to_list()
     if label_columns[-1] != "label":
@@ -468,8 +468,8 @@ if __name__ == "__main__":
         # if label_count_0 / label_count_1 < .8:
         #     print("sample is balance")
         #     continue
-
-        if label_max / label_min < 1.:
+        BALANCE_P = .8
+        if label_max / label_min < BALANCE_P:
             print("sample is balance")
             continue
 
@@ -486,7 +486,17 @@ if __name__ == "__main__":
         # df_label_0 = df_trans_label[df_trans_label[label_] == 0]
         # drop_indices = np.random.choice(df_label_0.index, label_count_0 - int(label_count_1 * .8), replace=False)
         # df_drop = df_label_0.drop(drop_indices)
-        drop_indices = np.random.choice(df_label_max.index, label_max - int(label_min * 1.), replace=False)
+        if label_count.idxmax() == 1:
+            print(label_min/label_max)
+            if label_min / label_max > BALANCE_P:
+                drop_indices = np.random.choice(df_label_max.index, label_max - int(label_min * 1.),replace=False)
+            else:
+                drop_indices = np.random.choice(df_label_max.index, label_max - int(label_min / BALANCE_P), replace=False)
+        else:
+            drop_indices = np.random.choice(df_label_max.index, label_max - int(label_min * BALANCE_P), replace=False)
+
+
+
         df_drop = df_label_max.drop(drop_indices)
 
         print(df_drop.head(5))
