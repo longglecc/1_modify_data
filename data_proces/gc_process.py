@@ -130,12 +130,12 @@ def trans_label_to_b(df):
     if label_columns == "label":
         print(label_columns)
         df_label = df.loc[:, [label_columns]]
-        print(df_label.head(5))
+        # print(df_label.head(5))
         df_label.loc[df_label[df_label.columns.to_list()[0]] > 0] = 1
-        print(df_label.head(5))
+        # print(df_label.head(5))
         df[label_columns] = df_label.values
-        print(df.head(5))
-        print(df.shape)
+        # print(df.head(5))
+        # print(df.shape)
 
     else:
         print("last columns is not label!")
@@ -143,6 +143,7 @@ def trans_label_to_b(df):
     return df
 
 def make_df_smooth_balance(df_lag_no):
+
     label_columns = df_lag_no.columns.to_list()
     if label_columns[-1] != "label":
         df_lag_no.drop(label_columns[-1], axis=1, inplace=True)
@@ -611,5 +612,168 @@ def make_df_on_balance(df_lag_no):
         print(df_balance.shape)
 
         return df_balance
+
+def make_df_diff_feature(df_lag_no):
+
+    FEATURE_MAX = 22
+    FEATURE_MIN = 7
+
+    label_columns = df_lag_no.columns.to_list()
+    if label_columns[-1] != "label":
+        df_lag_no.drop(label_columns[-1], axis=1, inplace=True)
+    if label_columns[0] == "Unnamed: 0":
+        df_lag_no.drop(label_columns[0], axis=1, inplace=True)
+
+    label_columns = df_lag_no.columns.to_list()
+    # print(label_columns)
+
+    '''
+    去重复和去零
+    '''
+    df_del_same = df_lag_no.drop_duplicates(subset=label_columns[-FEATURE_MAX:-1], keep='first', inplace=False)
+    # print(label_columns[-22:-1])
+    # print(df_del_same.head(5))
+    # print(df_del_same.shape)
+
+    df_del_zero = df_del_same.loc[~(df_del_same[label_columns[-FEATURE_MAX:-1]] == 0).all(axis=1), :]
+    # print(df_del_zero.head(5))
+    # print(df_del_zero.shape)
+
+    on_premise_count = df_del_zero[label_columns[-1]].groupby(df_del_zero[label_columns[0]]).count()
+    on_premise_index = on_premise_count.index.to_list()
+
+    for x in on_premise_index:
+        print("---------start---------")
+        print(x)
+        df_premise = df_del_zero.loc[
+            df_del_zero[label_columns[0]] == x]  # df_label.loc[df_label[df_label.columns.to_list()[0]] > 0]
+        # print(df_premise.head(5))
+        # print(df_premise.shape)
+
+        '''
+        数据扩展：
+        原理：利用滑窗，减少特征数量，增大数据条数
+        '''
+        df_data = df_premise.iloc[:, -FEATURE_MAX:]
+        # print(df_data.shape)
+        df_tex = df_premise.iloc[:, :-FEATURE_MAX]
+        # print(df_tex.shape)
+
+        for column in range(FEATURE_MIN, FEATURE_MAX + 1, 1):
+            print("current feature is {}".format(column - 1))
+            df_tex_buff = df_tex.copy()
+            df_data_buff = df_data.copy()
+
+            for i in range(1, FEATURE_MAX - column + 1, 1):
+                df_shift = df_data.shift(periods=i, axis=1)
+                df_data_buff = pd.concat([df_data_buff, df_shift])
+                df_tex_buff = pd.concat([df_tex_buff, df_tex])
+
+            df_data_buff.dropna(axis=1, how='any', inplace=True)
+            # print(df_data_buff.head(5))
+            # print(df_data_buff.shape)
+            df_data_buff = df_data_buff.astype("int64")
+            # print(df_data_buff.head(5))
+            # print(df_data_buff.shape)
+            # print(df_tex_buff.shape)
+
+            data_smooth = pd.concat([df_tex_buff, df_data_buff], axis=1)
+            # print(data_smooth.head(5))
+            # print(data_smooth.shape)
+
+            label_columns = data_smooth.columns.to_list()
+            # print(label_columns[-column:])
+
+            '''
+            去重复和去零
+            '''
+            data_smooth_same = data_smooth.drop_duplicates(subset=label_columns[-column:-1], keep='first',
+                                                           inplace=False)
+            # print(data_smooth_same.shape)
+
+            data_smooth_zero = data_smooth_same.loc[~(data_smooth_same[label_columns[-column:-1]] == 0).all(axis=1), :]
+            # print(data_smooth_zero.shape)
+
+            '''
+            将标签转换为0/1
+            '''
+            df_trans_label = trans_label_to_b(data_smooth_zero.copy())
+
+            '''
+            统计标签数量
+            '''
+            label_ = df_trans_label.columns.to_list()[-1]
+            # print(label_)
+            label_count = df_trans_label.groupby([label_]).count().iloc[:, 0]
+            print(label_count)
+            label_max = max(label_count.values)
+            label_min = min(label_count.values)
+            # print(label_max, label_min)
+
+            # label_count_0 = label_count[label_count.keys() == 0].values[0]
+            # label_count_1 = label_count[label_count.keys() == 1].values[0]
+            #
+            # if label_count_0 / label_count_1 < .8:
+            #     print("sample is balance")
+            #     continue
+            BALANCE_P = .8
+            if label_max / label_min < BALANCE_P:
+                print("sample is balance")
+                continue
+
+            '''
+            获取标签数据集
+            '''
+            df_label_max = df_trans_label[df_trans_label[label_] == label_count.idxmax()]
+            # print(df_label_max.head(5))
+            df_label_min = df_trans_label[df_trans_label[label_] == label_count.idxmin()]
+            # print(df_label_min.head(5))
+            df_label_max.reset_index(drop=True, inplace=True)
+
+            # df_label_1 = df_trans_label[df_trans_label[label_] == 1]
+            # df_label_0 = df_trans_label[df_trans_label[label_] == 0]
+            # drop_indices = np.random.choice(df_label_0.index, label_count_0 - int(label_count_1 * .8), replace=False)
+            # df_drop = df_label_0.drop(drop_indices)
+            if label_count.idxmax() == 1:
+                print(label_min / label_max)
+                if label_min / label_max > BALANCE_P:
+                    drop_indices = np.random.choice(df_label_max.index, label_max - int(label_min * 1.), replace=False)
+                else:
+                    drop_indices = np.random.choice(df_label_max.index, label_max - int(label_min / BALANCE_P),
+                                                    replace=False)
+            else:
+                drop_indices = np.random.choice(df_label_max.index, label_max - int(label_min * BALANCE_P),
+                                                replace=False)
+
+            df_drop = df_label_max.drop(drop_indices)
+
+            # print(df_drop.head(5))
+            # print(df_drop.shape)
+
+            '''
+            获取随机平衡数据集
+            '''
+            df_balance = pd.concat([df_label_min, df_drop])
+            df_balance.reset_index(drop=True, inplace=True)
+            #
+            # # df_balance.to_csv("./inter_data/Nother_on_rand_balance.csv")
+            #
+            # df_balance = df_balance.iloc[:, -22:]
+            # get_label_count(df_balance)
+
+            # df_inited = init_df_feature_muti(22, df_premise.copy())
+            # if df_inited.empty:
+            #     print("Warinning: dataset is empty!")
+            # else:
+
+            # print(df_balance.head(5))
+            # print(df_balance.shape)
+            df_balance = df_balance.iloc[:, -column:]
+
+            label_ = df_balance.columns.to_list()[-1]
+            label_count = df_balance.groupby([label_]).count().iloc[:, 0]
+            # print(label_count)
+
+
 
 
