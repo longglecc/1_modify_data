@@ -4,6 +4,10 @@ from sklearn.ensemble import RandomForestClassifier
 from sklearn.model_selection import GridSearchCV
 from sklearn import metrics
 from model.model_lib import Model_lib
+from xgboost.sklearn import XGBClassifier
+import xgboost as xgb
+import pandas as pd
+import matplotlib.pylab as plt
 
 
 class Model_tree(Model_lib):
@@ -166,8 +170,91 @@ class Model_tree(Model_lib):
             print("ACC Score (Test): %f" % metrics.accuracy_score(self.test_y, y_pred1))
 
 
-    def tree_XGB(self, param='no'):
-        print(param)
+    def tree_xgboost(self, param='no'):
+        if param is 'no':
+            xgb_model = XGBClassifier(
+                learning_rate=0.1,
+                n_estimators=177,
+                max_depth=7,
+                min_child_weight=1,
+                gamma=0,
+                subsample=0.9,
+                colsample_bytree=0.6,
+                reg_alph=0.001,
+                objective='binary:logistic',
+                nthread=4,
+                scale_pos_weight=1,
+                seed=27)
+
+            cv_folds = 5
+            early_stopping_rounds = 50
+
+            xgb_param = xgb_model.get_xgb_params()
+            xgb_data = xgb.DMatrix(self.train_x, self.train_y)
+            cv_result = xgb.cv(xgb_param, xgb_data, num_boost_round=xgb_model.get_params()['n_estimators'], nfold=cv_folds,
+                                      metrics='auc', early_stopping_rounds=early_stopping_rounds)
+            xgb_model.set_params(n_estimators=cv_result.shape[0])
+
+            # Fit the algorithm on the data
+            xgb_model.fit(self.train_x, self.train_y, eval_metric='auc')
+
+            # Predict training set:
+            train_predictions = xgb_model.predict(self.train_x)
+            train_predprob = xgb_model.predict_proba(self.train_x)[:, 1]
+
+            test_predictions = xgb_model.predict(self.test_x)
+            test_predprob = xgb_model.predict_proba(self.test_x)[:, 1]
+            self._set_test_pred(test_predictions)
+
+            # self._set_test_pred(y_pred1)
+            # Print model report:
+            print("\nModel Report")
+            print("Train Accuracy : %.4g" % metrics.accuracy_score(self.train_y, train_predictions))
+            print("Test Accuracy : %.4g" % metrics.accuracy_score(self.test_y, test_predictions))
+            print("AUC Score (Train): %f" % metrics.roc_auc_score(self.train_y, train_predprob))
+            print("AUC Score (Test): %f" % metrics.roc_auc_score(self.test_y, test_predprob))
+
+            # print(xgb_model.get_booster().get_fscore())#xgb_model.booster().get_fscore()
+            # feat_imp = pd.Series(xgb_model.get_booster().get_fscore()).sort_values(ascending=False)
+            # feat_imp.plot(kind='bar', title='Feature Importances')
+            # plt.ylabel('Feature Importance Score')
+            # plt.show()
+
+        if param is "cv":
+            #cv_params = {'max_depth': range(3,15,2), 'min_child_wight': range(1,7,2)}
+            #cv_params = {'gamma':[i/10.0 for i in range(0,5)]}
+            # cv_params={
+            #     'subsample': [i / 10.0 for i in range(6, 10)],
+            #     'colsample_bytree': [i / 10.0 for i in range(6, 10)]
+            # }
+            cv_params = {'reg_alpha':[0, 0.001, 0.005, 0.01, 0.05]}
+                        #'reg_alpha': [1e-5, 1e-2, 0.1, 1, 100]}
+
+            gbm = GridSearchCV(estimator=XGBClassifier(
+                learning_rate=0.1,
+                n_estimators=177,
+                max_depth=7,
+                min_child_weight=1,
+                gamma=0,
+                subsample=0.9,
+                colsample_bytree=0.6,
+                objective='binary:logistic',
+                nthread=4,
+                scale_pos_weight=1,
+                seed=27
+            ),
+                param_grid=cv_params,
+                scoring='roc_auc',
+                n_jobs=4,
+                cv=5
+            )
+            gbm.fit(self.train_x, self.train_y)
+            print("Repoet:")
+            print(gbm.cv_results_)
+            print("Best parameters %s" % gbm.best_params_)
+            print("Best score %s" % gbm.best_score_)
+
+
 
     def tree_other(self, param='no'):
         print(param)
