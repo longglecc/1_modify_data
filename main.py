@@ -251,85 +251,87 @@ if __name__ == "__main__":
     label_count = df_data_buff.groupby([label_]).count().iloc[:, 0]
     print(label_count)
 
-    FEATURE_MIN = 7
-    FEATURE_MAX = 22
+    FEATURE_MIN = 13
+    FEATURE_MAX = 13
 
-    column = 14
-    print("current feature is {}".format(column - 1))
-    df_feature = df_data_buff.iloc[:, -column:]
-    # print(df_feature.head(5))
-    #concat df
-    df_formated = pd.concat([df_tex, df_feature], axis=1)
-    columns_labels = df_formated.columns.to_list()
-    # print(df_formated.shape)
-    # sort with label value
-    df_sort = df_formated.sort_values(by=columns_labels[-1], ascending=False)
-    # print(df_sort.head(5))
-    # drop duplicates by feature
-    df_del_same = df_sort.drop_duplicates(subset=columns_labels[-column:-1], keep='first', inplace=False)
-    # print(df_del_same.shape)
-    # drop features are all zero
-    df_del_zero = df_del_same.loc[~(df_del_same[columns_labels[-column:-1]] == 0).all(axis=1), :]
-    # print(df_del_zero.shape)
-    # print(df_del_zero.head(5))
-    df_sort_index = df_del_zero.sort_index()
-    # print(df_del_zero.head(5))
-    df_sort_index.reset_index(drop=True, inplace=True)
-    # print(df_sort_index.head(5))
-    print(df_sort_index.shape)
-    # df_sort_index.to_csv("./data/feature_data/data_feature_{}.csv".format(column),index=False)
-    #get data
-    df_new_data = df_sort_index.iloc[:, -column:]
-    df_new_tex = df_sort_index.iloc[:,:-column]
-
-    label_ = df_new_data.columns.to_list()[-1]
-    label_count = df_new_data.groupby([label_]).count().iloc[:, 0]
-    print(label_count)
-
-    #model build
-    model_tree = Model_tree(df_new_data, 0.3)
-    y_test, y_pred = model_tree.exec("xgboost", 'no')
-
-    model_plot = Model_plot()
-    model_plot.plot_show(y_test, y_pred)
-    # for column in range(FEATURE_MIN, FEATURE_MAX + 1, 1):
-    #     print("current feature is {}".format(column - 1))
-    #     df_feature = df_data_buff.iloc[:, -column:]
-    #     # print(df_feature.head(5))
-    #     #concat df
-    #     df_formated = pd.concat([df_tex, df_feature], axis=1)
-    #     columns_labels = df_formated.columns.to_list()
-    #     # print(df_formated.shape)
-    #     # sort with label value
-    #     df_sort = df_formated.sort_values(by=columns_labels[-1], ascending=False)
-    #     # print(df_sort.head(5))
-    #     # drop duplicates by feature
-    #     df_del_same = df_sort.drop_duplicates(subset=columns_labels[-column:-1], keep='first', inplace=False)
-    #     # print(df_del_same.shape)
-    #     # drop features are all zero
-    #     df_del_zero = df_del_same.loc[~(df_del_same[columns_labels[-column:-1]] == 0).all(axis=1), :]
-    #     # print(df_del_zero.shape)
-    #     # print(df_del_zero.head(5))
-    #     df_sort_index = df_del_zero.sort_index()
-    #     # print(df_del_zero.head(5))
-    #     df_sort_index.reset_index(drop=True, inplace=True)
-    #     # print(df_sort_index.head(5))
-    #     print(df_sort_index.shape)
-    #     # df_sort_index.to_csv("./data/feature_data/data_feature_{}.csv".format(column),index=False)
-    #     #get data
-    #     df_new_data = df_sort_index.iloc[:, -column:]
-    #     df_new_tex = df_sort_index.iloc[:,:-column]
+    # column = 14
+    # print("current feature is {}".format(column - 1))
+    # df_feature = df_data_buff.iloc[:, -column:]
+    # # print(df_feature.head(5))
+    # #concat df
+    # df_formated = pd.concat([df_tex, df_feature], axis=1)
+    # columns_labels = df_formated.columns.to_list()
+    # # print(df_formated.shape)
+    # # sort with label value
+    # df_sort = df_formated.sort_values(by=columns_labels[-1], ascending=False)
+    # # print(df_sort.head(5))
+    # # drop duplicates by feature
+    # df_del_same = df_sort.drop_duplicates(subset=columns_labels[-column:-1], keep='first', inplace=False)
+    # # print(df_del_same.shape)
+    # # drop features are all zero
+    # df_del_zero = df_del_same.loc[~(df_del_same[columns_labels[-column:-1]] == 0).all(axis=1), :]
+    # # print(df_del_zero.shape)
+    # # print(df_del_zero.head(5))
+    # df_sort_index = df_del_zero.sort_index()
+    # # print(df_del_zero.head(5))
+    # df_sort_index.reset_index(drop=True, inplace=True)
+    # # print(df_sort_index.head(5))
+    # print(df_sort_index.shape)
+    # # df_sort_index.to_csv("./data/feature_data/data_feature_{}.csv".format(column),index=False)
+    # #get data
+    # df_new_data = df_sort_index.iloc[:, -column:]
+    # df_new_tex = df_sort_index.iloc[:,:-column]
     #
-    #     label_ = df_new_data.columns.to_list()[-1]
-    #     label_count = df_new_data.groupby([label_]).count().iloc[:, 0]
-    #     print(label_count)
+    # label_ = df_new_data.columns.to_list()[-1]
+    # label_count = df_new_data.groupby([label_]).count().iloc[:, 0]
+    # print(label_count)
     #
-    #     #model build
-    #     model_tree = Model_tree(df_new_data, 0.3)
-    #     y_test, y_pred = model_tree.exec("xgboost", 'no')
+    # #model build
+    # model_tree = Model_tree(df_new_data, 0.3)
+    # y_test, y_pred = model_tree.exec("xgboost", 'no')
+    #
+    # model_plot = Model_plot()
+    # model_plot.plot_show(y_test, y_pred)
 
-        # model_plot = Model_plot()
-        # model_plot.plot_show(y_test, y_pred)
+    for feature in range(FEATURE_MIN, FEATURE_MAX + 1, 1):
+        column = feature + 1
+        print("current feature is {}".format(feature))
+        df_feature = df_data_buff.iloc[:, -column:]
+        # print(df_feature.head(5))
+        #concat df
+        df_formated = pd.concat([df_tex, df_feature], axis=1)
+        columns_labels = df_formated.columns.to_list()
+        # print(df_formated.shape)
+        # sort with label value
+        df_sort = df_formated.sort_values(by=columns_labels[-1], ascending=False)
+        # print(df_sort.head(5))
+        # drop duplicates by feature
+        df_del_same = df_sort.drop_duplicates(subset=columns_labels[-column:-1], keep='first', inplace=False)
+        # print(df_del_same.shape)
+        # drop features are all zero
+        df_del_zero = df_del_same.loc[~(df_del_same[columns_labels[-column:-1]] == 0).all(axis=1), :]
+        # print(df_del_zero.shape)
+        # print(df_del_zero.head(5))
+        df_sort_index = df_del_zero.sort_index()
+        # print(df_del_zero.head(5))
+        df_sort_index.reset_index(drop=True, inplace=True)
+        # print(df_sort_index.head(5))
+        print(df_sort_index.shape)
+        # df_sort_index.to_csv("./data/feature_data/data_feature_{}.csv".format(column),index=False)
+        #get data
+        df_new_data = df_sort_index.iloc[:, -column:]
+        df_new_tex = df_sort_index.iloc[:,:-column]
+
+        label_ = df_new_data.columns.to_list()[-1]
+        label_count = df_new_data.groupby([label_]).count().iloc[:, 0]
+        print(label_count)
+
+        #model build
+        model_tree = Model_tree(df_new_data, 0.3)
+        y_test, y_pred = model_tree.exec("xgboost", 'no')
+
+        model_plot = Model_plot()
+        model_plot.plot_show(y_test, y_pred)
 
 
 
