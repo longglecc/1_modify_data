@@ -20,20 +20,13 @@ def mkdir_file():
     pass
     #TODO(gaolongcc):
 
-def split_str(n,str):
+def split_str(str):
     """
     :param str:字符串
     :return:拆分后的字符串
     """
     str_list=[]
-    if n > len(str):
-        print("Warnning:n is too large than str len!")
-        n = len(str)
-    if n < 0:
-        print("Warnning:n is too short than less 0!")
-        n = 0
-
-    for i in range(n,len(str)):
+    for i in range(len(str)):
         str_list.append(int(str[i]))
     return str_list
 
@@ -53,6 +46,10 @@ def init_df_feature(n,df):
     df_inited[label_columns] = df_label.values
     #print(df_inited)
     return df_inited
+
+def init_df_feature_muti(n,df):
+    pass
+
 
 def init_df_cluster(df):
     df.drop(df.columns[-1], axis=1, inplace=True)
@@ -136,7 +133,6 @@ def trans_label_to_b(df):
         df[label_columns] = df_label.values
         # print(df.head(5))
         # print(df.shape)
-
     else:
         print("last columns is not label!")
 
