@@ -55,5 +55,9 @@ class Model_lib(object):
     def _get_test_pred(self):
         return self.test_y,self.pred
 
+    def get_test_data(self):
+        return np.concatenate((self.test_x, np.array([self.test_y]).T,np.array([self.pred]).T), axis=1)
+
+
     def exec(self, fun_name="default_fun", param="no"):
         print(fun_name+'('+param+')')
