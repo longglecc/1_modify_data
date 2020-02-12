@@ -7,6 +7,7 @@ from model.model_lib import Model_lib
 from xgboost.sklearn import XGBClassifier
 import xgboost as xgb
 import pandas as pd
+import numpy as np
 import matplotlib.pylab as plt
 
 
@@ -173,8 +174,8 @@ class Model_tree(Model_lib):
     def tree_xgboost(self, param='no'):
         if param is 'no':
             xgb_model = XGBClassifier(
-                learning_rate=0.1,
-                n_estimators=177,
+                learning_rate=0.001,
+                n_estimators=200,
                 max_depth=7,
                 min_child_weight=1,
                 gamma=0,
@@ -184,6 +185,7 @@ class Model_tree(Model_lib):
                 objective='binary:logistic',
                 nthread=4,
                 scale_pos_weight=1,
+                verbose=True,
                 seed=27)
 
             cv_folds = 5
@@ -227,12 +229,15 @@ class Model_tree(Model_lib):
             #     'subsample': [i / 10.0 for i in range(6, 10)],
             #     'colsample_bytree': [i / 10.0 for i in range(6, 10)]
             # }
-            cv_params = {'reg_alpha':[0, 0.001, 0.005, 0.01, 0.05]}
+            #cv_params = {'reg_alpha':[0, 0.001, 0.005, 0.01, 0.05]}
                         #'reg_alpha': [1e-5, 1e-2, 0.1, 1, 100]}
 
+            #cv_params = {'n_estimators': range(100, 2000, 100)}
+            cv_params = {'scale_pos_weight':[1, 10, 25, 50, 75, 99, 100, 1000]}
+
             gbm = GridSearchCV(estimator=XGBClassifier(
-                learning_rate=0.1,
-                n_estimators=177,
+                learning_rate=0.001,
+                n_estimators=200,
                 max_depth=7,
                 min_child_weight=1,
                 gamma=0,
@@ -241,7 +246,8 @@ class Model_tree(Model_lib):
                 objective='binary:logistic',
                 nthread=4,
                 scale_pos_weight=1,
-                seed=27
+                seed=27,
+                verbose=True
             ),
                 param_grid=cv_params,
                 scoring='roc_auc',
@@ -250,7 +256,7 @@ class Model_tree(Model_lib):
             )
             gbm.fit(self.train_x, self.train_y)
             print("Repoet:")
-            print(gbm.cv_results_)
+            #gbm.cv_results_
             print("Best parameters %s" % gbm.best_params_)
             print("Best score %s" % gbm.best_score_)
 
