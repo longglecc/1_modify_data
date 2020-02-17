@@ -10,6 +10,7 @@ from data_proces.gc_process import read_data_csv,init_df_type_code,get_label_cou
 import sys
 import numpy as np
 import pandas as pd
+import difflib
 
 
 
@@ -201,6 +202,7 @@ def df_format(path_ori):
     df_formated = pd.concat([df_str_tex, df_data], axis=1)
     columns_labels = df_formated.columns.to_list()
     print(df_formated.shape)
+    #df_formated.to_csv("./data/df_format.csv",index=False)
     # sort with label value
     df_sort = df_formated.sort_values(by=columns_labels[-1], ascending=False)
     # print(df_sort.head(5))
@@ -218,15 +220,9 @@ def df_format(path_ori):
     # print(df_del_zero.shape)
     df_sort_index.to_csv("./data/df_format_sort.csv")
 
-if __name__ == "__main__":
-
-    #重定向日志
-    sys.stdout = Moddel_log("./log/run.log", sys.stdout)
-    # orign data format
-    # path_ori = "../3_data/UnitedDist_AIOrderAnalyze.csv"
-    # df_format(path_ori)
-
+def df_format1():
     df_path = "./data/df_format_sort.csv"
+    # df_path1 = "../3_data/data_duplicated.csv"
     df_ = read_data_csv(df_path)
     columns_name = df_.columns.to_list()
     columns_count = df_.shape[1]
@@ -236,20 +232,23 @@ if __name__ == "__main__":
         df_.drop(columns_name[0], axis=1, inplace=True)
     # print(df_.shape)
 
-    FEATURE_COL_NUM=-22
-    df_data = df_.iloc[:,FEATURE_COL_NUM:]
-    df_tex = df_.iloc[:,:FEATURE_COL_NUM]
+    FEATURE_COL_NUM = -22
+    df_data = df_.iloc[:, FEATURE_COL_NUM:]
+    df_tex = df_.iloc[:, :FEATURE_COL_NUM]
     # print(df_data.head(5))
     # print(df_data.shape)
 
-    #make label to 1&0
+    # make label to 1&0
     df_data_buff = trans_label_to_b(df_data)
     print(df_data_buff.shape)
     # print(df_data_buff.head(5))
-    #get label count
+    # get label count
     label_ = df_data_buff.columns.to_list()[-1]
     label_count = df_data_buff.groupby([label_]).count().iloc[:, 0]
     print(label_count)
+
+    # df_format = pd.concat([df_tex, df_data_buff], axis=1)
+    # df_format.to_csv('./data/format.csv',index=False)
 
     FEATURE_MIN = 7
     FEATURE_MAX = 21
@@ -259,7 +258,7 @@ if __name__ == "__main__":
         print("current feature is {}".format(feature))
         df_feature = df_data_buff.iloc[:, -column:]
         # print(df_feature.head(5))
-        #concat df
+        # concat df
         df_formated = pd.concat([df_tex, df_feature], axis=1)
         columns_labels = df_formated.columns.to_list()
         # print(df_formated.shape)
@@ -279,43 +278,177 @@ if __name__ == "__main__":
         # print(df_sort_index.head(5))
         print(df_sort_index.shape)
         # df_sort_index.to_csv("./data/feature_data/data_feature_{}.csv".format(column),index=False)
-        #get data
+        # get data
         df_new_data = df_sort_index.iloc[:, -column:]
-        df_new_tex = df_sort_index.iloc[:,:-column]
+        df_new_tex = df_sort_index.iloc[:, :-column]
 
         label_ = df_new_data.columns.to_list()[-1]
         label_count = df_new_data.groupby([label_]).count().iloc[:, 0]
         print(label_count)
 
-        #model build
+        # model build
         param = 'no'
         model_tree = Model_tree(df_new_data, 0.3)
         y_test, y_pred = model_tree.exec("xgboost", param)
         ary_test = model_tree.get_test_data()
 
-        new_columns = ['feature_{}'.format(x)for x in range(1,feature + 1,1)]
+        new_columns = ['feature_{}'.format(x) for x in range(1, feature + 1, 1)]
         new_columns.append('label')
         new_columns.append('pred')
 
-        df_test = pd.DataFrame(ary_test,columns=new_columns)
+        df_test = pd.DataFrame(ary_test, columns=new_columns)
         # df_test.to_csv('./data/test_result/test_feature_{}.csv'.format(feature),index=False)
 
         if param is 'no':
             model_plot = Model_plot()
             model_plot.plot_show(y_test, y_pred)
 
+if __name__ == "__main__":
+
+    #重定向日志
+    sys.stdout = Moddel_log("./log/run.log", sys.stdout)
+    # orign data format
+    #path_ori = "../3_data/UnitedDist_AIOrderAnalyze.csv"
+    df_path  ="./data/df_format.csv"
+    df_ = read_data_csv(df_path)
+    # columns_name = df_.columns.to_list()
+
+    # if columns_name[0] == "Unnamed: 0":
+    #     df_.drop(columns_name[0], axis=1, inplace=True)
+    #     columns_name = df_.columns.to_list()
+
+    # df_buff = trans_label_to_b(df_)
+    # print(df_buff.head(5))
+    # feature_name_list = [name for name in columns_name if name.find('feature_') != -1]
+    # print(feature_name_list)
+
+    # df_agg = df_buff.groupby(feature_name_list).agg(label_sum=('label','sum'),label_count=("label","count"))
+    # df_agg = df_agg.reset_index()
+
+    # df_tex = df_.iloc[:,:-22]
+    df_data =df_.iloc[:,-22:]
+    # print(df_data.head(5))
+
+    FEATURE_MIN = 21
+    FEATURE_MAX = 21
+
+    for feature in range(FEATURE_MIN, FEATURE_MAX + 1, 1):
+        print("current feature is {}".format(feature))
+        # df_tex_buff = df_tex.copy()
+        df_data_buff = df_data.copy()
+        #
+        for i in range(1, FEATURE_MAX - feature + 1, 1):
+            df_shift = df_data.shift(periods=i, axis=1)
+            df_data_buff = pd.concat([df_data_buff, df_shift])
+            # df_tex_buff = pd.concat([df_tex_buff, df_tex])
+        df_data_buff.dropna(axis=1, how='any', inplace=True)
+        df_data_buff = df_data_buff.astype("int64")
+        # df_concat = pd.concat([df_tex_buff, df_data_buff], axis=1)
+        df_trans = trans_label_to_b(df_data_buff.copy())
+        columns_name = df_trans.columns.to_list()
+        feature_name_list = [name for name in columns_name if name.find('feature_') != -1]
+        df_agg = df_trans.groupby(feature_name_list).agg(label_sum=('label','sum'),label_count=("label","count"))
+        df_agg = df_agg.reset_index()
+
+        df_group = df_agg.groupby(feature_name_list[-feature:])['label_sum', 'label_count'].sum()
+        df_group = df_group.reset_index()
+        df_group['rate'] = round(df_group['label_sum'] / df_group['label_count'], 2)
+        df_group['label'] = 0
+        df_group.loc[df_group['rate'] >= 0.4, 'label'] = 1
+        # print(df_group.head(100))
+        # print(df_group.shape)
+        df_group.drop(['label_sum', 'label_count','rate'], axis=1, inplace=True)
+        # print(df_group.head(100))
+        # print(df_group.shape)
+        label_ = df_group.columns.to_list()[-1]
+        label_count = df_group.groupby([label_]).count().iloc[:, 0]
+        print(label_count)
+
+        # model build
+        param = 'cv'
+        model_tree = Model_tree(df_group, 0.3)
+        y_test, y_pred = model_tree.exec("xgboost", param)
+        # ary_test = model_tree.get_test_data()
+
+        new_columns = ['feature_{}'.format(x) for x in range(1, feature + 1, 1)]
+        new_columns.append('label')
+        new_columns.append('pred')
+
+        # df_test = pd.DataFrame(ary_test, columns=new_columns)
+        # df_test.to_csv('./data/test_result/test_feature_{}.csv'.format(feature),index=False)
+
+        if param is 'no':
+            model_plot = Model_plot()
+            model_plot.plot_show(y_test, y_pred)
+
+    #
+    #     # df_test = pd.DataFrame(ary_test, columns=new_columns)
+    #     # df_test.to_csv('./data/test_result/test_feature_{}.csv'.format(feature),index=False)
+    #
+    #     if param is 'no':
+    #         model_plot = Model_plot()
+    #         model_plot.plot_show(y_test, y_pred)
+
+
+    # df_format(path_ori)
+    #df_format(path_ori)
+    # df_path = "../3_data/df_duplicated.csv"
+    # df_ = read_data_csv(df_path)
+    # columns_name = df_.columns.to_list()
+    #
+    # if columns_name[0] == "Unnamed: 0":
+    #     df_.drop(columns_name[0], axis=1, inplace=True)
+    #     columns_name = df_.columns.to_list()
+    #
+    # feature_name_list = [name for name in columns_name if name.find('feature_') != -1]
+    # # print(feature_name_list)
+    #
+    # FEATURE_MIN = 7
+    # FEATURE_MAX = 21
+    #
+    # for feature in range(FEATURE_MIN, FEATURE_MAX + 1, 1):
+    #     print("current feature is {}".format(feature))
+    #     df_group = df_.groupby(feature_name_list[-feature:])['label1_num', 'num'].sum()
+    #     df_group = df_group.reset_index()
+    #     df_group['rate'] = round(df_group['label1_num'] / df_group['num'], 2)
+    #     df_group['label'] = 0
+    #     df_group.loc[df_group['rate'] >= 0.4, 'label'] = 1
+    #     # print(df_group.head(100))
+    #     # print(df_group.shape)
+    #     df_group.drop(['label1_num', 'num','rate'], axis=1, inplace=True)
+    #     # print(df_group.head(100))
+    #     # print(df_group.shape)
+    #     label_ = df_group.columns.to_list()[-1]
+    #     label_count = df_group.groupby([label_]).count().iloc[:, 0]
+    #     print(label_count)
+    #
+    #     # model build
+    #     param = 'no'
+    #     model_tree = Model_tree(df_group, 0.3)
+    #     y_test, y_pred = model_tree.exec("xgboost", param)
+    #     ary_test = model_tree.get_test_data()
+    #
+    #     new_columns = ['feature_{}'.format(x) for x in range(1, feature + 1, 1)]
+    #     new_columns.append('label')
+    #     new_columns.append('pred')
+    #
+    #     # df_test = pd.DataFrame(ary_test, columns=new_columns)
+    #     # df_test.to_csv('./data/test_result/test_feature_{}.csv'.format(feature),index=False)
+    #
+    #     if param is 'no':
+    #         model_plot = Model_plot()
+    #         model_plot.plot_show(y_test, y_pred)
 
 
 
 
 
 
-
-
-
-
-
-
+    # df0_group = df0_copy.groupby(column_list)['label1_num', 'num'].sum()
+    # df0_group = df0_group.reset_index()
+    # df0_group['rate'] = round(df0_group['label1_num'] / df0_group['num'], 2)
+    # df0_group['label'] = 0
+    # df0_group.loc[df0_group['rate'] >= 0.4, 'label'] = 1
 
     #NoOther data path
     # lag_no_file_path = "./inter_data/NotOther_data.csv"
