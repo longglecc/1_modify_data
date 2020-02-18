@@ -133,56 +133,41 @@ def make_type_code_model(df):
         print(df_type_code.shape)
         make_model(df_type_code)
 
+def make_model(df_,param='no'):
 
-def make_model(df):
-
-    if df.empty:
+    if df_.empty:
         print("Warinning: dataset is empty!")
         return 0
 
-    label_columns = df.columns.to_list()
-    if label_columns[-1] != "label":
-        df.drop(df.columns[-1], axis=1, inplace=True)
-    if label_columns[0] == "Unnamed: 0":
-        df.drop(df.columns[0], axis=1, inplace=True)
+    columns_name = df_.columns.to_list()
+    if columns_name[-1] != "label":
+        df_.drop(df_.columns[-1], axis=1, inplace=True)
+    if columns_name[0] == "Unnamed: 0":
+        df_.drop(df_.columns[0], axis=1, inplace=True)
 
-    MIN_FEATURE = 7
-    MAX_FEATURE = 22
-    for i in range(MIN_FEATURE, MAX_FEATURE + 1, 1):
-        df_1 = df.copy()
-        df_inited = init_df_feature_muti(i, df_1)
-        print(df_inited.head(5))
-        print(df_inited.shape)
+    label_ = columns_name[-1]
+    label_count = df_.groupby([label_]).count().iloc[:, 0]
+    print(label_count)
 
-        '''
-        model_knn = Model_knn(df_inited,0.33)
-        y_test,y_pred = model_tree.exec("KNeighborsClassifier","no")
-        '''
+    # model build
+    model_tree = Model_tree(df_, 0.3)
+    y_test, y_pred = model_tree.exec("xgboost", param)
+    # ary_test = model_tree.get_test_data()
+    # new_columns = ['feature_{}'.format(x) for x in range(1, feature + 1, 1)]
+    # new_columns.append('label')
+    # new_columns.append('pred')
 
-        # model_tree = Model_tree(df_inited,0.33)
-        # y_test,y_pred = model_tree.exec("DecisionTreeClassifier","no")
+    # df_test = pd.DataFrame(ary_test, columns=new_columns)
+    # df_test.to_csv('./data/test_result/test_feature_{}.csv'.format(feature),index=False)
 
-        # model_tree = Model_tree(df_inited, 0.33)
-        # y_test, y_pred = model_tree.exec("RandomForestClassifier", "no")
-
-        # model_svm = Model_svm(df_inited,0.33)
-        # y_test, y_pred = model_svm.exec("sklearn_SVC","no")
-        # print(y_pred)
-        if df_inited.empty:
-            print("Warinning: dataset is empty!")
-            return 0
-
-        model_linear = Model_linear(df_inited,0.3)
-        y_test,y_pred = model_linear.exec("LogisticRegression",'no')
-
+    if param is 'no':
         model_plot = Model_plot()
         model_plot.plot_show(y_test, y_pred)
 
-def df_format(path_ori):
 
-    df_ = read_data_csv(path_ori)
-    # print(df_.head(5))
-    AI_ORDER_COL_NUM = -2
+def split_ai_array(df_,array_col = -2):
+    #split ai_array on many features
+    AI_ORDER_COL_NUM = array_col
     df_str_data = df_.iloc[:, AI_ORDER_COL_NUM]
     df_str_tex = df_.iloc[:, :AI_ORDER_COL_NUM]
     # get feature in orderarray
@@ -202,179 +187,151 @@ def df_format(path_ori):
     df_formated = pd.concat([df_str_tex, df_data], axis=1)
     columns_labels = df_formated.columns.to_list()
     print(df_formated.shape)
-    #df_formated.to_csv("./data/df_format.csv",index=False)
-    # sort with label value
-    df_sort = df_formated.sort_values(by=columns_labels[-1], ascending=False)
-    # print(df_sort.head(5))
+    # df_formated.to_csv("./data/df_format.csv",index=False)
+    return df_formated
+
+def drop_duplicates(df_,feature_col = 21):
     # drop duplicates by feature
-    df_del_same = df_sort.drop_duplicates(subset=columns_labels[-columns_count:-1], keep='first', inplace=False)
-    print(df_del_same.shape)
-    # drop features are all zero
-    df_del_zero = df_del_same.loc[~(df_del_same[columns_labels[-columns_count:-1]] == 0).all(axis=1), :]
-    print(df_del_zero.shape)
-    # print(df_del_zero.head(5))
-    df_sort_index = df_del_zero.sort_index()
-    # print(df_del_zero.head(5))
-    df_sort_index.reset_index(drop=True, inplace=True)
-    print(df_sort_index.head(5))
-    # print(df_del_zero.shape)
-    df_sort_index.to_csv("./data/df_format_sort.csv")
-
-def shift_data():
-    df_path = "./data/df_format.csv"
-    df_ = read_data_csv(df_path)
-    # columns_name = df_.columns.to_list()
-
-    # if columns_name[0] == "Unnamed: 0":
-    #     df_.drop(columns_name[0], axis=1, inplace=True)
-    #     columns_name = df_.columns.to_list()
-
-    # df_buff = trans_label_to_b(df_)
-    # print(df_buff.head(5))
-    # feature_name_list = [name for name in columns_name if name.find('feature_') != -1]
-    # print(feature_name_list)
-
-    # df_agg = df_buff.groupby(feature_name_list).agg(label_sum=('label','sum'),label_count=("label","count"))
-    # df_agg = df_agg.reset_index()
-
-    # df_tex = df_.iloc[:,:-22]
-    df_data = df_.iloc[:, -22:]
-    # print(df_data.head(5))
-
-    FEATURE_MIN = 21
-    FEATURE_MAX = 21
-
-    for feature in range(FEATURE_MIN, FEATURE_MAX + 1, 1):
-        print("current feature is {}".format(feature))
-        # df_tex_buff = df_tex.copy()
-        df_data_buff = df_data.copy()
-        #
-        for i in range(1, FEATURE_MAX - feature + 1, 1):
-            df_shift = df_data.shift(periods=i, axis=1)
-            df_data_buff = pd.concat([df_data_buff, df_shift])
-            # df_tex_buff = pd.concat([df_tex_buff, df_tex])
-        df_data_buff.dropna(axis=1, how='any', inplace=True)
-        df_data_buff = df_data_buff.astype("int64")
-        # df_concat = pd.concat([df_tex_buff, df_data_buff], axis=1)
-        df_trans = trans_label_to_b(df_data_buff.copy())
-        columns_name = df_trans.columns.to_list()
-        feature_name_list = [name for name in columns_name if name.find('feature_') != -1]
-        df_agg = df_trans.groupby(feature_name_list).agg(label_sum=('label', 'sum'), label_count=("label", "count"))
-        df_agg = df_agg.reset_index()
-
-        df_group = df_agg.groupby(feature_name_list[-feature:])['label_sum', 'label_count'].sum()
-        df_group = df_group.reset_index()
-        df_group['rate'] = round(df_group['label_sum'] / df_group['label_count'], 2)
-        df_group['label'] = 0
-        df_group.loc[df_group['rate'] >= 0.4, 'label'] = 1
-        # print(df_group.head(100))
-        # print(df_group.shape)
-        df_group.drop(['label_sum', 'label_count', 'rate'], axis=1, inplace=True)
-        # print(df_group.head(100))
-        # print(df_group.shape)
-        label_ = df_group.columns.to_list()[-1]
-        label_count = df_group.groupby([label_]).count().iloc[:, 0]
-        print(label_count)
-
-        # model build
-        param = 'cv'
-        model_tree = Model_tree(df_group, 0.3)
-        y_test, y_pred = model_tree.exec("xgboost", param)
-        # ary_test = model_tree.get_test_data()
-
-        new_columns = ['feature_{}'.format(x) for x in range(1, feature + 1, 1)]
-        new_columns.append('label')
-        new_columns.append('pred')
-
-        # df_test = pd.DataFrame(ary_test, columns=new_columns)
-        # df_test.to_csv('./data/test_result/test_feature_{}.csv'.format(feature),index=False)
-
-        if param is 'no':
-            model_plot = Model_plot()
-            model_plot.plot_show(y_test, y_pred)
-
-def df_format1():
-    df_path = "./data/df_format_sort.csv"
-    # df_path1 = "../3_data/data_duplicated.csv"
-    df_ = read_data_csv(df_path)
     columns_name = df_.columns.to_list()
-    columns_count = df_.shape[1]
-    # print(df_.head(5))
-    # print(df_.shape)
-    if columns_name[0] == "Unnamed: 0":
-        df_.drop(columns_name[0], axis=1, inplace=True)
-    # print(df_.shape)
+    df_sort = df_.sort_values(by=columns_name[-1], ascending=False)
+    # drop duplicates by feature
+    df_del_same = df_sort.drop_duplicates(subset=columns_name[-feature_col:-1], keep='first', inplace=False)
+    # print(df_del_same.shape)
+    # drop features are all zero
+    df_del_zero = df_del_same.loc[~(df_del_same[columns_name[-feature_col:-1]] == 0).all(axis=1), :]
+    # print(df_del_zero.shape)
+    # print(df_del_zero.head(5))
+    df_duplicates = df_del_zero.sort_index()
+    # print(df_del_zero.head(5))
+    df_duplicates.reset_index(drop=True, inplace=True)
+    # print(df_sort_index.head(5))
+    # print(df_del_zero.shape)
+    #df_sort_index.to_csv("./data/df_format_sort.csv")
+    return df_duplicates
 
-    FEATURE_COL_NUM = -22
-    df_data = df_.iloc[:, FEATURE_COL_NUM:]
-    df_tex = df_.iloc[:, :FEATURE_COL_NUM]
-    # print(df_data.head(5))
-    # print(df_data.shape)
+def split_features(df_,feature_col = 13):
+    #split feature with feature_col
+    columns_name = df_.columns.to_list()
+    feature_name_list = [name for name in columns_name if name.find('feature_') != -1]
 
-    # make label to 1&0
-    df_data_buff = trans_label_to_b(df_data)
-    print(df_data_buff.shape)
-    # print(df_data_buff.head(5))
-    # get label count
-    label_ = df_data_buff.columns.to_list()[-1]
-    label_count = df_data_buff.groupby([label_]).count().iloc[:, 0]
-    print(label_count)
+    df_tex = df_.iloc[:,:-22]
+    df_label = df_.iloc[:,-1]
+    df_data = df_.loc[:, feature_name_list[-feature_col:]]
+    df_split_features = pd.concat([df_tex, df_data,df_label],axis=1)
+    #df_split_features.to_csv("./inter_data/df_split_feature_{}.csv".format(feature_col),index=False)
+    return df_split_features
 
-    # df_format = pd.concat([df_tex, df_data_buff], axis=1)
-    # df_format.to_csv('./data/format.csv',index=False)
+def trans_label(df_):
+    #trans label to 1 or 0
+    df_temp = df_.copy()
+    label_column = df_temp.columns.to_list()[-1]
 
-    FEATURE_MIN = 7
-    FEATURE_MAX = 21
+    if label_column != "label":
+        print("last columns is not label!")
+        return 0
 
-    for feature in range(FEATURE_MIN, FEATURE_MAX + 1, 1):
-        column = feature + 1
-        print("current feature is {}".format(feature))
-        df_feature = df_data_buff.iloc[:, -column:]
-        # print(df_feature.head(5))
-        # concat df
-        df_formated = pd.concat([df_tex, df_feature], axis=1)
-        columns_labels = df_formated.columns.to_list()
-        # print(df_formated.shape)
-        # sort with label value
-        df_sort = df_formated.sort_values(by=columns_labels[-1], ascending=False)
-        # print(df_sort.head(5))
-        # drop duplicates by feature
-        df_del_same = df_sort.drop_duplicates(subset=columns_labels[-column:-1], keep='first', inplace=False)
-        # print(df_del_same.shape)
-        # drop features are all zero
-        df_del_zero = df_del_same.loc[~(df_del_same[columns_labels[-column:-1]] == 0).all(axis=1), :]
-        # print(df_del_zero.shape)
-        # print(df_del_zero.head(5))
-        df_sort_index = df_del_zero.sort_index()
-        # print(df_del_zero.head(5))
-        df_sort_index.reset_index(drop=True, inplace=True)
-        # print(df_sort_index.head(5))
-        print(df_sort_index.shape)
-        # df_sort_index.to_csv("./data/feature_data/data_feature_{}.csv".format(column),index=False)
-        # get data
-        df_new_data = df_sort_index.iloc[:, -column:]
-        df_new_tex = df_sort_index.iloc[:, :-column]
+    df_label = df_temp.loc[:, [label_column]]
+    df_label.loc[df_label[df_label.columns.to_list()[0]] > 0] = 1
+    df_temp[label_column] = df_label.values
 
-        label_ = df_new_data.columns.to_list()[-1]
-        label_count = df_new_data.groupby([label_]).count().iloc[:, 0]
-        print(label_count)
+    return df_temp
 
-        # model build
-        param = 'no'
-        model_tree = Model_tree(df_new_data, 0.3)
-        y_test, y_pred = model_tree.exec("xgboost", param)
-        ary_test = model_tree.get_test_data()
+def groupby_label(df_,feature_col = 0):
+    #groupby label with sum and count
+    columns_name = df_.columns.to_list()
+    if columns_name[-1] != 'label':
+        print("data format is not in groupby label !")
+        return 0
 
-        new_columns = ['feature_{}'.format(x) for x in range(1, feature + 1, 1)]
-        new_columns.append('label')
-        new_columns.append('pred')
+    df_temp = df_.copy()
+    feature_name_list = [name for name in columns_name if name.find('feature_') != -1]
+    if feature_col == 0:
+        feature_col = len(feature_name_list)
 
-        df_test = pd.DataFrame(ary_test, columns=new_columns)
-        # df_test.to_csv('./data/test_result/test_feature_{}.csv'.format(feature),index=False)
+    df_agg = df_temp.groupby(feature_name_list[-feature_col:]).agg(label_sum=('label', 'sum'), label_count=("label", "count"))
+    df_agg = df_agg.reset_index()
+    return df_agg
 
-        if param is 'no':
-            model_plot = Model_plot()
-            model_plot.plot_show(y_test, y_pred)
+def shfit_features(df_,feature_col = 0):
+    #reduced length of array by sliding window in order to extend data records
+    columns_name = df_.columns.to_list()
+    feature_name_list = [name for name in columns_name if name.find('feature_') != -1]
+
+    df_tex = df_.iloc[:,:-22]
+    df_data = df_.iloc[:, -22:]
+
+    n_shift = len(feature_name_list) - feature_col + 1
+    df_data_buff = df_data.copy()
+    df_tex_buff = df_tex.copy()
+
+    for i in range(1, n_shift):
+        df_shift = df_data.shift(i, axis=1)
+        df_data_buff = pd.concat([df_data_buff, df_shift])
+        df_tex_buff = pd.concat([df_tex_buff,df_tex])
+    df_data_buff.dropna(axis=1, how='any', inplace=True)
+    df_data_buff = df_data_buff.astype("int64")
+
+    # df_tex = pd.DataFrame(df_tex.values.tolist() * n_shift, columns=df_tex.columns)
+    df_shift = pd.concat([df_tex_buff, df_data_buff], axis=1)
+    # df_shift.to_csv("./inter_data/df_shift_{}.csv".format(feature_col),index=False)
+    return df_shift
+
+def groupby_rate(df_,feature_col = 0):
+    #groupby rate with label_num.label_count
+    columns_name = df_.columns.to_list()
+    if columns_name[-1] != 'label_count':
+        print("data format is not in groupby rate!")
+        return 0
+
+    df_temp = df_.copy()
+    feature_name_list = [name for name in columns_name if name.find('feature_') != -1]
+    if feature_col == 0:
+        feature_col = len(feature_name_list)
+
+    df_group = df_temp.groupby(feature_name_list[-feature_col:])['label_sum', 'label_count'].sum()
+    df_group = df_group.reset_index()
+    df_group['rate'] = round(df_group['label_sum'] / df_group['label_count'], 2)
+    df_group['label'] = 0
+    df_group.loc[df_group['rate'] >= 0.4, 'label'] = 1
+    # print(df_group.head(100))
+    # print(df_group.shape)
+    df_group.drop(['label_sum', 'label_count', 'rate'], axis=1, inplace=True)
+    df_group.to_csv("./inter_data/df_feature_{}.csv".format(15),index=False)
+    return df_group
+
+def cut_on_premise(df_):
+    columns_name = df_.columns.to_list()
+    on_premise_count = df_[columns_name[-1]].groupby(df_[columns_name[0]]).count()
+    on_premise_index = on_premise_count.index.to_list()
+    on_premise_dict = {}
+    for x in on_premise_index:
+        print(x)
+        on_premise_dict[x] = pd.DataFrame()
+        df_premise = df_.loc[df_[columns_name[0]] == x]
+        on_premise_dict[x].append(df_premise)
+    return on_premise_dict,on_premise_index
+
+
+# def shift_features(df, feature_num=13):
+#     # reduced length of array by sliding window in order to extend data records
+#     df_attr = df.iloc[:, :2]
+#     df_data = df.iloc[:, 2:-4]
+#     df_label = df.iloc[:, -4:-2]
+#
+#     N_ALL = 22
+#     n_shift = N_ALL - feature_num
+#     df_data_temp = df_data.copy()
+#     for i in range(1, n_shift):
+#         df_shift = df_data_temp.shift(i, axis=1)
+#         df_data = pd.concat([df_data, df_shift])
+#     df_data.dropna(axis=1, how='any', inplace=True)
+#
+#     df_attr = pd.DataFrame(df_attr.values.tolist() * n_shift, columns=df_attr.columns)
+#     df_label = pd.DataFrame(df_label.values.tolist() * n_shift, columns=df_label.columns)
+#
+#     df_smooth = pd.concat([df_attr, df_data, df_label], axis=1)
+#
+#     return df_smooth
 
 if __name__ == "__main__":
 
@@ -383,96 +340,30 @@ if __name__ == "__main__":
     # orign data format
     #path_ori = "../3_data/UnitedDist_AIOrderAnalyze.csv"
 
-    df_path = "../3_data/df_duplicated.csv"
-    df_ = read_data_csv(df_path)
-    columns_name = df_.columns.to_list()
+    # df_dir = "/Users/longgle/Documents/0_work/0_projects/ai/ai_order/2_data/"
+    # df_file_name = "df_format.csv"
 
-    if columns_name[0] == "Unnamed: 0":
-        df_.drop(columns_name[0], axis=1, inplace=True)
-        columns_name = df_.columns.to_list()
+    # df_shift_path = "./inter_data/df_shift_15.csv"
+    # df_temp = trans_label(read_data_csv(df_shift_path))
+    # df_group = groupby_label(df_temp)
+    # print(df_group.head(5))
+    # df_rate = groupby_rate(df_group)
+    # print(df_rate.head(5))
 
-    on_premise_count = df_[columns_name[-1]].groupby(df_[columns_name[0]]).count()
-    on_premise_index = on_premise_count.index.to_list()
+    df_rate_path = "./inter_data/df_feature_15.csv"
+    df_rate = read_data_csv(df_rate_path)
+    columns_name = df_rate.columns.to_list()
     feature_name_list = [name for name in columns_name if name.find('feature_') != -1]
-
-    FEATURE_MIN = 7
-    FEATURE_MAX = 21
-
-    for x in on_premise_index:
-        print("---------start---------")
-        print(x)
-        df_premise = df_.loc[df_[columns_name[0]] == x]  # df_label.loc[df_label[df_label.columns.to_list()[0]] > 0]
-
-        for feature in range(FEATURE_MIN, FEATURE_MAX + 1, 1):
-            print("current feature is {}".format(feature))
-            df_group = df_premise.groupby(feature_name_list[-feature:])['label1_num', 'num'].sum()
-            df_group = df_group.reset_index()
-            df_group['rate'] = round(df_group['label1_num'] / df_group['num'], 2)
-            df_group['label'] = 0
-            df_group.loc[df_group['rate'] >= 0.4, 'label'] = 1
-            # print(df_group.head(100))
-            # print(df_group.shape)
-            df_group.drop(['label1_num', 'num','rate'], axis=1, inplace=True)
-            # print(df_group.head(100))
-            # print(df_group.shape)
-            label_ = df_group.columns.to_list()[-1]
-            label_count = df_group.groupby([label_]).count().iloc[:, 0]
-            print(label_count)
-
-            # model build
-            param = 'no'
-            model_tree = Model_tree(df_group, 0.3)
-            y_test, y_pred = model_tree.exec("xgboost", param)
-            # ary_test = model_tree.get_test_data()
-
-            new_columns = ['feature_{}'.format(x) for x in range(1, feature + 1, 1)]
-            new_columns.append('label')
-            new_columns.append('pred')
-
-            # df_test = pd.DataFrame(ary_test, columns=new_columns)
-            # df_test.to_csv('./data/test_result/test_feature_{}.csv'.format(feature),index=False)
-
-            if param is 'no':
-                model_plot = Model_plot()
-                model_plot.plot_show(y_test, y_pred)
+    print('current feature is {}'.format(len(feature_name_list)))
+    make_model(df_rate,'no')
 
 
 
 
 
 
-    # df0_group = df0_copy.groupby(column_list)['label1_num', 'num'].sum()
-    # df0_group = df0_group.reset_index()
-    # df0_group['rate'] = round(df0_group['label1_num'] / df0_group['num'], 2)
-    # df0_group['label'] = 0
-    # df0_group.loc[df0_group['rate'] >= 0.4, 'label'] = 1
 
-    #NoOther data path
-    # lag_no_file_path = "./inter_data/NotOther_data.csv"
-    # lag_file_path = "./inter_data/Other_data.csv"
-    #df = read_data(file_path)
 
-    # df_lag_no = read_data_csv(lag_file_path)
-
-    # print(data_del_zero.shape)
-    # print(df_data.head(5))
-    # label_columns = df_inited.columns.to_list()[n-1]
-    # print(label_columns)
-    # df_label = df_inited.loc[:,[label_columns]]
-    # print(df_label.head(5)
-    # df_label.loc[df_label[df_label.columns.to_list()[0]]>0]=1
-    # print(df_label.head(5))
-    # df_inited[label_columns] = df_label.values
-    # print(df_inited)
-
-    #TODO(gaolongcc):(add data analized)
-
-    # df_balance = df_lag_no
-    # model_linear = Model_linear(df_balance, 0.3)
-    # y_test, y_pred = model_linear.exec("LogisticRegression", 'no')
-    #
-    # model_plot = Model_plot()
-    # model_plot.plot_show(y_test, y_pred)
 
 
 
