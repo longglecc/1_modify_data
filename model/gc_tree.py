@@ -174,14 +174,14 @@ class Model_tree(Model_lib):
     def tree_xgboost(self, param='no'):
         if param is 'no':
             xgb_model = XGBClassifier(
-                learning_rate=0.001,
+                learning_rate=0.01,
                 n_estimators=200,
-                max_depth=13,
+                max_depth=11,
                 min_child_weight=1,
-                gamma=0,
-                subsample=0.9,
+                gamma=0.3,
+                subsample=0.7,
                 colsample_bytree=0.6,
-                reg_alph=0.001,
+                reg_alph=0.05,
                 objective='binary:logistic',
                 nthread=4,
                 scale_pos_weight=1,
@@ -223,26 +223,26 @@ class Model_tree(Model_lib):
             # plt.show()
 
         if param is "cv":
-            # cv_params = {'max_depth': range(3,15,2), 'min_child_wight': range(1,7,2)}
-            #cv_params = {'gamma':[i/10.0 for i in range(0,5)]}
-            cv_params={
-                'subsample': [i / 10.0 for i in range(6, 10)],
-                'colsample_bytree': [i / 10.0 for i in range(6, 10)]
-            }
+            #cv_params = {'max_depth': range(3,15,2), 'min_child_wight': range(1,7,2)}
+            # cv_params = {'gamma':[i/10.0 for i in range(0,5)]}
+            # cv_params={
+            #     'subsample': [i / 10.0 for i in range(6, 10)],
+            #     'colsample_bytree': [i / 10.0 for i in range(6, 10)]
+            # }
             #cv_params = {'reg_alpha':[0, 0.001, 0.005, 0.01, 0.05]}
                         #'reg_alpha': [1e-5, 1e-2, 0.1, 1, 100]}
 
             #cv_params = {'n_estimators': range(100, 2000, 100)}
-            #cv_params = {'scale_pos_weight':[1, 10, 25, 50, 75, 99, 100, 1000]}
+            cv_params = {'scale_pos_weight':[1, 10, 25, 50, 75, 99, 100, 1000]}
 
             gbm = GridSearchCV(estimator=XGBClassifier(
                 learning_rate=0.001,
-                n_estimators=200,
-                max_depth=13,
+                n_estimators=1900,
+                max_depth=11,
                 min_child_weight=1,
                 gamma=0.3,
-                #subsample=0.9,
-                #colsample_bytree=0.6,
+                subsample=0.7,
+                colsample_bytree=0.6,
                 objective='binary:logistic',
                 nthread=4,
                 scale_pos_weight=1,
