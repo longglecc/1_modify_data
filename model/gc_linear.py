@@ -2,6 +2,7 @@
 from sklearn.linear_model import LogisticRegression
 from model.model_lib import Model_lib
 from sklearn import metrics
+import time
 
 
 class Model_linear(Model_lib):
@@ -29,8 +30,19 @@ class Model_linear(Model_lib):
                                  verbose = 0, warm_start = False, n_jobs = 1
                                  )
         print("linear model fitting...")
+        fit_start_time = time.time()
         lr0.fit(self.train_x, self.train_y)
+        fit_end_time = time.time()
+        fit_time = round(fit_end_time - fit_start_time,2)
+        print("model fit cost time:{} s".format(fit_time))
+
+        pred_start_time = time.time()
         y_pred1 = lr0.predict(self.test_x)
+        pred_end_time = time.time()
+        pred_time = round(pred_end_time - pred_start_time, 2)
+        print('model pred cost time:{} s'.format(pred_time))
+        print('model cost time {} s'.format(round(pred_end_time - fit_start_time, 2)))
+
         self._set_test_pred(y_pred1)
         #print(lr0.score(self.test_x, self.test_y))
         print("ACC Score (Train): %f" % lr0.score(self.train_x, self.train_y))

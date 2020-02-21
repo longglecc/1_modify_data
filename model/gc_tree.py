@@ -5,10 +5,12 @@ from sklearn.model_selection import GridSearchCV
 from sklearn import metrics
 from model.model_lib import Model_lib
 from xgboost.sklearn import XGBClassifier
+from sklearn.ensemble import AdaBoostClassifier
 import xgboost as xgb
 import pandas as pd
 import numpy as np
 import matplotlib.pylab as plt
+import time
 
 
 class Model_tree(Model_lib):
@@ -76,16 +78,38 @@ class Model_tree(Model_lib):
         :param param:
         :return:
         """
-        rf0 = RandomForestClassifier(oob_score=False, random_state=0)
-        rf0.fit(self.train_x, self.train_y)
-        # print(rf0.score(self.train_x, self.train_y))
-        y_pred0 = rf0.predict(self.test_x)
-        self._set_test_pred(y_pred0)
-        print("ACC Score (Train): %f" % rf0.score(self.train_x, self.train_y))
-        print("ACC Score (Test): %f" % metrics.accuracy_score(self.test_y, y_pred0))
+        if param is 'no':
+            rf0 = RandomForestClassifier(
+                oob_score=False,
+                n_estimators = 100,
+                min_samples_split=70,
+                max_depth=18,
+                min_samples_leaf = 20,
+                max_features = 'sqrt',
+                random_state = 10
+                )
+
+            print("tree model fitting...")
+            fit_start_time = time.time()
+            rf0.fit(self.train_x, self.train_y)
+            fit_end_time = time.time()
+            fit_time = round(fit_end_time - fit_start_time, 2)
+            print("model fit cost time:{} s".format(fit_time))
+
+            # print(rf0.score(self.train_x, self.train_y))
+            pred_start_time = time.time()
+            y_pred0 = rf0.predict(self.test_x)
+            pred_end_time = time.time()
+            pred_time = round(pred_end_time - pred_start_time, 2)
+            print('model pred cost time:{} s'.format(pred_time))
+            print('model cost time {} s'.format(round(pred_end_time - fit_start_time, 2)))
+
+            self._set_test_pred(y_pred0)
+            print("ACC Score (Train): %f" % rf0.score(self.train_x, self.train_y))
+            print("ACC Score (Test): %f" % metrics.accuracy_score(self.test_y, y_pred0))
 
         if param is 'cv':
-            n_estimators = 100
+            n_estimators = 10
             learning_rate = 0.1
             criterion = 'gini'
             splitter = 'best'
@@ -93,7 +117,7 @@ class Model_tree(Model_lib):
             min_samples_split = 100
             min_samples_leaf = 20
             max_features = 'sqrt'
-            random_state = 0
+            random_state = 10
             oob_score = False
 
             parameters = {}
@@ -109,9 +133,10 @@ class Model_tree(Model_lib):
             parameters['oob_score'] = oob_score
 
             scores = []
-            cv_params = {'n_estimators': range(1, 100, 10)}
+            cv_params = {'n_estimators': range(90, 101, 10)}
 
             gbm = GridSearchCV(estimator=RandomForestClassifier(
+                #n_estimators = n_estimators,
                 min_samples_split=min_samples_split,
                 min_samples_leaf=min_samples_leaf,
                 max_depth=max_depth,
@@ -120,7 +145,7 @@ class Model_tree(Model_lib):
                 oob_score=oob_score
             ),
                 param_grid=cv_params,
-                scoring="accuracy",  # neg_mean_squared_error
+                scoring="roc_auc",  # neg_mean_squared_error
                 cv=5,
                 verbose=True
             )
@@ -132,7 +157,7 @@ class Model_tree(Model_lib):
             parameters['n_estimators'] = gbm.best_params_['n_estimators']
             n_estimators = gbm.best_params_['n_estimators']
 
-            cv_params = {'max_depth': range(2, 20, 2), 'min_samples_split': range(50, 200, 20)}
+            cv_params = {'max_depth': range(14, 21, 2), 'min_samples_split': range(70, 71, 1)}
 
             gbm = GridSearchCV(estimator=RandomForestClassifier(
                 n_estimators=n_estimators,
@@ -142,7 +167,7 @@ class Model_tree(Model_lib):
                 oob_score=oob_score
             ),
                 param_grid=cv_params,
-                scoring="accuracy",  # neg_mean_squared_error
+                scoring="roc_auc",  # neg_mean_squared_error
                 cv=5,
                 verbose=True
             )
@@ -163,9 +188,22 @@ class Model_tree(Model_lib):
                 random_state=parameters['random_state'],
                 oob_score=parameters['oob_score']
             )
+            print("linear model fitting...")
+            fit_start_time = time.time()
             rf1.fit(self.train_x, self.train_y)
+            fit_end_time = time.time()
+            fit_time = round(fit_end_time - fit_start_time, 2)
+            print("model fit cost time:{} s".format(fit_time))
+
             print(rf1.score(self.train_x, self.train_y))
+
+            pred_start_time = time.time()
             y_pred1 = rf1.predict(self.test_x)
+            pred_end_time = time.time()
+            pred_time = round(pred_end_time - pred_start_time, 2)
+            print('model pred cost time:{} s'.format(pred_time))
+            print('model cost time {} s'.format(round(pred_end_time - fit_start_time, 2)))
+
             self._set_test_pred(y_pred1)
             print("ACC Score (Train): %f" % rf1.score(self.train_x, self.train_y))
             print("ACC Score (Test): %f" % metrics.accuracy_score(self.test_y, y_pred1))
@@ -191,20 +229,30 @@ class Model_tree(Model_lib):
             cv_folds = 5
             early_stopping_rounds = 50
 
-            xgb_param = xgb_model.get_xgb_params()
-            xgb_data = xgb.DMatrix(self.train_x, self.train_y)
-            cv_result = xgb.cv(xgb_param, xgb_data, num_boost_round=xgb_model.get_params()['n_estimators'], nfold=cv_folds,
-                                      metrics='auc', early_stopping_rounds=early_stopping_rounds)
-            xgb_model.set_params(n_estimators=cv_result.shape[0])
+            # xgb_param = xgb_model.get_xgb_params()
+            # xgb_data = xgb.DMatrix(self.train_x, self.train_y)
+            # cv_result = xgb.cv(xgb_param, xgb_data, num_boost_round=xgb_model.get_params()['n_estimators'], nfold=cv_folds,
+            #                           metrics='auc', early_stopping_rounds=early_stopping_rounds)
+            # xgb_model.set_params(n_estimators=cv_result.shape[0])
 
             # Fit the algorithm on the data
+            fit_start_time = time.time()
             xgb_model.fit(self.train_x, self.train_y, eval_metric='auc')
+            fit_end_time = time.time()
+            fit_time = round(fit_end_time - fit_start_time,2)
+            print("model fit cost time:{} s".format(fit_time))
 
             # Predict training set:
+            pred_start_time = time.time()
+            test_predictions = xgb_model.predict(self.test_x)
+            pred_end_time = time.time()
+            pred_time = round(pred_end_time - pred_start_time,2)
+
+            print('model pred cost time:{} s'.format(pred_time))
+            print('model cost time {} s'.format(round(pred_end_time - fit_start_time,2)))
+
             train_predictions = xgb_model.predict(self.train_x)
             train_predprob = xgb_model.predict_proba(self.train_x)[:, 1]
-
-            test_predictions = xgb_model.predict(self.test_x)
             test_predprob = xgb_model.predict_proba(self.test_x)[:, 1]
             self._set_test_pred(test_predictions)
 
@@ -223,26 +271,27 @@ class Model_tree(Model_lib):
             # plt.show()
 
         if param is "cv":
-            #cv_params = {'max_depth': range(3,15,2), 'min_child_wight': range(1,7,2)}
+            # cv_params = {'max_depth': range(3,15,2), 'min_child_wight': range(1,7,2)}
             # cv_params = {'gamma':[i/10.0 for i in range(0,5)]}
             # cv_params={
             #     'subsample': [i / 10.0 for i in range(6, 10)],
             #     'colsample_bytree': [i / 10.0 for i in range(6, 10)]
             # }
-            #cv_params = {'reg_alpha':[0, 0.001, 0.005, 0.01, 0.05]}
+            # cv_params = {'reg_alpha':[0, 0.001, 0.005, 0.01, 0.05]}
                         #'reg_alpha': [1e-5, 1e-2, 0.1, 1, 100]}
 
-            #cv_params = {'n_estimators': range(100, 2000, 100)}
-            cv_params = {'scale_pos_weight':[1, 10, 25, 50, 75, 99, 100, 1000]}
+            cv_params = {'n_estimators': range(200, 1000, 100)}
+            # cv_params = {'scale_pos_weight':[1, 10, 25, 50, 75, 99, 100, 1000]}
 
             gbm = GridSearchCV(estimator=XGBClassifier(
-                learning_rate=0.001,
-                n_estimators=1900,
+                learning_rate=0.01,
+                n_estimators=200,
                 max_depth=11,
                 min_child_weight=1,
-                gamma=0.3,
-                subsample=0.7,
+                gamma=0.4,
+                subsample=0.8,
                 colsample_bytree=0.6,
+                reg_alpha = 0.05,
                 objective='binary:logistic',
                 nthread=4,
                 scale_pos_weight=1,
@@ -262,7 +311,38 @@ class Model_tree(Model_lib):
 
     def tree_AdaBoostClassifier(self,param='no'):
         if param is 'no':
-            pass
+
+            bdt0 = AdaBoostClassifier(
+                DecisionTreeClassifier(
+                    max_depth=13,
+                    min_samples_split=70,
+                    min_samples_leaf=5
+                ),
+                algorithm="SAMME",
+                n_estimators=200,
+                learning_rate=0.01
+            )
+
+            print("tree model fitting...")
+            fit_start_time = time.time()
+            bdt0.fit(self.train_x, self.train_y)
+            fit_end_time = time.time()
+            fit_time = round(fit_end_time - fit_start_time, 2)
+            print("model fit cost time:{} s".format(fit_time))
+
+            pred_start_time = time.time()
+            y_test_pred0 = bdt0.predict(self.test_x)
+            pred_end_time = time.time()
+            pred_time = round(pred_end_time - pred_start_time, 2)
+            print('model pred cost time:{} s'.format(pred_time))
+            print('model cost time {} s'.format(round(pred_end_time - fit_start_time, 2)))
+
+            self._set_test_pred(y_test_pred0)
+
+            y_train_pred0 = bdt0.predict(self.train_x)
+            print("AUC Score (Train): %f" % metrics.roc_auc_score(self.train_y, y_train_pred0))
+            print("AUC Score (Test): %f" % metrics.roc_auc_score(self.test_y, y_test_pred0))
+
         if param is "cv":
             pass
         pass

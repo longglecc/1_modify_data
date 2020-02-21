@@ -150,12 +150,18 @@ def make_model(df_,param='no'):
     print(label_count)
 
     # model build
+    # model_tree = Model_tree(df_, 0.3)
+    # y_test, y_pred = model_tree.exec("xgboost", param)
+
+    # model_tree = Model_tree(df_, 0.3)
+    # y_test, y_pred = model_tree.exec("RandomForestClassifier", param)
+
     model_tree = Model_tree(df_, 0.3)
-    y_test, y_pred = model_tree.exec("xgboost", param)
-    # ary_test = model_tree.get_test_data()
-    # new_columns = ['feature_{}'.format(x) for x in range(1, feature + 1, 1)]
-    # new_columns.append('label')
-    # new_columns.append('pred')
+    y_test, y_pred = model_tree.exec("AdaBoostClassifier", param)
+
+    # model_linear = Model_linear(df_,0.3)
+    # y_test, y_pred = model_linear.exec("LogisticRegression", param)
+
 
     # df_test = pd.DataFrame(ary_test, columns=new_columns)
     # df_test.to_csv('./data/test_result/test_feature_{}.csv'.format(feature),index=False)
@@ -209,10 +215,15 @@ def drop_duplicates(df_,feature_col = 21):
     #df_sort_index.to_csv("./data/df_format_sort.csv")
     return df_duplicates
 
-def split_features(df_,feature_col = 13):
+def split_features(df_,feature_col = 0):
     #split feature with feature_col
     columns_name = df_.columns.to_list()
+    if columns_name[-1] != 'label':
+        print("data format is not in groupby label !")
+        return 0
     feature_name_list = [name for name in columns_name if name.find('feature_') != -1]
+    if feature_col == 0:
+        feature_col = len(feature_name_list)
 
     df_tex = df_.iloc[:,:-22]
     df_label = df_.iloc[:,-1]
@@ -296,7 +307,7 @@ def groupby_rate(df_,feature_col = 0):
     # print(df_group.head(100))
     # print(df_group.shape)
     df_group.drop(['label_sum', 'label_count', 'rate'], axis=1, inplace=True)
-    df_group.to_csv("./inter_data/df_feature_{}.csv".format(15),index=False)
+    df_group.to_csv("./inter_data/df_split_feature_{}.csv".format(13),index=False)
     return df_group
 
 def cut_on_premise(df_):
@@ -311,6 +322,16 @@ def cut_on_premise(df_):
         on_premise_dict[x].append(df_premise)
     return on_premise_dict,on_premise_index
 
+def cut_type_code(df_):
+    columns_name = df_.columns.to_list()
+    type_code_count = df_[columns_name[-1]].groupby(df_[columns_name[1]]).count()
+    type_code_index = type_code_count.index.to_list()
+    df_other = df_.loc[df_[columns_name[1] == 'Other']]
+    df_no_other = df_.loc[df_[columns_name[1] != 'Other']]
+    print(df_other.head(5))
+    print(df_other.shape)
+    print(df_no_other.head(5))
+    print(df_no_other.shape)
 
 # def shift_features(df, feature_num=13):
 #     # reduced length of array by sliding window in order to extend data records
@@ -340,22 +361,55 @@ if __name__ == "__main__":
     # orign data format
     #path_ori = "../3_data/UnitedDist_AIOrderAnalyze.csv"
 
+
+    '''
+    smooth something
+    '''
     # df_dir = "/Users/longgle/Documents/0_work/0_projects/ai/ai_order/2_data/"
     # df_file_name = "df_format.csv"
-
-    # df_shift_path = "./inter_data/df_shift_15.csv"
-    # df_temp = trans_label(read_data_csv(df_shift_path))
+    #
+    # df_ = read_data_csv(df_dir + df_file_name)
+    # df_shift_feature = shfit_features(df_,13)
+    # df_temp = trans_label(df_shift_feature)
     # df_group = groupby_label(df_temp)
-    # print(df_group.head(5))
+    # # # print(df_group.head(5))
     # df_rate = groupby_rate(df_group)
-    # print(df_rate.head(5))
 
-    df_rate_path = "./inter_data/df_feature_15.csv"
+    df_rate_path = "./inter_data/df_smooth_feature_14.csv"
     df_rate = read_data_csv(df_rate_path)
-    columns_name = df_rate.columns.to_list()
-    feature_name_list = [name for name in columns_name if name.find('feature_') != -1]
-    print('current feature is {}'.format(len(feature_name_list)))
+    # columns_name = df_rate.columns.to_list()
+    # feature_name_list = [name for name in columns_name if name.find('feature_') != -1]
+    # print('current feature is {}'.format(len(feature_name_list)))
     make_model(df_rate,'no')
+
+    '''
+    cut something
+    '''
+
+    # df_dir = "/Users/longgle/Documents/0_work/0_projects/ai/ai_order/2_data/"
+    # df_file_name = "df_format.csv"
+    # df_temp = trans_label(read_data_csv(df_dir + df_file_name))
+    # df_split_feature = split_features(df_temp,13)
+    # df_group = groupby_label(df_split_feature)
+    # # print(df_group.head(5))
+    # df_rate = groupby_rate(df_group)
+
+
+    # split_data_path = './inter_data/df_split_feature_14.csv'
+    # df_rate = read_data_csv(split_data_path)
+    # make_model(df_rate, 'no')
+
+    # columns_name = df_split_feature.columns.to_list()
+    # feature_name_list = [name for name in columns_name if name.find('feature_') != -1]
+    # print(feature_name_list)
+    # print(df_split_feature.head(5))
+
+
+
+
+
+
+
 
 
 
