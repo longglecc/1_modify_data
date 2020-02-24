@@ -2,6 +2,7 @@
 from sklearn.linear_model import LogisticRegression
 from model.model_lib import Model_lib
 from sklearn import metrics
+from sklearn.externals import joblib
 import time
 
 
@@ -48,6 +49,8 @@ class Model_linear(Model_lib):
         print("ACC Score (Train): %f" % lr0.score(self.train_x, self.train_y))
         print("ACC Score (Test): %f" % metrics.accuracy_score(self.test_y, y_pred1))
         print(lr0.coef_)
+
+        # joblib.dump(lr0, './inter_data/lr0_other_shift_15.model')
 
         if param is 'cv':
             pass

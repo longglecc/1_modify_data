@@ -10,6 +10,9 @@ from data_proces.gc_process import read_data_csv,init_df_type_code,get_label_cou
 import sys
 import numpy as np
 import pandas as pd
+from sklearn.externals import joblib
+from sklearn import metrics
+from sklearn.model_selection import train_test_split
 import difflib
 
 
@@ -156,11 +159,11 @@ def make_model(df_,param='no'):
     # model_tree = Model_tree(df_, 0.3)
     # y_test, y_pred = model_tree.exec("RandomForestClassifier", param)
 
-    model_tree = Model_tree(df_, 0.3)
-    y_test, y_pred = model_tree.exec("AdaBoostClassifier", param)
+    # model_tree = Model_tree(df_, 0.3)
+    # y_test, y_pred = model_tree.exec("AdaBoostClassifier", param)
 
-    # model_linear = Model_linear(df_,0.3)
-    # y_test, y_pred = model_linear.exec("LogisticRegression", param)
+    model_linear = Model_linear(df_,0.3)
+    y_test, y_pred = model_linear.exec("LogisticRegression", param)
 
 
     # df_test = pd.DataFrame(ary_test, columns=new_columns)
@@ -307,7 +310,7 @@ def groupby_rate(df_,feature_col = 0):
     # print(df_group.head(100))
     # print(df_group.shape)
     df_group.drop(['label_sum', 'label_count', 'rate'], axis=1, inplace=True)
-    df_group.to_csv("./inter_data/df_split_feature_{}.csv".format(13),index=False)
+    # df_group.to_csv("./inter_data/df_split_feature_{}.csv".format(13),index=False)
     return df_group
 
 def cut_on_premise(df_):
@@ -324,14 +327,79 @@ def cut_on_premise(df_):
 
 def cut_type_code(df_):
     columns_name = df_.columns.to_list()
+    df_.drop(columns_name[2:4], axis=1, inplace=True)
     type_code_count = df_[columns_name[-1]].groupby(df_[columns_name[1]]).count()
     type_code_index = type_code_count.index.to_list()
-    df_other = df_.loc[df_[columns_name[1] == 'Other']]
-    df_no_other = df_.loc[df_[columns_name[1] != 'Other']]
-    print(df_other.head(5))
-    print(df_other.shape)
-    print(df_no_other.head(5))
-    print(df_no_other.shape)
+    df_other = df_.loc[df_[columns_name[1]] == 'Other']
+    df_no_other = df_.loc[df_[columns_name[1]] != 'Other']
+
+    df_other.to_csv('./inter_data/df_other.csv', index=False)
+    df_no_other.to_csv('./inter_data/df_no_other.csv', index=False)
+
+def smooth_verify(df_no_other):
+    # df_shift_feature = shfit_features(df_other,15)
+    df_shift_feature = shfit_features(df_no_other, 15)
+    df_temp = trans_label(df_shift_feature)
+    df_group = groupby_label(df_temp)
+    # # print(df_group.head(5))
+    df_rate = groupby_rate(df_group)
+    # make_model(df_rate, 'no')
+
+    columns_name = df_rate.columns.to_list()
+    label_ = columns_name[-1]
+    label_count = df_rate.groupby([label_]).count().iloc[:, 0]
+    print(label_count)
+
+    values = df_rate.values
+    values_x, values_y = values[:, :-1], values[:, -1]
+    train_x, test_x, train_y, test_y = train_test_split(values_x, values_y, test_size=0.3, random_state=42)
+    print(train_x.shape, train_y.shape)
+    print(test_x.shape, test_y.shape)
+
+    print('交叉验证')
+    y_pred1 = lr.predict(train_x)
+    print("ACC Score (Test): %f" % metrics.accuracy_score(train_y, y_pred1))
+    model_plot = Model_plot()
+    model_plot.plot_show(train_y, y_pred1)
+
+def split_verify(df_no_other):
+
+    # df_split_feature = split_features(df_other,15)
+    df_split_feature = split_features(df_no_other, 15)
+    df_temp = trans_label(df_split_feature)
+    df_group = groupby_label(df_temp)
+    # print(df_group.head(5))
+    df_rate = groupby_rate(df_group)
+    # make_model(df_rate, 'no')
+
+    columns_name = df_rate.columns.to_list()
+    label_ = columns_name[-1]
+    label_count = df_rate.groupby([label_]).count().iloc[:, 0]
+    print(label_count)
+
+    values = df_rate.values
+    values_x, values_y = values[:, :-1], values[:, -1]
+    train_x, test_x, train_y, test_y = train_test_split(values_x, values_y, test_size=0.3, random_state=42)
+    print(train_x.shape, train_y.shape)
+    print(test_x.shape, test_y.shape)
+
+    print('交叉验证')
+    y_pred1 = lr.predict(test_x)
+    print("ACC Score (Test): %f" % metrics.accuracy_score(test_y, y_pred1))
+    model_plot = Model_plot()
+    model_plot.plot_show(test_y, y_pred1)
+
+def model_load():
+
+    # model_no_other_shift_15_path = './inter_data/lr0_no_other_shift_15.model'
+    # lr = joblib.load(model_no_other_shift_15_path)
+
+    # model_no_other_split_15_path = './inter_data/lr0_no_other_split_15.model'
+    # lr = joblib.load(model_no_other_split_15_path)
+
+    # model_other_split_15_path = './inter_data/lr0_other_shift_15.model'
+    # lr = joblib.load(model_other_split_15_path)
+    pass
 
 # def shift_features(df, feature_num=13):
 #     # reduced length of array by sliding window in order to extend data records
@@ -359,50 +427,25 @@ if __name__ == "__main__":
     #重定向日志
     sys.stdout = Moddel_log("./log/run.log", sys.stdout)
     # orign data format
-    #path_ori = "../3_data/UnitedDist_AIOrderAnalyze.csv"
+    # path_ori = "../3_data/UnitedDist_AIOrderAnalyze.csv"
 
-
-    '''
-    smooth something
-    '''
     # df_dir = "/Users/longgle/Documents/0_work/0_projects/ai/ai_order/2_data/"
     # df_file_name = "df_format.csv"
-    #
     # df_ = read_data_csv(df_dir + df_file_name)
-    # df_shift_feature = shfit_features(df_,13)
-    # df_temp = trans_label(df_shift_feature)
-    # df_group = groupby_label(df_temp)
-    # # # print(df_group.head(5))
-    # df_rate = groupby_rate(df_group)
+    # cut_type_code(df_)
 
-    df_rate_path = "./inter_data/df_smooth_feature_14.csv"
-    df_rate = read_data_csv(df_rate_path)
-    # columns_name = df_rate.columns.to_list()
-    # feature_name_list = [name for name in columns_name if name.find('feature_') != -1]
-    # print('current feature is {}'.format(len(feature_name_list)))
-    make_model(df_rate,'no')
+    # df_other_path = "./inter_data/df_other.csv"
+    # df_other = read_data_csv(df_other_path)
 
-    '''
-    cut something
-    '''
-
-    # df_dir = "/Users/longgle/Documents/0_work/0_projects/ai/ai_order/2_data/"
-    # df_file_name = "df_format.csv"
-    # df_temp = trans_label(read_data_csv(df_dir + df_file_name))
-    # df_split_feature = split_features(df_temp,13)
-    # df_group = groupby_label(df_split_feature)
-    # # print(df_group.head(5))
-    # df_rate = groupby_rate(df_group)
+    # df_no_other_path = "./inter_data/df_no_other.csv"
+    # df_no_other = read_data_csv(df_no_other_path)
 
 
-    # split_data_path = './inter_data/df_split_feature_14.csv'
-    # df_rate = read_data_csv(split_data_path)
-    # make_model(df_rate, 'no')
 
-    # columns_name = df_split_feature.columns.to_list()
-    # feature_name_list = [name for name in columns_name if name.find('feature_') != -1]
-    # print(feature_name_list)
-    # print(df_split_feature.head(5))
+
+
+
+
 
 
 
