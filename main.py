@@ -13,6 +13,7 @@ import pandas as pd
 from sklearn.externals import joblib
 from sklearn import metrics
 from sklearn.model_selection import train_test_split
+from sklearn.preprocessing import LabelEncoder
 import difflib
 
 
@@ -327,14 +328,14 @@ def cut_on_premise(df_):
 
 def cut_type_code(df_):
     columns_name = df_.columns.to_list()
-    df_.drop(columns_name[2:4], axis=1, inplace=True)
+    # df_.drop(columns_name[2:4], axis=1, inplace=True)
     type_code_count = df_[columns_name[-1]].groupby(df_[columns_name[1]]).count()
     type_code_index = type_code_count.index.to_list()
     df_other = df_.loc[df_[columns_name[1]] == 'Other']
     df_no_other = df_.loc[df_[columns_name[1]] != 'Other']
 
-    df_other.to_csv('./inter_data/df_other.csv', index=False)
-    df_no_other.to_csv('./inter_data/df_no_other.csv', index=False)
+    df_other.to_csv('./inter_data/df_other_1.csv', index=False)
+    # df_no_other.to_csv('./inter_data/df_no_other.csv', index=False)
 
 def smooth_verify(df_no_other):
     # df_shift_feature = shfit_features(df_other,15)
@@ -422,6 +423,25 @@ def model_load():
 #
 #     return df_smooth
 
+def label_encode(df_):
+    #endcoe by LabelEncoder in df_
+    str_col = df_.columns.to_list()
+    df_encode = df_.copy()
+    encoder_dict = {}
+    for col in str_col:
+        encoder_dict[col] = LabelEncoder()
+        integer_encoded = encoder_dict[col].fit_transform(df_encode[col].values)
+        df_encode[col] = pd.DataFrame(integer_encoded).values.astype('int64')
+
+    return df_encode,encoder_dict
+
+def label_decode(label_encoder, df_, col_name=''):
+    inverted = label_encoder.inverse_transform(df_[col_name].values)
+    df_[col_name].values = inverted
+    return 0
+
+
+
 if __name__ == "__main__":
 
     #重定向日志
@@ -432,13 +452,211 @@ if __name__ == "__main__":
     # df_dir = "/Users/longgle/Documents/0_work/0_projects/ai/ai_order/2_data/"
     # df_file_name = "df_format.csv"
     # df_ = read_data_csv(df_dir + df_file_name)
+    #
+    # print(df_.shape)
     # cut_type_code(df_)
 
-    # df_other_path = "./inter_data/df_other.csv"
-    # df_other = read_data_csv(df_other_path)
+    df_other_path = "./inter_data/df_other_1.csv"
+    df_other = read_data_csv(df_other_path)
 
     # df_no_other_path = "./inter_data/df_no_other.csv"
     # df_no_other = read_data_csv(df_no_other_path)
+
+    #
+    columns_name = df_other.columns.to_list()
+    # # print(columns_name)
+    # if columns_name[-1] != 'label':
+    #     print("data format is not in groupby label !")
+    #
+    # feature_name_list = [name for name in columns_name if name.find('feature_') != -1]
+    #
+    # df_temp = df_.groupby(columns_name[:-1]).agg(label_sum=('label', 'sum'), label_count=("label", "count"))
+    # df_temp = df_temp.reset_index()
+    # print(df_temp.head(5))
+    # print(df_temp.shape)
+    # df_temp.sort_values(by='label_count',ascending=False)
+    # print(df_temp.head(100))
+
+
+    df_str_feature = df_other.loc[:,columns_name[0:4]]
+    df_label = df_other.iloc[:,-22:]
+
+    # df_feature = df_.loc[:,columns_name[5:]]
+
+    str_feature_name = df_str_feature.columns.to_list()
+    print(str_feature_name)
+    # print(str_feature_name)
+    # df_encode, *_ = label_encode(df_str_feature)
+    #
+    # df_temp = pd.concat([df_encode, df_feature], axis=1)
+    # df_init = trans_label(df_temp)
+
+    # On Premise
+    print(df_str_feature['On Premise'].value_counts())
+    encoder = LabelEncoder()
+    integer_encoded = encoder.fit_transform(df_str_feature[str_feature_name[0]].values)
+    df_str_feature[str_feature_name[0]] = pd.DataFrame(integer_encoded).values.astype('int64')
+    # print(df_str_feature.head(5))
+
+    # Type Code
+    # df_type_code = df_str_feature.iloc[:,1]
+    # print(df_type_code.head(5))
+    print(df_str_feature['Type Code'].value_counts())
+    df_str_feature.drop(['Type Code'], axis=1, inplace=True)
+
+    # df_str_feature['Type Code'] = df_str_feature['Type Code'].map(lambda x: 1 if x == "Other" else 0).astype('int64')
+    # print(df_str_feature.head(5))
+
+    # print(df_str_feature['Type Code'].value_counts())
+
+    # type_dict = {
+    #     "Wine": "Wine",
+    #     "Repeal Beer": "Beer",
+    #     "Liquor": "Liquor",
+    #     "Soda/Water": "Soda/Water",
+    #     "Other": "Other",
+    #     "NA Beer": "Beer",
+    #     "3.2% Beer": "Beer"
+    # }
+    # df_str_feature['Type Code'] = df_str_feature['Type Code'].map(type_dict)
+    # print(df_str_feature['Type Code'].value_counts())
+
+    # df_type = pd.get_dummies(df_str_feature['Type Code'])
+    # df_str_feature = pd.concat([df_str_feature,df_type],axis=1)
+    # df_str_feature.drop('Type Code',axis=1,inplace=True)
+
+    # Customer Num Company
+    print(df_str_feature['Customer Num Company'].value_counts())
+
+    df_str_feature['Market'] = df_str_feature['Customer Num Company'].map(lambda s: 1 if s.find('MARKET') != -1 else 0)
+    df_str_feature['Shop'] = df_str_feature['Customer Num Company'].map(lambda s: 1 if s.find('SHOP') != -1 else 0)
+    df_str_feature['Store'] = df_str_feature['Customer Num Company'].map(lambda s: 1 if s.find('STORE') != -1 else 0)
+    df_str_feature['Mart'] = df_str_feature['Customer Num Company'].map(lambda s: 1 if s.find('MART') != -1 else 0)
+    df_str_feature['publix'] = df_str_feature['Customer Num Company'].map(lambda s: 1 if s.find('PUBLIX') != -1 else 0)
+    df_str_feature['outlet'] = df_str_feature['Customer Num Company'].map(lambda s: 1 if s.find('OUTLET') != -1 else 0)
+
+    print(df_str_feature['Market'].value_counts())
+    print(df_str_feature['Shop'].value_counts())
+    print(df_str_feature['Store'].value_counts())
+    print(df_str_feature['Mart'].value_counts())
+    print(df_str_feature['publix'].value_counts())
+    print(df_str_feature['outlet'].value_counts())
+
+    df_str_feature.drop(['Customer Num Company','Product Num Name'], axis=1, inplace=True)
+    print(df_str_feature.head(5))
+
+    df_feature = pd.concat([df_str_feature,df_label],axis=1)
+    # df_temp = trans_label(df_feature)
+    # print(df_feature.shape)
+
+    # columns_name = df_.columns.to_list()
+    # feature_name_list = [name for name in columns_name if name.find('feature_') != -1]
+
+    df_tex = df_feature.iloc[:, :-22]
+    df_data = df_feature.iloc[:, -22:]
+
+    n_shift = 21 - 15 + 1
+    df_data_buff = df_data.copy()
+    df_tex_buff = df_tex.copy()
+
+    for i in range(1, n_shift):
+        df_shift = df_data.shift(i, axis=1)
+        df_data_buff = pd.concat([df_data_buff, df_shift])
+        df_tex_buff = pd.concat([df_tex_buff, df_tex])
+    df_data_buff.dropna(axis=1, how='any', inplace=True)
+    df_data_buff = df_data_buff.astype("int64")
+
+    # df_tex = pd.DataFrame(df_tex.values.tolist() * n_shift, columns=df_tex.columns)
+    df_shift = pd.concat([df_tex_buff, df_data_buff], axis=1)
+    df_temp = trans_label(df_shift)
+
+    columns = df_temp.columns.to_list()
+    df_agg = df_temp.groupby(columns[:-1]).agg(label_sum=('label', 'sum'),label_count=("label", "count"))
+    df_agg = df_agg.reset_index()
+
+    df_group = df_agg.groupby(columns[:-1])['label_sum', 'label_count'].sum()
+    df_group = df_group.reset_index()
+    df_group['rate'] = round(df_group['label_sum'] / df_group['label_count'], 2)
+    df_group['label'] = 0
+    df_group.loc[df_group['rate'] >= 0.4, 'label'] = 1
+    # print(df_group.head(100))
+    # print(df_group.shape)
+    df_group.drop(['label_sum', 'label_count', 'rate'], axis=1, inplace=True)
+
+    print(df_group.head(5))
+    print(df_group.shape)
+
+    corrDf = df_group.corr()
+    # print(corrDf)
+    print(corrDf['label'].sort_values(ascending=False))
+
+
+    label_ = df_group.columns.to_list()[1]
+    # print(label_)
+    label_count = df_group.groupby([label_]).count().iloc[:, 0]
+    # print(label_count)
+    label_max = max(label_count.values)
+    label_min = min(label_count.values)
+
+    df_label_max = df_group[df_group[label_] == label_count.idxmax()]
+    # print(df_label_max.head(5))
+    df_label_min = df_group[df_group[label_] == label_count.idxmin()]
+    # print(df_label_min.head(5))
+    df_label_max.reset_index(drop=True, inplace=True)
+
+    drop_indices = np.random.choice(df_label_max.index, label_max - label_min,replace=False)
+    df_drop = df_label_max.drop(drop_indices)
+    df_balance = pd.concat([df_label_min, df_drop])
+    df_balance.reset_index(drop=True, inplace=True)
+
+    make_model(df_balance, 'no')
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    # df_str_feature['label'] = 1
+    # df_agg = df_str_feature.groupby(str_feature_name[2])['label'].count()
+    # df_agg = df_agg.reset_index()
+    # df_agg_q = df_agg.sort_values(by='label',ascending=False)
+    # # df_agg_q.to_csv('./inter_data/agg.csv',index=False)
+    # print(df_agg_q.head(5))
+
+
+
+
+
+
+
+
+    # print(df_temp.head(5))
+    # make_model(df_init, 'no')
+
+
+
+    # print(df_str_feature.head(5)
+
+    # print(integer_encoded)
+
+
+
+
+
+
+
+
+
+
 
 
 
