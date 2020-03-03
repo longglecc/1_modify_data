@@ -13,7 +13,8 @@ import pandas as pd
 from sklearn.externals import joblib
 from sklearn import metrics
 from sklearn.model_selection import train_test_split
-import difflib
+from sklearn.linear_model import LogisticRegression
+import time
 
 
 
@@ -439,6 +440,79 @@ if __name__ == "__main__":
 
     # df_no_other_path = "./inter_data/df_no_other.csv"
     # df_no_other = read_data_csv(df_no_other_path)
+
+    df_smooth_15_path = './inter_data/df_smooth_feature_15.csv'
+    df_rate = read_data_csv(df_smooth_15_path)
+    # print(df_rate.head(5))
+
+    columns_name = df_rate.columns.to_list()
+    label_ = columns_name[-1]
+    label_count = df_rate.groupby([label_]).count().iloc[:, 0]
+    print(label_count)
+
+    values = df_rate.values
+    values_x, values_y = values[:, :-1], values[:, -1]
+    train_x, test_x, train_y, test_y = train_test_split(values_x, values_y, test_size=0.1, random_state=42)
+    print(train_x.shape, train_y.shape)
+    print(test_x.shape, test_y.shape)
+
+
+
+    print("linear model initing...")
+    lr0 = LogisticRegression(penalty='l2', tol=0.0001, C=1.0, solver='liblinear', max_iter=100, multi_class='ovr',
+                             verbose=0, warm_start=False, n_jobs=1
+                             )
+
+    fit_start_time = time.time()
+    lr0.fit(train_x, train_y)
+    fit_end_time = time.time()
+    fit_time = round(fit_end_time - fit_start_time, 2)
+    print("model fit cost time:{} s".format(fit_time))
+
+    pred_start_time = time.time()
+    y_pred_test = lr0.predict(test_x)
+    pred_end_time = time.time()
+    pred_time = round(pred_end_time - pred_start_time, 2)
+    print('model pred cost time:{} s'.format(pred_time))
+    print('model cost time {} s'.format(round(pred_end_time - fit_start_time, 2)))
+
+    y_pred_train = lr0.predict(train_x)
+
+    # print(lr0.score(self.test_x, self.test_y))
+    print("ACC Score (Train): %f" % metrics.accuracy_score(train_y, y_pred_train))
+    print("ACC Score (Test): %f" % metrics.accuracy_score(test_y, y_pred_test))
+    print(lr0.coef_)
+
+
+    print('train--------')
+    model_plot = Model_plot()
+    model_plot.plot_show(train_y, y_pred_train)
+
+    print('test--------')
+    model_plot = Model_plot()
+    model_plot.plot_show(test_y, y_pred_test)
+
+    train_df = pd.DataFrame(train_x, columns=columns_name[:-1])
+    print(train_df.head(5))
+    train_df['label'] = train_y
+    train_df['pred'] = y_pred_train
+
+    columns_ = train_df.columns.to_list()
+    feature_name_list = [name for name in columns_ if name.find('feature_') != -1]
+    train_df['sum_0'] = (train_df[feature_name_list] == 0).astype(int).sum(axis=1).values
+    train_df_temp = train_df.loc[train_df['sum_0'] >= 10]
+
+    print(train_df_temp.head(5))
+    print(train_df_temp.shape)
+
+    train_df_temp.to_csv('./inter_data/train_df.csv',index=False)
+
+
+
+    # test_df = pd.DataFrame(test_x, columns=columns_name[:-1])
+    # print(train_df.head(5))
+
+
 
 
 
